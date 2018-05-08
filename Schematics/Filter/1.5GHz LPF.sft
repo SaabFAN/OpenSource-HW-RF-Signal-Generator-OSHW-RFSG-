@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sft_filter_projec timestamp="1505172299" type="elliptic">
+  <elliptic_filter order="5" L1="4.521240" L2="1.396620" L3="7.696900" L4="4.708170" L5="2.674460" L6="0.000000" L7="0.000000" C1="2.543740" C2="1.559270" C3="0.000000" WidthL="0.160000" WidthC="3.000000" Height="0.180000" Er="4.200000" Fc="1.500000"/>
+</sft_filter_projec>

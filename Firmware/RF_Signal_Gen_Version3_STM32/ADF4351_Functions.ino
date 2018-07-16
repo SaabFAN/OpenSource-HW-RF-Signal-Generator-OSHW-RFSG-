@@ -6,7 +6,7 @@ unsigned long Reg[6];      // Array for the ADF4351 Registers
 
 
 // Variables from the SetFreq-Function to have them exposed for other functions
-int ADFdbm = 3;    // Variable to configure the output-power of the ADF4351 - Default: 0dBm
+int ADFdbm = 3;    // Variable to configure the output-power of the ADF4351 - Default: +5dBm
 int D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 int D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 int D_auxOutSel = 0;         // 1bit  aux OutSel
@@ -86,7 +86,7 @@ void SetupADF4351(int ADFMode) {
       break;
     default:
       Freq = 420000000;         // Frequency set to 420MHz
-      ADFdbm = 0;              // Output-Power set to -4dBm
+      ADFdbm = 3;              // Output-Power set to -4dBm
       D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
       D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
       D_auxOutSel = 0;         // 1bit  aux OutSel

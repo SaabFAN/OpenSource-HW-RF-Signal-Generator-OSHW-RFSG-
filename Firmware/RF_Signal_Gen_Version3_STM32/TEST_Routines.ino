@@ -198,14 +198,15 @@ void CheckADF4351() {
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
   delay(5000);
-  Message("Frequency RAMP from 500 2990 MHZ in 10 MHz Steps", RED);
-  Freq = 500000000;
-  for (byte i = 0; i < 200; i++) {
+  Message("Frequency RAMP from 50 MHz to 3 GHZ in 10 MHz Steps", RED);
+  SigPathAuto = true;
+  Freq = 50000000;
+  for (int i = 0; i < 299; i++) {
     SetFreq(Freq);
     UpdateFreqArea = true;
     DrawFrequencyArea(Freq);
     Freq = Freq + 10000000;
-    delay(10);
+    delay(50);
   }
 }
 

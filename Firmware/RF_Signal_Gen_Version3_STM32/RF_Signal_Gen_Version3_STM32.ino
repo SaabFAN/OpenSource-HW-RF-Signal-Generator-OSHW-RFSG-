@@ -19,11 +19,6 @@
 // ADC-Library
 #include <Adafruit_ADS1015.h>
 
-// Keypad-Library
-//#include <Keypad_I2C.h>
-//#include <Keypad.h>
-
-
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
 #define TFT_CS PA2  // Connect TFT_CS to D4
@@ -39,7 +34,7 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
 
-const String SysVersion = "Firmware-Version STM32_0.5b";
+const String SysVersion = "Firmware-Version STM32_0.5c";
 
 // Assign HEX-Values to color-names
 #define BLACK 0x0000
@@ -187,6 +182,9 @@ const byte BYPASS = 0x00;
 const byte LPF_750 = 0x10;
 const byte LPF_1500 = 0x20;
 // Variables
+int PWR_SET; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC
+int AGC_ATTEN_BIAS; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC-BIAS
+int AD9910_AMP_OFFSET;
 bool AttenAuto = true;
 int Atten = 95;             // Attenuation-Variable - Default: 95dB Attenuation
 float OUTPUT_dBm = 0;         // Output-Power - 0 = Minimal output-amplitude. Can be adjusted in steps of 0.1 dBm.
@@ -198,7 +196,9 @@ bool ExtAM = false;
 bool ExtMixerBoardAvail = false;
 volatile bool OutputEnable = true;
 byte LPF_Select = 0x10;
-int RF_OUT_REF = 0x00;  // Voltage present at ADC_RF_OUT_SENSE-Channel @ +10 dBm Output-Power
+float RF_OUT_REF = 0x00;  // Voltage present at ADC_RF_OUT_SENSE-Channel @ +10 dBm Output-Power
+//float RF_OUT_sense;
+//float RF-LvL_sense; // Voltages at the RF-Detectors on analog Board
 
 // *** Variables to configure Modulation-Parameters ***
 unsigned long ModPara1 = 0; // Modulation-Strength (Amplitude, Frequency-Width, Phase-Angle
@@ -210,6 +210,7 @@ byte ModulationType = 0x00;
 volatile bool ModulationEnable = false;
 
 // *** Variables for various tasks ***
+boolean ClearScreen = true;
 byte interruptSource = 0; // Stores the Interrupt-Source
 byte intgpio = 0xFF; // Stores the current state of the IO-Pins of the INTGPIO-Expander - Initialized with 0xFF
 boolean UpdateFreqArea = true; // Shows that the Frequency-Area needs to be Updated
@@ -268,8 +269,8 @@ void setup() {
   tft.println(F("Touch Init"));
   Serial.println(F("Touch Init"));
   if (! touch.begin()) {
-    Serial.println(F("STMPE not found!"));
-    tft.println(F("STMPE not found!"));
+    Serial.println(F("STMPE610 not found!"));
+    tft.println(F("STMPE610 not found!"));
     ErrorMode(0x10, true);
   }
   TouchInit();
@@ -472,12 +473,15 @@ void SetFreq(double FreqSetFreq) {
       case true:
         if (Freq <= 600000000) {
           SetLPF(LPF_750, SelAD9910);
+          break;
         }
         if (Freq >= 600000000 && Freq <= 1100000000) {
           SetLPF(LPF_1500, SelAD9910);
+          break;
         }
         else {
           SetLPF(BYPASS, SelAD9910);
+          break;
         }
         break;
       case false:

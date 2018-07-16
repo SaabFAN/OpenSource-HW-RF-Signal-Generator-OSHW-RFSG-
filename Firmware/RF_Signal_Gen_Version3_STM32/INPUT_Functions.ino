@@ -183,6 +183,7 @@ void TouchButton() {
         }
         if (cy > 150 && cy < 200) {
           SysStatus = STATE_CONFIG_1;
+          ClearScreen = true;
           InputMode = INPUT_NO_INPUT;
           return;
         }

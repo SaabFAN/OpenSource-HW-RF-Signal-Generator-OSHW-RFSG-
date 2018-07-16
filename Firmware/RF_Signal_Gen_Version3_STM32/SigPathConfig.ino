@@ -1,7 +1,3 @@
-int PWR_SET; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC
-int AGC_ATTEN_BIAS; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC-BIAS
-int AD9910_AMP_OFFSET;
-
 //RF_Level_Sense-Voltages @ Bias-Current = 1mA. Vf = 250mV:
 //NoSignal: 300mV
 //-12dBm FILTERED_RF-Power = 863mV
@@ -43,8 +39,8 @@ void SetAmplitude(int Amplitude) {
     }
     PWR_SET = AmplitudeFine + DAC_OFFSET; // PWR_SET is set to the Correct Value-Value corresponding to the currently set frequency.
 #ifdef AnalogDebug
-    PWR_SET = 4090;
-    AGC_ATTEN_BIAS = 5;
+    PWR_SET = 4095;
+    AGC_ATTEN_BIAS = 128;
     Serial.println(F("ANALOG DEBUG-MODE SET!"));
 #endif
     byte buf[2];

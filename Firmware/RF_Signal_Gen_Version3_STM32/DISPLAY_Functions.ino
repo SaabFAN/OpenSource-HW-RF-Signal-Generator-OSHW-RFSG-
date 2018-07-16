@@ -70,6 +70,8 @@ void UpdateDisplay() {
       SoftButton5Txt = F("  BACK  ");
       // drawXBitmap(DATA FOR THE BITMAP THAT SHOWS THE FILTER-SETUP HERE);
       break;
+    //      case STATE_SIGPATH_MANUAL || STATE_SIGPATH_CAL || STATE_SIGPATH_COMP ||  STATE_SIGSOURCE_CAL || STATE_CONFIG_1 || STATE_CONFIG_2 || STATE_CONFIG_3 || STATE_CONFIG_4 || STATE_CONFIG_5 || STATE_CONFIG_6:
+    //
     case STATE_DEMO:
       DisplaySysMode(F("DEMO-MODE"), BLUE);
       Message(F("ERROR! Function not implemented yet"), AMBER);
@@ -87,7 +89,7 @@ void UpdateDisplay() {
      * *** CALIBRATION-SCREENS ***
     */
     case STATE_SIGSOURCE_CAL:
-          DisplaySysMode(F("AD9910_CAL"), BLUE);
+      DisplaySysMode(F("AD9910_CAL"), BLUE);
       tft.drawRoundRect(10, 20, 160, 200, 4, AMBER);
       tft.setCursor(20, 30);
       tft.setTextColor(AMBER);
@@ -127,6 +129,7 @@ void UpdateDisplay() {
       SoftButton3Txt = F("BIAS_UP");
       SoftButton4Txt = F("BIAS_DN");
       SoftButton5Txt = F("EXIT"); // Go back and SAVE the BIAS and LEVEL-Value
+      DrawSigPathParams();
       // Put the SigPathCal-Screen here
       break;
 
@@ -149,6 +152,7 @@ void UpdateDisplay() {
       SoftButton3Txt = F("CAL_PATH"); // Run automatic CAL-Routine
       SoftButton4Txt = F("CAL_ADJ");  // Option to manually adjust the calibration
       SoftButton5Txt = F("EXIT");
+      DrawSigPathParams();
       // Put the SigPaThCal-Screen here
       break;
 
@@ -171,6 +175,7 @@ void UpdateDisplay() {
       SoftButton3Txt = F("SAVE");
       SoftButton4Txt = F("NEXT");
       SoftButton5Txt = F("EXIT");
+      DrawSigPathParams();
       // Put the SigPathCal-Screen here
       break;
     case STATE_TOUCH_CAL:
@@ -189,7 +194,7 @@ void UpdateDisplay() {
       SoftButton3Txt = " ANALOG ";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
     case STATE_CONFIG_2:
       DisplaySysMode("TEST-PAGE 2", BLUE);
@@ -198,7 +203,7 @@ void UpdateDisplay() {
       SoftButton3Txt = "READ KEY";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
     case STATE_CONFIG_3:
       DisplaySysMode("CALIBRATION-OPTIONS", BLUE);
@@ -207,7 +212,7 @@ void UpdateDisplay() {
       SoftButton3Txt = " SIG-CAL ";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
     case STATE_CONFIG_4:
       DisplaySysMode("CONFIG-PAGE 4", BLUE);
@@ -216,7 +221,7 @@ void UpdateDisplay() {
       SoftButton3Txt = "        ";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
     case STATE_CONFIG_5:
       DisplaySysMode("CONFIG-PAGE 5", BLUE);
@@ -225,7 +230,7 @@ void UpdateDisplay() {
       SoftButton3Txt = "        ";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
     case STATE_CONFIG_6:
       DisplaySysMode("DEBUG-OPTIONS", BLUE);
@@ -234,7 +239,7 @@ void UpdateDisplay() {
       SoftButton3Txt = "  DEBUG ";
       SoftButton4Txt = "  MORE  ";
       SoftButton5Txt = "  EXIT  ";
-      // Put the SigPathCal-Screen here
+      DrawSigPathParams();
       break;
 
     /*
@@ -358,7 +363,7 @@ void UpdateDisplay() {
   DrawButton(330, 210, SoftButton4Txt, false, AMBER, 2);
   DrawButton(330, 270, SoftButton5Txt, false, AMBER, 2);
   updateButtons = false;
-
+  ClearScreen = false;
 }
 
 void UpdateDisplayPart(int dispPart) {
@@ -536,5 +541,29 @@ void DrawModulationArea(unsigned long disData1, unsigned long dispData2, unsigne
 #endif
   }
   UpdateModArea = false; // Modulation-Area updated, no further Updates needed until something changes (UpdateModArea set to True by different function)
+}
+
+
+void DrawSigPathParams() {
+  if (ClearScreen == true) {
+    tft.fillRect(3, 201, 288, 118, BLACK);
+    tft.drawRoundRect(2, 200, 290, 120, 2, AMBER);
+    tft.setTextSize(2);
+    tft.setCursor(10, 210);
+    tft.setTextColor(AMBER, BLACK);
+    tft.println(F("SigPath-Parameters"));
+    tft.setCursor(10, 240);
+  }
+  float RF_out_volt = ADC_READ(ADC_RF_OUT_SENSE);
+  float RF_lvl_volt = ADC_READ(ADC_RF_LEVEL_SENSE);
+  tft.setTextSize(1);
+  tft.print(F("RF-LvL_Sense: "));
+  tft.print(RF_lvl_volt, 2);
+  tft.print(F(" RF-Out_Sense: "));
+  tft.println(RF_out_volt, 2);
+  tft.print(F("RF-LvL_Set: "));
+  tft.print(PWR_SET, DEC);
+  tft.print(F(" AGC_AttenBIAS: "));
+  tft.println(AGC_ATTEN_BIAS, DEC);
 }
 

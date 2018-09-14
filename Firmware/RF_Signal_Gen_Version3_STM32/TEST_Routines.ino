@@ -139,65 +139,98 @@ void CheckAD9910() {
 }
 
 void CheckADF4351() {
+  long waittimer = millis();
+  Message("VCO_CHECK", RED);
   SetupADF4351(STATE_VCO_CHECK); // Enable the ADF4351-Output
   Freq = 2200000000;
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  Message("VCO_CHECK", RED);
-  delay(5000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   SetupADF4351(STATE_NORM_OP); // Enable the ADF4351-Output
   Message("ADF4351 NORM_OP", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(100);
+
+  waittimer = millis() + 100;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
+
   SetFreqADF4351(50000000);
   Freq = 50000000;
   Message("ADF4351 @ 50MHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   SetFreqADF4351(100000000);
   Freq = 100000000;
   Message("ADF4351 @ 100MHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 500000000;
   SetFreq(Freq);
   Message("ADF4351 @ 500MHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 1000000000;
   SetFreq(Freq);
   Message("ADF4351 @ 1GHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 1500000000;
   SetFreq(Freq);
   Message("ADF4351 @ 1,5GHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 2000000000;
   SetFreq(Freq);
   Message("ADF4351 @ 2GHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 2500000000;
   SetFreq(Freq);
   Message("ADF4351 @ 2,5GHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(2000);
+  waittimer = millis() + 2000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Freq = 2900000000;
   SetFreq(Freq);
   Message("ADF4351 @ 2,9GHZ", RED);
   UpdateFreqArea = true;
   DrawFrequencyArea(Freq);
-  delay(5000);
+  waittimer = millis() + 5000;
+  while (millis() < waittimer) {
+    DrawSigPathParams();
+  }
   Message("Frequency RAMP from 50 MHz to 3 GHZ in 10 MHz Steps", RED);
   SigPathAuto = true;
   Freq = 50000000;
@@ -205,8 +238,12 @@ void CheckADF4351() {
     SetFreq(Freq);
     UpdateFreqArea = true;
     DrawFrequencyArea(Freq);
+    waittimer = millis() + 50;
+    while (millis() < waittimer) {
+      DrawSigPathParams();
+    }
     Freq = Freq + 10000000;
-    delay(50);
+
   }
 }
 
@@ -218,6 +255,7 @@ void CheckAnalog() {
   UpdateAmpArea = true;
   DrawFrequencyArea(Freq);
   DrawAmplitudeArea(100);
+  DrawSigPathParams();
   Serial.println(F("Set Attenuator to 0"));
   SetAttenuator(0);
   Serial.print(F("Switching Filters: BYPASS | "));

@@ -34,7 +34,7 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
 
-const String SysVersion = "Firmware-Version STM32_0.5c";
+const String SysVersion = "Firmware-Version STM32_0.5d";
 
 // Assign HEX-Values to color-names
 #define BLACK 0x0000
@@ -185,6 +185,7 @@ const byte LPF_1500 = 0x20;
 int PWR_SET; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC
 int AGC_ATTEN_BIAS; // 12bit-Value with a Vref of 5V to control the DAC that sets the AGC-BIAS
 int AD9910_AMP_OFFSET;
+byte SIGPATH_CTRL = B00100101; // Controls the Output of the GPIO-Expander on the Analog board.
 bool AttenAuto = true;
 int Atten = 95;             // Attenuation-Variable - Default: 95dB Attenuation
 float OUTPUT_dBm = 0;         // Output-Power - 0 = Minimal output-amplitude. Can be adjusted in steps of 0.1 dBm.
@@ -398,9 +399,11 @@ void loop() {
       break;
     case STATE_NORM_OP:
       UpdateDisplay();
+      DrawSigPathParams();
       break;
     default:
       UpdateDisplay();
+      DrawSigPathParams();
       break;
   }
   switch (ModulationEnable) {

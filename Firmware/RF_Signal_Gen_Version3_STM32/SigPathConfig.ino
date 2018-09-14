@@ -9,7 +9,7 @@ int RF_LEVEL_SENSE;
 //+15dBm Output-Power = 656mV
 int RF_OUT_SENSE;
 
-volatile byte SIGPATH_CTRL = B00100101; // Controls the Output of the GPIO-Expander on the Analog board.
+//volatile byte SIGPATH_CTRL = B00100101; // Controls the Output of the GPIO-Expander on the Analog board.
 //BITMAP: UNUSED | UNUSED | Select 750MHz LPF | Select 1,5GHz LPF | Select Bypass-Path | Select Filtered Path | Select other signal source | Select ADF4351-Module
 
 // Function to calculate the Attenuator and DAC-Settings to set the amplitude. Amplitude is expressed as (dBm + 110) x 10 (avoid Floating-Point calculations)
@@ -40,7 +40,7 @@ void SetAmplitude(int Amplitude) {
     PWR_SET = AmplitudeFine + DAC_OFFSET; // PWR_SET is set to the Correct Value-Value corresponding to the currently set frequency.
 #ifdef AnalogDebug
     PWR_SET = 4095;
-    AGC_ATTEN_BIAS = 128;
+    AGC_ATTEN_BIAS = 2048;
     Serial.println(F("ANALOG DEBUG-MODE SET!"));
 #endif
     byte buf[2];

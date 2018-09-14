@@ -9,7 +9,7 @@ unsigned long Reg[6];      // Array for the ADF4351 Registers
 int ADFdbm = 3;    // Variable to configure the output-power of the ADF4351 - Default: +5dBm
 int D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 int D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-int D_auxOutSel = 0;         // 1bit  aux OutSel
+int D_auxOutSel = 1;         // 1bit  aux OutSel
 int D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 int D_VcoPwrDown = 0;        // 1bit 1=VCO off
 
@@ -57,7 +57,7 @@ void SetupADF4351(int ADFMode) {
       ADFdbm = 3;
       D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
       D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-      D_auxOutSel = 0;         // 1bit  aux OutSel
+      D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
       SetFreqADF4351(Freq);
@@ -79,7 +79,7 @@ void SetupADF4351(int ADFMode) {
       ADFdbm = 3;
       D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
       D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-      D_auxOutSel = 0;         // 1bit  aux OutSel
+      D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
       SetFreqADF4351(Freq);
@@ -89,7 +89,7 @@ void SetupADF4351(int ADFMode) {
       ADFdbm = 3;              // Output-Power set to -4dBm
       D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
       D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-      D_auxOutSel = 0;         // 1bit  aux OutSel
+      D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
       break;

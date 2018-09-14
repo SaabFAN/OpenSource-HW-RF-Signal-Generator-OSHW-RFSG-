@@ -18,8 +18,9 @@ void ErrorMode(int emode, bool critical) {
   }
   switch (critical) {
     case true:
-    //   Serial.println(F("Critical Error encountered! Halting system!"));
-    //    halt();
+      Serial.println(F("Critical Error encountered! Halting system!"));
+      //        halt();
+      break;
     default:
       break;
   }

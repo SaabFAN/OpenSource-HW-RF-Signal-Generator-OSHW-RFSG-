@@ -548,12 +548,12 @@ void DrawSigPathParams() {
   if (ClearScreen == true) {
     tft.fillRect(3, 201, 288, 118, BLACK);
     tft.drawRoundRect(2, 200, 290, 120, 2, AMBER);
-    tft.setTextSize(2);
-    tft.setCursor(10, 210);
-    tft.setTextColor(AMBER, BLACK);
-    tft.println(F("SigPath-Parameters"));
-    tft.setCursor(10, 240);
   }
+  tft.setTextSize(2);
+  tft.setCursor(10, 260);
+  tft.setTextColor(AMBER, BLACK);
+  tft.println(F("SigPath-Parameters"));
+  tft.setCursor(10, 290);
   float RF_out_volt = ADC_READ(ADC_RF_OUT_SENSE);
   float RF_lvl_volt = ADC_READ(ADC_RF_LEVEL_SENSE);
   tft.setTextSize(1);
@@ -561,9 +561,15 @@ void DrawSigPathParams() {
   tft.print(RF_lvl_volt, 2);
   tft.print(F(" RF-Out_Sense: "));
   tft.println(RF_out_volt, 2);
+  tft.setCursor(10, 300);
   tft.print(F("RF-LvL_Set: "));
   tft.print(PWR_SET, DEC);
   tft.print(F(" AGC_AttenBIAS: "));
   tft.println(AGC_ATTEN_BIAS, DEC);
+  tft.setCursor(10, 310);
+  tft.print(F("Millis = "));
+  tft.print(millis());
+  tft.print(F(" RF_PATH = "));
+  tft.print(SIGPATH_CTRL, HEX);
 }
 

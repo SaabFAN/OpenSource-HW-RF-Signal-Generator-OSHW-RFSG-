@@ -245,6 +245,8 @@ void CheckADF4351() {
     Freq = Freq + 10000000;
 
   }
+  Freq = 100000000;
+  SetFreq(Freq);
 }
 
 void CheckAnalog() {

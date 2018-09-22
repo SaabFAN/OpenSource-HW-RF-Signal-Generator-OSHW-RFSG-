@@ -375,13 +375,16 @@ void setup() {
   delay(1000);
 
   tft.fillScreen(BLACK);
-  Freq = 100000000; // Set frequency to 287.234,912 kHz to check if Calculation in Display-Function is correct
+  Freq = 100000000;
   SetFreq(Freq);
   UpdateDisplay();
   Serial.print(F("Frequency = "));
   Serial.print(Freq, DEC);
   Serial.println(F(" Hz"));
   Serial.println(F("READY"));
+  Serial.println(F("RUN ADF-TEST"));
+  delay(10000);
+  CheckADF4351();
 }
 
 void loop() {
@@ -471,7 +474,7 @@ void SetFreq(double FreqSetFreq) {
     Serial.println(Freq_Old, DEC);
     UpdateFreqArea = true;
     // Check if SigPath-Settings are set to AUTO and adjust the Filtering depending on the frequency
-//    SigPathAuto = false; // DEBUG-Statement - Disable for normal operation
+    //    SigPathAuto = false; // DEBUG-Statement - Disable for normal operation
     switch (SigPathAuto) {
       case true:
         if (Freq <= 600000000) {

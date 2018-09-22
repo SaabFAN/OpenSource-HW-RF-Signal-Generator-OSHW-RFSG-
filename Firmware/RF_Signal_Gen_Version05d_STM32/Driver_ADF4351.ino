@@ -99,10 +99,14 @@ void SetupADF4351(int ADFMode) {
 
 
 
-
+//#define ADF_DEBUG
 ///////////////////////// Subroutine: Setze Frequenz ADF4351 ///////////////////////////
 void SetFreqADF4351(unsigned long FreqADF4351)
 {
+#ifdef ADF_DEBUG
+  SetFreqADF4351_DEBUG(FreqADF4351);
+#endif
+#ifndef ADF_DEBUG
   Serial.println(F("SetFreqADF4351_Step1"));
   FreqADF4351 = FreqADF4351 / 10;
   ConvertFreq(FreqADF4351, Reg);
@@ -122,6 +126,40 @@ void SetFreqADF4351(unsigned long FreqADF4351)
   WriteADF2(1);
   delayMicroseconds(2500);
   Serial.print(", Reg 0");
+  WriteADF2(0);
+  delayMicroseconds(2500);
+  Serial.println(", WRITE COMPLETE");
+#endif
+}
+
+void SetFreqADF4351_DEBUG(unsigned long FreqADF4351d)
+{
+  Serial.println(F("SetFreqADF4351_Step1"));
+  FreqADF4351d = FreqADF4351d / 10;
+  ConvertFreq(FreqADF4351d, Reg);
+  Serial.println(F("Write data to ADF4351: "));
+  Serial.print(F("Reg 5 = "));
+  Serial.println(Reg[5], HEX);
+  WriteADF2(5);
+  delayMicroseconds(2500);
+  Serial.print("Reg 4 = ");
+  Serial.println(Reg[4], HEX);
+  WriteADF2(4);
+  delayMicroseconds(2500);
+  Serial.print("Reg 3 = ");
+  Serial.println(Reg[3], HEX);
+  WriteADF2(3);
+  delayMicroseconds(2500);
+  Serial.print("Reg 2 = ");
+  Serial.println(Reg[2], HEX);
+  WriteADF2(2);
+  delayMicroseconds(2500);
+  Serial.print("Reg 1 = ");
+  Serial.println(Reg[1], HEX);
+  WriteADF2(1);
+  delayMicroseconds(2500);
+  Serial.print("Reg 0 = ");
+  Serial.println(Reg[0], HEX);
   WriteADF2(0);
   delayMicroseconds(2500);
   Serial.println(", WRITE COMPLETE");
@@ -206,9 +244,9 @@ void ConvertFreq(double freq, unsigned long R[])
 
   // PLL-Reg-R4         =  32bit
   // Registerselect        3bit
-  int D_out_PWR = (ADFdbm);      // 2bit  OutPwr 0-3 3= +5dBm   Power out 1
+  int D_out_PWR = ADFdbm;      // 2bit  OutPwr 0-3 3= +5dBm   Power out 1
   // int D_RF_ena = 1;            // 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
-  int D_auxOutPwr = (ADFdbm);    // 2bit  aux OutPwr 0-3        Power out 2
+  int D_auxOutPwr = ADFdbm;    // 2bit  aux OutPwr 0-3        Power out 2
   // int D_auxOutEna = 1;         // 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
   // int D_auxOutSel = 1;         // 1bit  aux OutSel
   // int D_MTLD = 0;              // 1bit
@@ -276,10 +314,8 @@ void ConvertFreq(double freq, unsigned long R[])
 
   R[0] = (unsigned long)(0 + F_Frac * pow(2, 3) + N_Int * pow(2, 15)); // Programs the Register R0: Bit 31 = RESERVED, Bit 30 - 15 = N_Int, Bit 14 - 3 = F_Frac, Bit 2 - 0 = ControlBits (filled with 0)
   R[1] = (unsigned long)(1 + M_Mod * pow(2, 3) + P_Phase * pow(2, 15) + Prescal * pow(2, 27) + PhaseAdj * pow(2, 28));
-  //  R[1] = (R[1])+1; // Registerselect adjust ?? because unpossible 2x12bit in pow() funktion
   R[2] = (unsigned long)(2 + U1_CountRes * pow(2, 3) + U2_Cp3state * pow(2, 4) + U3_PwrDown * pow(2, 5) + U4_PDpola * pow(2, 6) + U5_LPD * pow(2, 7) + U6_LPF * pow(2, 8) + CP_ChgPump * pow(2, 9) + D1_DoublBuf * pow(2, 13) + R_Counter * pow(2, 14) + RD1_Rdiv2 * pow(2, 24) + RD2refdoubl * pow(2, 25) + M_Muxout * pow(2, 26) + LoNoisSpur * pow(2, 29));
   R[3] = (unsigned long)(3 + D_Clk_div * pow(2, 3) + C_Clk_mode * pow(2, 15) + 0 * pow(2, 17) + F1_Csr * pow(2, 18) + 0 * pow(2, 19) + F2_ChgChan * pow(2, 21) +  F3_ADB * pow(2, 22) + F4_BandSel * pow(2, 23) + 0 * pow(2, 24));
   R[4] = (unsigned long)(4 + D_out_PWR * pow(2, 3) + D_RF_ena * pow(2, 5) + D_auxOutPwr * pow(2, 6) + D_auxOutEna * pow(2, 8) + D_auxOutSel * pow(2, 9) + D_MTLD * pow(2, 10) + D_VcoPwrDown * pow(2, 11) + B_BandSelClk * pow(2, 12) + D_RfDivSel * pow(2, 20) + D_FeedBck * pow(2, 23));
   R[5] = (unsigned long)(5 + 0 * pow(2, 3) + 3 * pow(2, 19) + 0 * pow(2, 21) + D_LdPinMod * pow(2, 22));
-
 }

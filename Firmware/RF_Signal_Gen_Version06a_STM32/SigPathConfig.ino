@@ -92,24 +92,11 @@ void SetAttenuator(byte Attenuation) {
 }
 
 void SetAGC_LVL(int lvl) {
-  byte buf[2];
-  buf[1] = lvl;
-  buf[0]  = lvl >> 8;
-  // FastWrite-Command to set DAC: Bit 15, 14 = 0 (Fast Write), Bit 13, 12 = 0 (DAC Enabled), Bit 11 - 0 = 12bit DAC-Value
-  Wire.beginTransmission(PWR_SET_DAC);
-  Wire.write(buf[0]);
-  Wire.write(buf[1]);
-  Wire.endTransmission();
+  rf_dac.analogWrite(AGC_LVL_SET, lvl);
 }
 
 void SetAGC_BIAS(int bias) {
-  byte buf[2];
-  buf[1] = bias;
-  buf[0]  = bias >> 8;
-  Wire.beginTransmission(AGC_BIAS_DAC);
-  Wire.write(buf[0]);
-  Wire.write(buf[1]);
-  Wire.endTransmission();
+  rf_dac.analogWrite(AGC_BIAS_SET, bias);
 }
 
 //SIGPATH_CTRL BITMAP: DIRECT Signal Source | FILTERED or MIXED Signal Source | Select 750MHz LPF  (U2_V2)| Select 1,5GHz LPF (U2_V1)| Select Bypass-Path (U5_V1)| Select Filtered Path (U5_V2)| Select UNMIXED Signal-Path | Select MIXED Signal-Path

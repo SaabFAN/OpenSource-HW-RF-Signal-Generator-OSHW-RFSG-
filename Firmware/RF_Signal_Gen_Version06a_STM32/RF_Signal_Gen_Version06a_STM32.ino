@@ -19,6 +19,9 @@
 // ADC-Library
 #include <Adafruit_ADS1015.h>
 
+// DAC-Library
+#include <MCP4728.h>
+
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
 #define TFT_CS PA2  // Connect TFT_CS to D4
@@ -33,6 +36,8 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
+// Setup-Data for the DAC on the analog board
+MCP4728 rf_dac;
 
 const String SysVersion = "Firmware-Version STM32_0.6a";
 // Starting with Version 0.6a, only REV. C RF-Boards are compatible!
@@ -52,7 +57,7 @@ const String SysVersion = "Firmware-Version STM32_0.6a";
 #define ATTEN_ADR 0x3E  // i2c-Address of GPIO-Expander that controls the Attenuator - 
 #define KEYBD_ADR 0x3F  // i2c Address of GPIO-Expander connected to the Keyboard - ROW_0 | ROW_1 | ROW_2 | ROW_3 | COLUMN_0 | COLUMN_1 | COLUMN_2 | FREE
 #define GPIO_ADR 0x3A  // i2c Address of the GPIO-Expander - INT/GPIO-BITMAP: INT0 | INT_KEYBD | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU
-#define ANALOG_ADR 0x24   // i2c-Address for the Analog Board
+#define ANALOG_ADR 0x24   // i2c-Address for the Analog Board - Controls the Signal-Path
 
 // Other i2c-Device Addresses
 #define PWR_METER_ADR 0xFF // Address of the ADC in the Power-Meter - 0xFF = Placeholder-Value
@@ -172,12 +177,15 @@ double Freq_Old = 400000000; // Previous selected frequency in Hz
 
 // *** Constants and Variables to configure Analog Board ***
 // DACs and ADC-Addresses
-const byte PWR_SET_DAC = 0x60;
-const byte AGC_BIAS_DAC = 0x61;
 const byte SIGPATH_ADC = 0x48;
 // ADC_Channels
 const byte ADC_RF_OUT_SENSE = 0;
 const byte ADC_RF_LEVEL_SENSE = 3;
+//DAC_Channels
+#define AGC_BIAS_SET MCP4728::DAC_CH::A
+#define AGC_LVL_SET MCP4728::DAC_CH::B
+#define RF_DAC_AUX1 MCP4728::DAC_CH::C
+#define RF_DAC_AUX2 MCP4728::DAC_CH::D
 // Filter-Codes
 const byte BYPASS = 0x00;
 const byte LPF_750 = 0x10;

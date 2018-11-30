@@ -19,9 +19,6 @@
 // ADC-Library
 #include <Adafruit_ADS1015.h>
 
-// DAC-Library
-#include <MCP4728.h>
-
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
 #define TFT_CS PA2  // Connect TFT_CS to D4
@@ -36,8 +33,6 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
-// Setup-Data for the DAC on the analog board
-MCP4728 rf_dac;
 
 const String SysVersion = "Firmware-Version STM32_0.6a";
 // Starting with Version 0.6a, only REV. C RF-Boards are compatible!
@@ -178,6 +173,7 @@ double Freq_Old = 400000000; // Previous selected frequency in Hz
 // *** Constants and Variables to configure Analog Board ***
 // DACs and ADC-Addresses
 const byte SIGPATH_ADC = 0x48;
+const byte RF_DAC_ADR = 0x60;
 // ADC_Channels
 const byte ADC_RF_OUT_SENSE = 0;
 const byte ADC_RF_LEVEL_SENSE = 3;
@@ -241,6 +237,7 @@ void setup() {
   pinMode(ADF4351_CS, OUTPUT);
   pinMode(ADF4351_LE, OUTPUT);
 
+  Serial.println(F("Set all pins HIGH"));
   digitalWrite(ADF4351_CS, HIGH);
   digitalWrite(ADF4351_LE, HIGH);
   digitalWrite(TFT_DC, HIGH); // Make sure to Deselect TFT_DC
@@ -248,6 +245,14 @@ void setup() {
   Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));
   while (millis() <= 2000) {
     digitalWrite(PC13, HIGH);
+    digitalWrite(PC13, HIGH);
+    digitalWrite(PC13, HIGH);
+    digitalWrite(PC13, HIGH);
+    digitalWrite(PC13, HIGH);
+    digitalWrite(PC13, LOW);
+    digitalWrite(PC13, LOW);
+    digitalWrite(PC13, LOW);
+    digitalWrite(PC13, LOW);
     digitalWrite(PC13, LOW);
   }
 
@@ -315,6 +320,27 @@ void setup() {
   }
   delay(1000);
 
+  Serial.println(F("ADS1015 INIT"));
+  tft.println(F("ADS1015 INIT"));
+  ads.begin();
+  ads.setGain(GAIN_ONE); // Set the ADC_Gain to ONE, which means the resolution is 2mV / LSbit
+  delay(500);
+
+  Serial.println(F("MCP4728 INIT"));
+  tft.println(F("MCP4728 INIT"));
+  DAC_Setup();
+  delay(500);
+
+  Serial.println(F("AD9910 INIT"));
+  tft.println(F("AD9910 INIT"));
+  SetupAD9910(STATE_INIT);
+  delay(500); // Delay added to yield Processor-Core to the WiFi-Code
+
+  Serial.println(F("ADF4351 INIT"));
+  tft.println(F("ADF4351 INIT"));
+  SetupADF4351(STATE_INIT);
+  delay(500);
+
   Serial.println(F("Setting up analog board with default value --- "));
   tft.println(F("Setting up analog board with default value --- "));
   SetLPF(BYPASS, false, false);
@@ -342,22 +368,6 @@ void setup() {
     Serial.println(F("FOUND!"));
     ExtMixerBoardAvail = true;
   }
-  delay(500);
-
-  Serial.println(F("ADS1015 INIT"));
-  tft.println(F("ADS1015 INIT"));
-  ads.begin();
-  ads.setGain(GAIN_ONE); // Set the ADC_Gain to ONE, which means the resolution is 2mV / LSbit
-  delay(500);
-
-  Serial.println(F("AD9910 INIT"));
-  tft.println(F("AD9910 INIT"));
-  SetupAD9910(STATE_INIT);
-  delay(500); // Delay added to yield Processor-Core to the WiFi-Code
-
-  Serial.println(F("ADF4351 INIT"));
-  tft.println(F("ADF4351 INIT"));
-  SetupADF4351(STATE_INIT);
   delay(500);
 
   Serial.println(F("SIGNAL PATH-TEST"));
@@ -480,7 +490,7 @@ void SetFreq(double FreqSetFreq) {
     Serial.println(Freq_Old, DEC);
     UpdateFreqArea = true;
     // Check if SigPath-Settings are set to AUTO and adjust the Filtering depending on the frequency
-//    SigPathAuto = false; // DEBUG-Statement - Disable for normal operation
+    //    SigPathAuto = false; // DEBUG-Statement - Disable for normal operation
     switch (SigPathAuto) {
       case true:
         if (Freq <= 600000000) {

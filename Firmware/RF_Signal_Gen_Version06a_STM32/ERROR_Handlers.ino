@@ -3,6 +3,7 @@
 */
 
 const byte DATA_ERROR_SIGPATH = 0xA0;
+const byte DAC_OVERFLOW = 0xDA;
 
 void ErrorMode(int emode, bool critical) {
   switch (emode) {
@@ -11,6 +12,9 @@ void ErrorMode(int emode, bool critical) {
       break;
     case 0xA0:
       Message(F("Unknown Signal-Path selected!"), RED);
+      break;
+    case 0xDA:
+      Message(F("DAC-Value out of range!"), RED);
       break;
     default:
       Message(F("Unknown Error"), RED);

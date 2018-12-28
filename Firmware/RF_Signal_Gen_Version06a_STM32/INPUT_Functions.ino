@@ -312,7 +312,7 @@ void TouchButton() {
         }
         if (cy > 90 && cy < 140) {
           ExtSource = !ExtSource;
-//          SetSignalSource(ExtSource);
+          //          SetSignalSource(ExtSource);
           return;
         }
         if (cy > 150 && cy < 200) {
@@ -375,7 +375,7 @@ void TouchButton() {
         }
       }
       break;
-    
+
     case STATE_SIGSOURCE_CAL:
       if (cx > 330) {
         if (cy > 30 && cy < 80) {
@@ -429,7 +429,7 @@ void TouchButton() {
           return;
         }
         if (cy > 270 && cy < 320) {
-          
+
           SysStatus = STATE_CONFIG_3;
           InputMode = INPUT_NO_INPUT;
           return;

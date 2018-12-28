@@ -71,7 +71,7 @@ void keypadInit()
   Wire.write(0xff);
   Wire.endTransmission();
   // Start with the first row
-//  row_select = 0;
+  //  row_select = 0;
 }
 
 char get_Key()
@@ -85,7 +85,7 @@ char get_Key()
   int key = '\0';
 
   // Search row low
-//  pcf8574_write(KEYBD_ADR, pcf8574_row_data[row_select]);
+  //  pcf8574_write(KEYBD_ADR, pcf8574_row_data[row_select]);
 
   for (r = 0; r < num_rows; r++) {
     pcf8574_write(KEYBD_ADR, pcf8574_row_data[r]);
@@ -132,10 +132,10 @@ char get_Key()
   pcf8574_write(KEYBD_ADR, 0xff);
 
   // Next row
-//  row_select++;
-//  if (row_select == num_rows) {
-//    row_select = 0;
-//  }
+  //  row_select++;
+  //  if (row_select == num_rows) {
+  //    row_select = 0;
+  //  }
 
   return key;
 }

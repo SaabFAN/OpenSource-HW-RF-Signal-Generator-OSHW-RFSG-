@@ -1,3 +1,6 @@
+/*
+ * This file contains the serial-control software. It's an adapted version of the Serial Control-Interface of the EINFEGA Game-Controller.
+ */
 //// System State codes - Valid System states for both the entire System, as well as the SignalSource-Modules:
 //const byte STATE_NORM_OP = 0x00; // Default-Screen, also called "Mode_Select_1"-Screen.
 //const byte STATE_INT_WAITING = 0x01;

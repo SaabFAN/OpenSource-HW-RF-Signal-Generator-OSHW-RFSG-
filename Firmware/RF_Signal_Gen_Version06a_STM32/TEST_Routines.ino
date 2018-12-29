@@ -12,7 +12,6 @@ void TestDisplay() {
   Serial.print(F("Image Format: 0x")); Serial.println(x, HEX);
   x = tft.readcommand8(HX8357_RDDSDR);
   Serial.print(F("Self Diagnostic: 0x")); Serial.println(x, HEX);
-  yield();
 }
 
 
@@ -29,7 +28,6 @@ void SignalPathTest() {
   Serial.println(F("ADF4351 STANDBY"));
   SetupADF4351(STATE_STANDBY);
   Serial.println(F("ADF4351 TEST COMPLETE"));
-
   SetAmplitude(100);
 }
 
@@ -51,7 +49,7 @@ void SigPathCompensate() {
   PWR_SET = 0;
   while (ADC_READ(ADC_RF_OUT_SENSE) <= 636) {
     PWR_SET++;
-
+  delay(50);
   }
 }
 

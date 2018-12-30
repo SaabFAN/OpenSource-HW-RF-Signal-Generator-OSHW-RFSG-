@@ -769,14 +769,14 @@ void DAC_Setup() {
   Serial.println(F("Setting up the DAC for normal Operation: VREF = INTERNAL, GAIN = 1, POWERDOWN-RESISTOR = 100kOhm, OUTPUT-VALUE = 0x888"));
   /*
     BITMAPs for the bytes during sequential write:
-    Byte 0: C2 (0), C1 (1), C0 (0), W1 (1), W2 (0), DAC1 (0), DAC0 (0), !UDAC (0) = Select SEQUENTIAL WRITE (C2, C1, C0, W1, W0), starting at DAC-Channel 0, UPDATE Immediately
-      Byte 1: VREF (1), PD1 (0), PD0 (0), Gx (0), 4 bit DAC-Data = Select INTERNAL VREF and ENABLE Outputs with a GAIN of 1, then transmit the 4 most siginificant bits of the Output-Value
-      Byte 2: 8bits DAC-Data = Transmit the remaining 8 bits of DAC-Data
+    Byte 0: C2 (0), C1 (1), C0 (0), W1 (1), W2 (0), DAC1 (0), DAC0 (0), !UDAC (0) = Select MULTI-WRITE (C2, C1, C0, W1, W0), starting at DAC-Channel 0, UPDATE Immediately
+    Byte 1: VREF (1), PD1 (0), PD0 (0), Gx (0), 4 bit DAC-Data = Select INTERNAL VREF and ENABLE Outputs with a GAIN of 1, then transmit the 4 most siginificant bits of the Output-Value
+    Byte 2: 8bits DAC-Data = Transmit the remaining 8 bits of DAC-Data
   */
-  dac_data[0] = 0x50; dac_data[1] = 0x88; dac_data[2] = 0x88;
+  dac_data[0] = 0x40; dac_data[1] = 0x88; dac_data[2] = 0x88;
   Wire.beginTransmission(RF_DAC_ADR);
-  Wire.write(dac_data[0]);
   for (int i = 0; i < 3; i++) {
+    Wire.write(dac_data[0] + (i << 1) );  // Left-Shift i by 1 to use it as the DAC-Channel-Selector and ADD the value to the first byte of the 3-Byte long setup.
     Wire.write(dac_data[1]);
     Wire.write(dac_data[2]);
   }
@@ -789,11 +789,11 @@ void SetAGC_LVL(int lvl) {
     lvl = 0x0FFF;
   }
   byte buf[2];
-  buf[1] = lvl; // add 0x1000 to the value to set the bits that select DAC-Channel 1
+  buf[1] = lvl;
   buf[0]  = lvl >> 8;
-  // FastWrite-Command to set DAC: Bit 15, 14 = 0 (Fast Write), Bit 13, 12 = 0 (DAC Enabled), Bit 11 - 0 = 12bit DAC-Value
+  // MultiWrite-Command to set DAC to new value
   Wire.beginTransmission(RF_DAC_ADR);
-  Wire.write(0x5A);
+  Wire.write(0x40);
   Wire.write(buf[0]);
   Wire.write(buf[1]);
   Wire.endTransmission();
@@ -807,9 +807,9 @@ void SetAGC_BIAS(int bias) {
   byte buf[2];
   buf[1] = bias;
   buf[0]  = bias >> 8;
-  // FastWrite-Command to set DAC: Bit 15, 14 = 0 (Fast Write), Bit 13, 12 = 0 (DAC Enabled), Bit 11 - 0 = 12bit DAC-Value
+  // MultiWrite-Command to set DAC to new value
   Wire.beginTransmission(RF_DAC_ADR);
-  Wire.write(0x58);
+  Wire.write(0x42);
   Wire.write(buf[0]);
   Wire.write(buf[1]);
   Wire.endTransmission();

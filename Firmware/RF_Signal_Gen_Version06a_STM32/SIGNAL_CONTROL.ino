@@ -23,7 +23,7 @@ void SetFreq(double FreqSetFreq) {
     if (keyboardInput >= 3000000000) {
       Message("WARNING: Frequency outside CAL-Area", AMBER);
     }
-    Freq = FreqSetFreq; // Update "Freq" in case the calling function didn't already do so - Kept in here for compatibility reasons due to some older code.
+    Freq = FreqSetFreq; // Update "Freq" in case the calling function didn't already do so - Kept in here for compatibility reasons.
     if (FreqSetFreq >= 40000000UL) {
       Serial.println(F(" - Freq >= 400MHz - "));
       if (Freq_Old <= 40000000UL) {

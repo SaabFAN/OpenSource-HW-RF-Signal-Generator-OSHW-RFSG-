@@ -181,8 +181,8 @@ const byte SWEEP_SETTINGS_START = 0x600;
 const byte NVRAM_ADR_END = 0x7FF;
 
 /*
- * Error-Codes for the Error-Handler
- */
+   Error-Codes for the Error-Handler
+*/
 
 const byte DATA_ERROR_SIGPATH = 0xA0;
 const byte DAC_OVERFLOW = 0xDA;
@@ -257,6 +257,7 @@ void setup() {
   pinMode(TFT_CS, OUTPUT);
   pinMode(INT, INPUT);
   pinMode(ADF4351_CS, OUTPUT);
+  pinMode(ADF4351_LE, OUTPUT);
   pinMode(AD9910_CS, OUTPUT);
   pinMode(AD9910_IOUP, OUTPUT);
   pinMode(AD9910_OSK, OUTPUT);
@@ -275,18 +276,15 @@ void setup() {
   digitalWrite(AD9910_DRC, LOW);
   digitalWrite(TFT_DC, HIGH); // Make sure to Deselect TFT_DC
   digitalWrite(TFT_CS, HIGH); // Make sure to Deselect TFT_CS
+ 
   Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));
   while (millis() <= 2000) {
-    digitalWrite(PC13, HIGH);
-    digitalWrite(PC13, HIGH);
-    digitalWrite(PC13, HIGH);
-    digitalWrite(PC13, HIGH);
-    digitalWrite(PC13, HIGH);
-    digitalWrite(PC13, LOW);
-    digitalWrite(PC13, LOW);
-    digitalWrite(PC13, LOW);
-    digitalWrite(PC13, LOW);
-    digitalWrite(PC13, LOW);
+    for (byte i = 0; i < 4; i++) {
+      digitalWrite(PC13, HIGH);
+    }
+    for (byte i = 0; i < 4; i++) {
+      digitalWrite(PC13, LOW);
+    }
   }
 
   Serial.println(F("SPI Init"));
@@ -302,7 +300,6 @@ void setup() {
   delay(50);
   Serial.println(F("DISPLAY-TEST"));
   TestDisplay();
-  delay(0); // Delay added to yield Processor-Core to the WiFi-Code
   Serial.println(F("Show Splashscreen"));
   Splash();
   delay(2000); // Delay added to yield Processor-Core to the WiFi-Code

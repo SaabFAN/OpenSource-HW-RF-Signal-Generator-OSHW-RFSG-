@@ -42,8 +42,8 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 #define AD9910_DRC PB5
 #define AD9910_DRO PB8
 #define AD9910_RSO PB9
-#define AD9910_PLL 0x08 // Bitmask for the second GPIO-Expander 
-#define AD9910_RST 0x40 // Bitmask for the second GPIO-Expander 
+#define AD9910_PLL 0x08 // Bitmask for the second GPIO-Expander - PLL-Lock Detect of AD9910. LOW = UNLOCK
+#define AD9910_RST 0x40 // Bitmask for the second GPIO-Expander - I/O-Reset Pin of AD9910
 
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */

@@ -482,6 +482,9 @@ void SetupAD9910(int ADFMode) {
       SendCFR();
       break;
     case 0xFF: // Initial Setup at system start
+      Wire.beginTransmission(GPIO_ADR);
+      Wire.write(0xBF); // Set AD9910_RST to LOW (ACTIVE HIGH-input) 
+      Wire.endTransmission(); 
       RegCFR1 = (LSB_FIRST + SDIO_INPUT_ONLY * SDIO_INPUT_ONLY_LOC + EXTERNAL_POWER_DOWN * EXTERNAL_POWER_DOWN_LOC + AUX_DAC_POWER_DOWN * AUX_DAC_POWER_DOWN_LOC + REFCLK_INPUT_POWER_DOWN * REFCLK_INPUT_POWER_DOWN_LOC + DAC_POWER_DOWN * DAC_POWER_DOWN_LOC + DIGITAL_POWER_DOWN * DIGITAL_POWER_DOWN_LOC + SELECT_AUTO_OSK * SELECT_AUTO_OSK_LOC + OSK_ENABLE * OSK_ENABLE_LOC + LOAD_ARR_IOUPDATE * LOAD_ARR_IOUPDATE_LOC + CLEAR_PHASE_ACCU * CLEAR_PHASE_ACCU_LOC + CLEAR_DIGI_RAMP_ACCU * CLEAR_DIGI_RAMP_ACCU_LOC + AUTOCLEAR_PHASE_ACCU * AUTOCLEAR_PHASE_ACCU_LOC + AUTOCLEAR_DIGI_RAMP_ACCU * AUTOCLEAR_DIGI_RAMP_ACCU_LOC + LOAD_LRR_IOUPDATE * LOAD_LRR_IOUPDATE_LOC + DDS_SINE * DDS_SINE_LOC + INTERNAL_PROFILE_CONTROL * INTERNAL_PROFILE_CONTROL_LOC + INVERSE_SINC_FILTER * INVERSE_SINC_FILTER_LOC + MANUAL_OSK_CONTROL * MANUAL_OSK_CONTROL_LOC + RAM_PLAYBACK_DESTINATION * RAM_PLAYBACK_DESTINATION_LOC + RAM_ENABLE * RAM_ENABLE_LOC);
       Serial.print("RegCFR1 = 0x");
       Serial.println(RegCFR1, HEX);
@@ -541,10 +544,7 @@ void SetAmplitudeAD9910(float AmplitudeAD9910, bool Decibels) {
 }
 
 void WriteAD9910(byte  AD9910_INST) {
-  Wire.beginTransmission(GPIO_ADR);
-  Wire.write(B11000101); // INT/GPIO-BITMAP: INT0 | INT 1 | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU - Pull AD9910_CS LOW to select the chip
-  Wire.endTransmission();
-  delayMicroseconds(1); // May not be necessary - Depending on how fast the CS-Signal is
+  digitalWrite(AD9910_CS, LOW); //Pull AD9910_CS LOW to select the chip
   byte buf[8]; // 64bit buffer to store individual bytes of the registers
   SPI.begin();
   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
@@ -678,18 +678,11 @@ void WriteAD9910(byte  AD9910_INST) {
   }
   SPI.endTransaction();
   // now toggle the AD9910_DU-Pin
-  Wire.beginTransmission(GPIO_ADR);
-  Wire.write(B11000100); // INT/GPIO-BITMAP: INT0 | INT 1 | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU - Keep AD9910_CS LOW, Pull AD9910_DU LOW
-  Wire.endTransmission();
+  digitalWrite(AD9910_IOUP, LOW);
   delayMicroseconds(1); // May not be necessary - Depending on how fast the GPIO-Expander is
-  Wire.beginTransmission(GPIO_ADR);
-  Wire.write(B11000101); // INT/GPIO-BITMAP: INT0 | INT 1 | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU - Keep AD9910_CS LOW, Pull AD9910_DU HIGH - Data is accepted on rising edge of AD9910_DU
-  Wire.endTransmission();
+  digitalWrite(AD9910_IOUP, HIGH); // Data is accepted at rising edge of AD9910_IOUP or AD9910_DU
   delayMicroseconds(1); // May not be necessary - Depending on how fast the GPIO-Expander is
-  Wire.beginTransmission(GPIO_ADR);
-  Wire.write(B11000111); // INT/GPIO-BITMAP: INT0 | INT 1 | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU - Pull AD9910_CS HIGH to deselect the chip
-  Wire.endTransmission();
-  delayMicroseconds(1); // May not be necessary - Depending on how fast the CS-Signal is
+  digitalWrite(AD9910_CS, HIGH); // Pull AD9910_CS HIGH to deselect the chip
 }
 
 // Function to set the CFR1 and CFR2-Registers - Excludes CFR3 because that register is set at system startup and remains unchanged after that.
@@ -744,11 +737,13 @@ void SetAttenuator(byte Attenuation) {
   Wire.endTransmission();
 }
 
+#define DAC_DEBUG
 void DAC_Setup() {
   // Read the Status of the DAC and write it to the serial console for debugging-purposes
+  byte dac_data[24];
+#ifdef DAC_DEBUG
   Serial.println(F("Reading all registers of the DAC"));
   Wire.requestFrom(RF_DAC_ADR, 24);
-  byte dac_data[24];
   byte dac_data_pointer = 0;
   while (Wire.available()) {
     dac_data[dac_data_pointer] = Wire.read();
@@ -767,6 +762,7 @@ void DAC_Setup() {
   Serial.print(F("Channel D EEPROM: ")); Serial.print(dac_data[21], HEX); Serial.print(F(" ")); Serial.print(dac_data[22], HEX); Serial.print(F(" ")); Serial.println(dac_data[23], HEX);
 
   Serial.println(F("Setting up the DAC for normal Operation: VREF = INTERNAL, GAIN = 1, POWERDOWN-RESISTOR = 100kOhm, OUTPUT-VALUE = 0x888"));
+#endif
   /*
     BITMAPs for the bytes during sequential write:
     Byte 0: C2 (0), C1 (1), C0 (0), W1 (1), W2 (0), DAC1 (0), DAC0 (0), !UDAC (0) = Select MULTI-WRITE (C2, C1, C0, W1, W0), starting at DAC-Channel 0, UPDATE Immediately
@@ -776,7 +772,7 @@ void DAC_Setup() {
   dac_data[0] = 0x40; dac_data[1] = 0x88; dac_data[2] = 0x88;
   Wire.beginTransmission(RF_DAC_ADR);
   for (int i = 0; i < 3; i++) {
-    Wire.write(dac_data[0] + (i << 1) );  // Left-Shift i by 1 to use it as the DAC-Channel-Selector and ADD the value to the first byte of the 3-Byte long setup.
+    Wire.write(dac_data[0] + (i << 1) );  // LEFT-SHIFT i by 1 to use it as the DAC-Channel-Selector and ADD the value to the first byte of the 3-Byte long setup.
     Wire.write(dac_data[1]);
     Wire.write(dac_data[2]);
   }
@@ -793,7 +789,7 @@ void SetAGC_LVL(int lvl) {
   buf[0]  = lvl >> 8;
   // MultiWrite-Command to set DAC to new value
   Wire.beginTransmission(RF_DAC_ADR);
-  Wire.write(0x40);
+  Wire.write(0x42);
   Wire.write(buf[0]);
   Wire.write(buf[1]);
   Wire.endTransmission();
@@ -809,7 +805,7 @@ void SetAGC_BIAS(int bias) {
   buf[0]  = bias >> 8;
   // MultiWrite-Command to set DAC to new value
   Wire.beginTransmission(RF_DAC_ADR);
-  Wire.write(0x42);
+  Wire.write(0x40);
   Wire.write(buf[0]);
   Wire.write(buf[1]);
   Wire.endTransmission();

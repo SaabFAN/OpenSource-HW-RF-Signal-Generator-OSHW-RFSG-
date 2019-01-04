@@ -28,8 +28,22 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 
 #define INT 16  // Interrupt-Pin: GPIO16
 
+// Control-Signals for ADF4351
 #define ADF4351_CS PB14
 #define ADF4351_LE PB13
+#define ADF4351_LD 0x10 // Bitmask for the second GPIO-Expander 
+#define ADF4351_MUX 0x20 // Bitmask for the second GPIO-Expander
+
+// Control-Signals for AD9910
+#define AD9910_CS PA8
+#define AD9910_IOUP PA9
+#define AD9910_OSK PA10
+#define AD9910_DRH PB15
+#define AD9910_DRC PB5
+#define AD9910_DRO PB8
+#define AD9910_RSO PB9
+#define AD9910_PLL 0x08 // Bitmask for the second GPIO-Expander 
+#define AD9910_RST 0x40 // Bitmask for the second GPIO-Expander 
 
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
@@ -243,11 +257,22 @@ void setup() {
   pinMode(TFT_CS, OUTPUT);
   pinMode(INT, INPUT);
   pinMode(ADF4351_CS, OUTPUT);
-  pinMode(ADF4351_LE, OUTPUT);
+  pinMode(AD9910_CS, OUTPUT);
+  pinMode(AD9910_IOUP, OUTPUT);
+  pinMode(AD9910_OSK, OUTPUT);
+  pinMode(AD9910_DRH, OUTPUT);
+  pinMode(AD9910_DRC, OUTPUT);
+  pinMode(AD9910_DRO, INPUT);
+  pinMode(AD9910_RSO, INPUT);
 
   Serial.println(F("Set all pins HIGH"));
   digitalWrite(ADF4351_CS, HIGH);
   digitalWrite(ADF4351_LE, HIGH);
+  digitalWrite(AD9910_CS, HIGH);
+  digitalWrite(AD9910_IOUP, HIGH);
+  digitalWrite(AD9910_OSK, LOW);
+  digitalWrite(AD9910_DRH, LOW);
+  digitalWrite(AD9910_DRC, LOW);
   digitalWrite(TFT_DC, HIGH); // Make sure to Deselect TFT_DC
   digitalWrite(TFT_CS, HIGH); // Make sure to Deselect TFT_CS
   Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));

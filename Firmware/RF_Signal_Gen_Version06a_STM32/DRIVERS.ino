@@ -833,7 +833,8 @@ int ADC_READ(byte ADC_CHANNEL) { // Returns the voltage present at the selected 
       ads.setGain(GAIN_TWO);
       break;
     case ADC_RF_LEVEL_SENSE:
-      ads.setGain(GAIN_ONE);
+      ads.setGain(GAIN_TWO);
+      break;
   }
   int ADC_Value = ads.readADC_SingleEnded(ADC_CHANNEL);
   int ADC_Volt = 0;
@@ -842,7 +843,7 @@ int ADC_READ(byte ADC_CHANNEL) { // Returns the voltage present at the selected 
       ADC_Volt = ADC_Value * 1; // Scale the ADC-Value to the Vref and the selected gain (Gain = 1): 1bit = 2mV
       break;
     case ADC_RF_LEVEL_SENSE:
-      ADC_Volt = ADC_Value * 2; // Scale the ADC-Value to the Vref and the selected gain (Gain = 2): 1bit = 4mV
+      ADC_Volt = ADC_Value * 1; // Scale the ADC-Value to the Vref and the selected gain (Gain = 2): 1bit = 2mV
       break;
   }
   return ADC_Value;

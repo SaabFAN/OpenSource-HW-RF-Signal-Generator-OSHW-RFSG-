@@ -246,6 +246,7 @@ boolean UpdateAmpArea = true; // Shows that the Amplitude-Area needs to be Updat
 boolean UpdateModArea = true; // Shows that the Modulation-Area needs to be Updated
 unsigned long keyboardInput; // Stores the input made via the Keypad
 bool updateButtons = true;
+byte SERIALMODE = 0;
 
 void setup() {
   SysStatus = STATE_INIT;
@@ -276,7 +277,7 @@ void setup() {
   digitalWrite(AD9910_DRC, LOW);
   digitalWrite(TFT_DC, HIGH); // Make sure to Deselect TFT_DC
   digitalWrite(TFT_CS, HIGH); // Make sure to Deselect TFT_CS
- 
+
   Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));
   while (millis() <= 2000) {
     for (byte i = 0; i < 4; i++) {
@@ -434,7 +435,7 @@ void setup() {
 }
 
 void loop() {
-  //  CheckSerial();
+  CheckSerial();
   ReadTouch(); // Only here for debug-purposes! Remove once Interrupt-System is running!
   ReadKeybd();
   ReadGPIO();

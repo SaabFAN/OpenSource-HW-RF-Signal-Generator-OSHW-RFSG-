@@ -315,6 +315,7 @@ const byte ASF_ADDR = 0x09;
 const byte DIGRAMP_Limit_ADDR = 0xB;
 const byte DIGRAMP_Step_ADDR = 0xC;
 const byte DIGRAMP_Rate_ADDR = 0xD;
+const byte SINGLETONE_PROFILE_0 = 0x0E;
 
 // Register-Bit Locations
 // CFR 1
@@ -372,7 +373,7 @@ const uint32_t AD9910_PLL_DIVIDER_LOC = 2;            //
 // *** Variables to configure the DDS-Chip AD9910 ***
 
 // Register-Variables
-uint32_t RegCFR1 = 0x00;              // Variable for Control Register 1 - 4 Bytes - See Datasheet for details
+uint32_t RegCFR1;              // Variable for Control Register 1 - 4 Bytes - See Datasheet for details
 uint32_t RegCFR2;              // Variable for Control Register 2
 uint32_t RegCFR3;              // Variable for Control Register 3
 byte AuxDAC;                  // Stores the AUX-DAC Value
@@ -392,7 +393,7 @@ int FTW_OFFSET;
 byte RAM_ENABLE = 0;                    // Bit 31
 byte RAM_PLAYBACK_DESTINATION = 0;      // Bits 30 - 29: 0 = Frequency, 1 = Phase, 2 = Amplitude, 3 = Polar (Phase and Amplitude)
 byte MANUAL_OSK_CONTROL = 0;            // Bit 23: Enables / Disables the Manual OSK-Control - NOT USED! PIN NOT CONNECTED
-byte INVERSE_SINC_FILTER = 0;           // Bit 22: Enables/Disables the Inverse Sinc Filter
+byte INVERSE_SINC_FILTER = 1;           // Bit 22: Enables/Disables the Inverse Sinc Filter
 byte INTERNAL_PROFILE_CONTROL = 0;      // Bits 20 - 17: Selects the RAM-Profile
 byte DDS_SINE = 1;                      // Bit 16: Selects the Sine / Cosine-Output
 byte LOAD_LRR_IOUPDATE = 0;         // Bit 15: Sets the behavior of the digital ramp timer
@@ -414,7 +415,7 @@ const byte LSB_FIRST = 0; // Bit 0: Switches between MSBFIRST and LSBFIRST
 // CFR2-Values
 byte ENABLE_AMPLITUDE_SCALE_CW_PROFILES = 0;
 byte INTERNAL_IOUPDATE_ACTIVE = 0;
-byte SYNC_CLK_ENABLE = 0; //
+byte SYNC_CLK_ENABLE = 1; //
 byte DIGI_RAMP_DESTINATION = 0; // 2 Bits
 byte DIGI_RAMP_ENABLE = 0;
 byte DIGI_RAMP_NO_DWELL_HIGH = 0;
@@ -423,7 +424,7 @@ byte READ_EFFECTIVE_FTW = 0;
 byte IOUPDATE_RATE_CTRL = 0;
 byte PD_CLK_ENABLE = 0; // Disabled, because PD_CLK-Pin is not used.
 byte PD_CLK_INVERT = 0;
-byte TX_ENABLE_INVERT = 0;
+byte TX_ENABLE_INVERT = 1;
 byte MATCHED_LATENCY_ENABLE = 0;
 byte DATA_ASSEMBLER_HOLD_LAST_VALUE = 0;
 byte SYNC_TIMING_VALIDATION_ERROR = 0;
@@ -431,7 +432,7 @@ byte PARALLEL_DATA_PORT_ENABLE = 0;
 byte FM_GAIN = 0;
 
 // CFR3-Values | CFR3 configures internal PLL
-byte DRV0 = B00;              // Setting for REFCLK_OUT Drive - Default: REFCLK_OUT OFF
+byte DRV0 = B11;              // Setting for REFCLK_OUT Drive - Default: REFCLK_OUT OFF
 byte VCOSEL = B101;           // Select the VCO - Default: VCO5 for a internal Clock of 920 - 1030 MHz
 byte Icp = B111;              // Sets the Charge Pump Current - This value will require experimentation and may be stored in external NVRAM
 byte REFCLK_Div_Bypass = 0;        // Controls the InputDivider-Bypass - Default: 0 (OFF)
@@ -483,9 +484,11 @@ void SetupAD9910(int ADFMode) {
       break;
     case 0xFF: // Initial Setup at system start
       Wire.beginTransmission(GPIO_ADR);
-      Wire.write(0xBF); // Set AD9910_RST (Connected to I/O-Reset) to LOW (ACTIVE HIGH-input) 
-      Wire.endTransmission(); 
+      Wire.write(0xBF); // Set AD9910_RST (Connected to I/O-Reset) to LOW (ACTIVE HIGH-input)
+      Wire.endTransmission();
+      delay(50);
       RegCFR1 = (LSB_FIRST + SDIO_INPUT_ONLY * SDIO_INPUT_ONLY_LOC + EXTERNAL_POWER_DOWN * EXTERNAL_POWER_DOWN_LOC + AUX_DAC_POWER_DOWN * AUX_DAC_POWER_DOWN_LOC + REFCLK_INPUT_POWER_DOWN * REFCLK_INPUT_POWER_DOWN_LOC + DAC_POWER_DOWN * DAC_POWER_DOWN_LOC + DIGITAL_POWER_DOWN * DIGITAL_POWER_DOWN_LOC + SELECT_AUTO_OSK * SELECT_AUTO_OSK_LOC + OSK_ENABLE * OSK_ENABLE_LOC + LOAD_ARR_IOUPDATE * LOAD_ARR_IOUPDATE_LOC + CLEAR_PHASE_ACCU * CLEAR_PHASE_ACCU_LOC + CLEAR_DIGI_RAMP_ACCU * CLEAR_DIGI_RAMP_ACCU_LOC + AUTOCLEAR_PHASE_ACCU * AUTOCLEAR_PHASE_ACCU_LOC + AUTOCLEAR_DIGI_RAMP_ACCU * AUTOCLEAR_DIGI_RAMP_ACCU_LOC + LOAD_LRR_IOUPDATE * LOAD_LRR_IOUPDATE_LOC + DDS_SINE * DDS_SINE_LOC + INTERNAL_PROFILE_CONTROL * INTERNAL_PROFILE_CONTROL_LOC + INVERSE_SINC_FILTER * INVERSE_SINC_FILTER_LOC + MANUAL_OSK_CONTROL * MANUAL_OSK_CONTROL_LOC + RAM_PLAYBACK_DESTINATION * RAM_PLAYBACK_DESTINATION_LOC + RAM_ENABLE * RAM_ENABLE_LOC);
+
       Serial.print("RegCFR1 = 0x");
       Serial.println(RegCFR1, HEX);
       RegCFR2 = (0 + FM_GAIN + PARALLEL_DATA_PORT_ENABLE * PARALLEL_DATA_PORT_ENABLE_LOC + SYNC_TIMING_VALIDATION_ERROR * SYNC_TIMING_VALIDATION_ERROR_LOC + DATA_ASSEMBLER_HOLD_LAST_VALUE * DATA_ASSEMBLER_HOLD_LAST_VALUE_LOC + MATCHED_LATENCY_ENABLE * MATCHED_LATENCY_ENABLE_LOC + TX_ENABLE_INVERT * TX_ENABLE_INVERT_LOC + PD_CLK_INVERT * PD_CLK_INVERT_LOC + PD_CLK_ENABLE * PD_CLK_ENABLE_LOC + IOUPDATE_RATE_CTRL * IOUPDATE_RATE_CTRL_LOC + READ_EFFECTIVE_FTW * READ_EFFECTIVE_FTW_LOC + DIGI_RAMP_NO_DWELL_LOW * DIGI_RAMP_NO_DWELL_LOW_LOC + DIGI_RAMP_NO_DWELL_HIGH * DIGI_RAMP_NO_DWELL_HIGH_LOC + DIGI_RAMP_ENABLE * DIGI_RAMP_ENABLE_LOC + DIGI_RAMP_DESTINATION * DIGI_RAMP_DESTINATION_LOC + SYNC_CLK_ENABLE * SYNC_CLK_ENABLE_LOC + INTERNAL_IOUPDATE_ACTIVE * INTERNAL_IOUPDATE_ACTIVE_LOC + ENABLE_AMPLITUDE_SCALE_CW_PROFILES * ENABLE_AMPLITUDE_SCALE_CW_PROFILES_LOC);
@@ -494,12 +497,13 @@ void SetupAD9910(int ADFMode) {
       RegCFR3 = (0 + AD9910_PLL_DIVIDER * AD9910_PLL_DIVIDER_LOC + PLL_ENABLE * PLL_ENABLE_LOC + PFD_RESET * PFD_RESET_LOC + REFCLK_Div_RESET * REFCLK_Div_RESET_LOC + REFCLK_Div_Bypass * REFCLK_Div_Bypass_LOC + Icp * ICP_LOC + VCOSEL * VCOSEL_LOC + DRV0 * DRV0_LOC);
       Serial.print("RegCFR3 = 0x");
       Serial.println(RegCFR3, HEX);
-      FTW = round(4294967296UL / (DDSCLK / 1000000)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock)) // Frequency set to 1MHz
+      FTW = round(4294967296UL / (DDSCLK / 4000000)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock)) // Frequency set to 1MHz
       ASF = 32768;  // Amplitude Scale Factor set to full Amplitude
       POW = 0; // No Phase Offset
       WriteAD9910(CFR1_ADDR);
       WriteAD9910(CFR2_ADDR);
       WriteAD9910(CFR3_ADDR);
+      WriteAD9910(AuxDAC_ADDR);
       WriteAD9910(FTW_ADDR);
       WriteAD9910(ASF_ADDR);
       Freq_Old = 1000000;
@@ -517,9 +521,9 @@ void SetFreqAD9910(double FreqAD9910) {
   FTW = round(4294967296UL / (DDSCLK / FreqAD9910)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock))
   Serial.print("FreqAD9910 = ");
   Serial.print(FreqAD9910, DEC);
-  Serial.print("FTW = ");
+  Serial.print(" FTW = ");
   Serial.println(FTW, DEC);
-  WriteAD9910(FTW_ADDR);
+  WriteAD9910(SINGLETONE_PROFILE_0);
 }
 
 void SetPhaseOffsetAD9910(unsigned long PhaseOffsetAD9910) {
@@ -543,9 +547,19 @@ void SetAmplitudeAD9910(float AmplitudeAD9910, bool Decibels) {
   }
 }
 
+#define SPI_DEBUG
 void WriteAD9910(byte  AD9910_INST) {
   digitalWrite(AD9910_CS, LOW); //Pull AD9910_CS LOW to select the chip
   byte buf[8]; // 64bit buffer to store individual bytes of the registers
+#ifdef SPI_DEBUG
+  RegCFR1 = 0x00800002;
+  RegCFR2 = 0x01400820;
+  RegCFR3 = 0x35384132;
+  AuxDAC = 0x7F;
+  ASF = 0x3FFF;
+  POW = 0x0000;
+  FTW = 0x1999999A;
+#endif
   SPI.begin();
   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
   SPI.transfer(AD9910_INST);
@@ -553,127 +567,244 @@ void WriteAD9910(byte  AD9910_INST) {
     case CFR1_ADDR:
       //      SPI.write32(RegCFR1); // DISABLE this line and ENABLE the following block on boards other than ESP8266 that do not have the "write32" function in their SPI-Library
       buf[0] = (byte) RegCFR1;
-      buf[1] = (byte) RegCFR1 >> 8;
-      buf[2] = (byte) RegCFR1 >> 16;
-      buf[3] = (byte) RegCFR1 >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (RegCFR1 >> 8);
+      buf[2] = (byte) (RegCFR1 >> 16);
+      buf[3] = (byte) (RegCFR1 >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case CFR2_ADDR:
       //      SPI.write32(RegCFR2);
       buf[0] = (byte) RegCFR2;
-      buf[1] = (byte) RegCFR2 >> 8;
-      buf[2] = (byte) RegCFR2 >> 16;
-      buf[3] = (byte) RegCFR2 >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (RegCFR2 >> 8);
+      buf[2] = (byte) (RegCFR2 >> 16);
+      buf[3] = (byte) (RegCFR2 >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case CFR3_ADDR:
       //      SPI.write32(RegCFR3);
       buf[0] = (byte) RegCFR3;
-      buf[1] = (byte) RegCFR3 >> 8;
-      buf[2] = (byte) RegCFR3 >> 16;
-      buf[3] = (byte) RegCFR3 >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (RegCFR3 >> 8);
+      buf[2] = (byte) (RegCFR3 >> 16);
+      buf[3] = (byte) (RegCFR3 >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case AuxDAC_ADDR:
-      SPI.write(AuxDAC);
+      SPI.transfer(0x00);
+      SPI.transfer(0x00);
+      SPI.transfer(0x00);
+      SPI.transfer(AuxDAC);
       break;
     case IO_UPD_Rate_ADDR:
       //      SPI.write32(IO_UPD_Rate);
       buf[0] = (byte) IO_UPD_Rate;
-      buf[1] = (byte) IO_UPD_Rate >> 8;
-      buf[2] = (byte) IO_UPD_Rate >> 16;
-      buf[3] = (byte) IO_UPD_Rate >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (IO_UPD_Rate >> 8);
+      buf[2] = (byte) (IO_UPD_Rate >> 16);
+      buf[3] = (byte) (IO_UPD_Rate >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case FTW_ADDR:
       //      SPI.write32(FTW);
       buf[0] = (byte) FTW;
-      buf[1] = (byte) FTW >> 8;
-      buf[2] = (byte) FTW >> 16;
-      buf[3] = (byte) FTW >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (FTW >> 8);
+      buf[2] = (byte) (FTW >> 16);
+      buf[3] = (byte) (FTW >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case POW_ADDR:
       SPI.transfer16(POW);      //      buf[0] = (byte) POW;
       //      buf[1] = (byte) POW >> 8;
       //      buf[2] = (byte) POW >> 16;
       //      buf[3] = (byte) POW >> 24;
-      //      SPI.write(buf[3]);
-      //      SPI.write(buf[2]);
-      //      SPI.write(buf[1]);
-      //      SPI.write(buf[0]);
+      //SPI.transfer(buf[3]);
+      //      SPI.transfer(buf[2]);
+      //      SPI.transfer(buf[1]);
+      //      SPI.transfer(buf[0]);
       break;
     case ASF_ADDR:
       //      SPI.write32(ASF);
       buf[0] = (byte) ASF;
-      buf[1] = (byte) ASF >> 8;
-      buf[2] = (byte) ASF >> 16;
-      buf[3] = (byte) ASF >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (ASF >> 8);
+      buf[2] = (byte) (ASF >> 16);
+      buf[3] = (byte) (ASF >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case DIGRAMP_Limit_ADDR:
       buf[0] = (byte) DIGRAMP_Limit;
-      buf[1] = (byte) DIGRAMP_Limit >> 8;
-      buf[2] = (byte) DIGRAMP_Limit >> 16;
-      buf[3] = (byte) DIGRAMP_Limit >> 24;
-      buf[4] = (byte) DIGRAMP_Limit >> 32;
-      buf[5] = (byte) DIGRAMP_Limit >> 40;
-      buf[6] = (byte) DIGRAMP_Limit >> 48;
-      buf[7] = (byte) DIGRAMP_Limit >> 56;
-      SPI.write(buf[7]);
-      SPI.write(buf[6]);
-      SPI.write(buf[5]);
-      SPI.write(buf[4]);
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (DIGRAMP_Limit >> 8);
+      buf[2] = (byte) (DIGRAMP_Limit >> 16);
+      buf[3] = (byte) (DIGRAMP_Limit >> 24);
+      buf[4] = (byte) (DIGRAMP_Limit >> 32);
+      buf[5] = (byte) (DIGRAMP_Limit >> 40);
+      buf[6] = (byte) (DIGRAMP_Limit >> 48);
+      buf[7] = (byte) (DIGRAMP_Limit >> 56);
+      SPI.transfer(buf[7]);
+      SPI.transfer(buf[6]);
+      SPI.transfer(buf[5]);
+      SPI.transfer(buf[4]);
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case DIGRAMP_Step_ADDR:
       buf[0] = (byte) DIGRAMP_Step;
-      buf[1] = (byte) DIGRAMP_Step >> 8;
-      buf[2] = (byte) DIGRAMP_Step >> 16;
-      buf[3] = (byte) DIGRAMP_Step >> 24;
-      buf[4] = (byte) DIGRAMP_Step >> 32;
-      buf[5] = (byte) DIGRAMP_Step >> 40;
-      buf[6] = (byte) DIGRAMP_Step >> 48;
-      buf[7] = (byte) DIGRAMP_Step >> 56;
-      SPI.write(buf[7]);
-      SPI.write(buf[6]);
-      SPI.write(buf[5]);
-      SPI.write(buf[4]);
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (DIGRAMP_Step >> 8);
+      buf[2] = (byte) (DIGRAMP_Step >> 16);
+      buf[3] = (byte) (DIGRAMP_Step >> 24);
+      buf[4] = (byte) (DIGRAMP_Step >> 32);
+      buf[5] = (byte) (DIGRAMP_Step >> 40);
+      buf[6] = (byte) (DIGRAMP_Step >> 48);
+      buf[7] = (byte) (DIGRAMP_Step >> 56);
+      SPI.transfer(buf[7]);
+      SPI.transfer(buf[6]);
+      SPI.transfer(buf[5]);
+      SPI.transfer(buf[4]);
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
       break;
     case DIGRAMP_Rate_ADDR:
       buf[0] = (byte) DIGRAMP_Rate;
-      buf[1] = (byte) DIGRAMP_Rate >> 8;
-      buf[2] = (byte) DIGRAMP_Rate >> 16;
-      buf[3] = (byte) DIGRAMP_Rate >> 24;
-      SPI.write(buf[3]);
-      SPI.write(buf[2]);
-      SPI.write(buf[1]);
-      SPI.write(buf[0]);
+      buf[1] = (byte) (DIGRAMP_Rate >> 8);
+      buf[2] = (byte) (DIGRAMP_Rate >> 16);
+      buf[3] = (byte) (DIGRAMP_Rate >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
+      break;
+    case SINGLETONE_PROFILE_0:
+      buf[0] = (byte) (ASF >> 0);
+      buf[1] = (byte) (ASF >> 8);
+      buf[2] = (byte) POW;
+      buf[3] = (byte) (POW >> 8);
+      buf[4] = (byte) FTW;
+      buf[5] = (byte) (FTW >> 8);
+      buf[6] = (byte) (FTW >> 16);
+      buf[7] = (byte) (FTW >> 24);
+#ifdef SPI_DEBUG
+      Serial.println(F("BUFFER:"));
+      Serial.print(F("buf[7] = 0x"));
+      Serial.print(buf[7], HEX);
+      Serial.print(F(" buf[6] = 0x"));
+      Serial.print(buf[6], HEX);
+      Serial.print(F(" buf[5] = 0x"));
+      Serial.print(buf[5], HEX);
+      Serial.print(F(" buf[4] = 0x"));
+      Serial.println(buf[4], HEX);
+      Serial.print(F("buf[3] = 0x"));
+      Serial.print(buf[3], HEX);
+      Serial.print(F(" buf[2] = 0x"));
+      Serial.print(buf[2], HEX);
+      Serial.print(F(" buf[1] = 0x"));
+      Serial.print(buf[1], HEX);
+      Serial.print(F(" buf[0] = 0x"));
+      Serial.println(buf[0], HEX);
+#endif
+      SPI.transfer(buf[1]);
+      SPI.transfer(buf[0]);
+      SPI.transfer(buf[3]);
+      SPI.transfer(buf[2]);
+      SPI.transfer(buf[7]);
+      SPI.transfer(buf[6]);
+      SPI.transfer(buf[5]);
+      SPI.transfer(buf[4]);
       break;
   }
   SPI.endTransaction();

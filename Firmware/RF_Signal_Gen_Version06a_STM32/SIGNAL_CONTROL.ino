@@ -8,7 +8,7 @@
 void SetFreq(double FreqSetFreq) {
   Serial.print(F("FRQ: "));
   Serial.print(FreqSetFreq);
-  Serial.print(F(" Hz"));
+  Serial.println(F(" Hz"));
   bool SelAD9910 = false;
   if (FreqSetFreq == 0) {
     Message(F("ERROR! Frequency may not be 0!"), RED);
@@ -43,16 +43,17 @@ void SetFreq(double FreqSetFreq) {
       Serial.println(F(" - Freq <= 400MHz - "));
       if (Freq_Old >= 40000000UL) {
         Serial.print(F("FREQ_OLD >= 400MHZ"));
-        SetupAD9910(STATE_NORM_OP); // Enable the ADF4351-Output
+        SetupAD9910(STATE_NORM_OP); // Enable the AD9910-Output
         Serial.print(F(" - ENABLE AD9910 - "));
-        SetupADF4351(STATE_STANDBY); // Disable the AD9910-Output
+        SetupADF4351(STATE_STANDBY); // Disable the ADF4351-Output
         Serial.print(F(" - DISABLE ADF4351 - "));
       }
       else {
 
       }
-      Serial.println(F(" Using AD9910"));
+      Serial.print(F(" Using AD9910"));
       SetFreqAD9910(FreqSetFreq);
+      Serial.println(F("DONE"));
     }
     Freq_Old = FreqSetFreq;
     Serial.print(F("Freq_Old = "));

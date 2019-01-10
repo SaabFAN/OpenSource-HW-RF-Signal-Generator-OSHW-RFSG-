@@ -266,6 +266,7 @@ void setup() {
   pinMode(AD9910_DRC, OUTPUT);
   pinMode(AD9910_DRO, INPUT);
   pinMode(AD9910_RSO, INPUT);
+  pinMode(PC13, OUTPUT);
 
   Serial.println(F("Set all pins HIGH"));
   digitalWrite(ADF4351_CS, HIGH);

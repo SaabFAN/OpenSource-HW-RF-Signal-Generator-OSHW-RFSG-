@@ -251,6 +251,15 @@ byte SERIALMODE = 0;
 void setup() {
   SysStatus = STATE_INIT;
   Serial.begin(9600);
+  Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));
+  while (millis() <= 2000) {
+    for (byte i = 0; i < 4; i++) {
+      digitalWrite(PC13, HIGH);
+    }
+    for (byte i = 0; i < 4; i++) {
+      digitalWrite(PC13, LOW);
+    }
+  }
   Serial.println(F("*** SERIAL INTERFACE - RF SIGNAL-GENERATOR ***"));
 
   Serial.println(F("Defining Pins"));
@@ -278,16 +287,6 @@ void setup() {
   digitalWrite(AD9910_DRC, LOW);
   digitalWrite(TFT_DC, HIGH); // Make sure to Deselect TFT_DC
   digitalWrite(TFT_CS, HIGH); // Make sure to Deselect TFT_CS
-
-  Serial.println(F("WAIT until system is powered for 2 seconds to allow all components to come online"));
-  while (millis() <= 2000) {
-    for (byte i = 0; i < 4; i++) {
-      digitalWrite(PC13, HIGH);
-    }
-    for (byte i = 0; i < 4; i++) {
-      digitalWrite(PC13, LOW);
-    }
-  }
 
   Serial.println(F("SPI Init"));
   SPI.begin();
@@ -426,9 +425,10 @@ void setup() {
   delay(1000);
 
   tft.fillScreen(BLACK);
-  Freq = 100000000; // Set frequency to 287.234,912 kHz to check if Calculation in Display-Function is correct
+  Freq = 287234912; // Set frequency to 287.234,912 kHz to check if Calculation in Display-Function is correct
   SetFreq(Freq);
   UpdateDisplay();
+  SetAmplitude(100);
   Serial.print(F("Frequency = "));
   Serial.print(Freq, DEC);
   Serial.println(F(" Hz"));

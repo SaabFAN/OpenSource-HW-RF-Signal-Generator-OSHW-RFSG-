@@ -24,12 +24,12 @@ void SetFreq(double FreqSetFreq) {
       Message("WARNING: Frequency outside CAL-Area", AMBER);
     }
     Freq = FreqSetFreq; // Update "Freq" in case the calling function didn't already do so - Kept in here for compatibility reasons.
-    if (FreqSetFreq >= 40000000UL) {
+    if (FreqSetFreq >= 400000000UL) {
       Serial.println(F(" - Freq >= 400MHz - "));
-      if (Freq_Old <= 40000000UL) {
+      if (Freq_Old <= 400000000UL) {
         Serial.print(F(" - Freq_Old <= 400MHZ - "));
         SetupADF4351(STATE_NORM_OP); // Enable the ADF4351-Output
-        Serial.print(F(" - ENABLE ADF4351 - "));
+        Serial.print(F(" - ADF4351 ENABLED - "));
         SetupAD9910(STATE_STANDBY); // Disable the AD9910-Output
         Serial.print(F(" - AD9910 DISABLED - "));
       }
@@ -41,12 +41,12 @@ void SetFreq(double FreqSetFreq) {
     }
     else {
       Serial.println(F(" - Freq <= 400MHz - "));
-      if (Freq_Old >= 40000000UL) {
+      if (Freq_Old >= 400000000UL) {
         Serial.print(F("FREQ_OLD >= 400MHZ"));
-        SetupAD9910(STATE_NORM_OP); // Enable the AD9910-Output
-        Serial.print(F(" - ENABLE AD9910 - "));
         SetupADF4351(STATE_STANDBY); // Disable the ADF4351-Output
-        Serial.print(F(" - DISABLE ADF4351 - "));
+        Serial.print(F(" - ADF4351 DISABLED - "));
+        SetupAD9910(STATE_NORM_OP); // Enable the AD9910-Output
+        Serial.print(F(" - AD9910 ENABLED - "));
       }
       else {
 
@@ -54,6 +54,7 @@ void SetFreq(double FreqSetFreq) {
       Serial.print(F(" Using AD9910"));
       SetFreqAD9910(FreqSetFreq);
       Serial.println(F("DONE"));
+      SelAD9910 = true;
     }
     Freq_Old = FreqSetFreq;
     Serial.print(F("Freq_Old = "));

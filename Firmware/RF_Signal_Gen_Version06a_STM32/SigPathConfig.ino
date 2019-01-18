@@ -13,7 +13,7 @@ int RF_OUT_SENSE;
 //BITMAP: UNUSED | UNUSED | Select 750MHz LPF | Select 1,5GHz LPF | Select Bypass-Path | Select Filtered Path | Select other signal source | Select ADF4351-Module
 
 // Function to calculate the Attenuator and DAC-Settings to set the amplitude. Amplitude is expressed as (dBm + 110) x 10 (avoid Floating-Point calculations)
-// #define AnalogDebug
+#define AnalogDebug
 
 void SetAmplitude(int Amplitude) {
   float AmplitudeFine;
@@ -65,13 +65,13 @@ void SetLPF(int LPF_SEL, bool SelectAD9910, bool mixpath) {
   }
   switch (LPF_SEL) {
     case BYPASS:
-      SIGPATH_CTRL = SIGPATH_CTRL + 0x28; // ADD value to the signalpath-control to set the select-bits of the filters
+      SIGPATH_CTRL = SIGPATH_CTRL + 0x04; // ADD value to the signalpath-control to set the select-bits of the filters
       break;
     case LPF_750:
-      SIGPATH_CTRL = SIGPATH_CTRL + 0x24;
+      SIGPATH_CTRL = SIGPATH_CTRL + 0x18;
       break;
     case LPF_1500:
-      SIGPATH_CTRL = SIGPATH_CTRL + 0x14;
+      SIGPATH_CTRL = SIGPATH_CTRL + 0x28;
       break;
     default:
       ErrorMode(DATA_ERROR_SIGPATH, true); // Something else than BYPASS, LPF_750 or LPF_1500 was sent to this function -> Report this error

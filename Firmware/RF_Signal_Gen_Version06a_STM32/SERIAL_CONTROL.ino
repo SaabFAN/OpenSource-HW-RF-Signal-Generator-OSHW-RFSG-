@@ -40,6 +40,42 @@ void CheckSerial() {
     goto serialEnd;
   }
   switch (SERIALMODE) {
+    case 'D':
+      SERIALMODE = Serial.read();
+      Serial.print(F("DEBUG_MODE - "));
+      switch (SERIALMODE) {
+        case 'A':
+          Serial.println(F("AD9910"));
+          for (int i = 0; i < 30; i++) {
+            SetFreqAD9910(66000000);
+            delay(1000);
+          }
+          break;
+        case 'B':
+          Serial.println(F("ADF4351"));
+          for (int i = 0; i < 30; i++) {
+            SetFreqADF4351(60000000);
+            delay(1000);
+          }
+          break;
+      }
+      break;
+    case 'R':
+      nvic_sys_reset();
+      break;
+    case 'T':
+      SERIALMODE = Serial.read();
+      Serial.print(F("TEST_MODE - "));
+      switch (SERIALMODE) {
+        case 'A':
+          Serial.println(F("AD9910"));
+          break;
+        case 'B':
+          Serial.println(F("ADF4351"));
+          CheckADF4351();
+          break;
+      }
+      break;
     case 'S': // STATUS-Request
       ReportStatus();
       break;

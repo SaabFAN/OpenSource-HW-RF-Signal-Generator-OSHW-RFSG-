@@ -465,7 +465,7 @@ void DrawFrequencyArea(unsigned long dispData) {
 #ifdef DISPLAY_DEBUG
     //tft.fillRect(x1, y1, w, h, GREEN);
     Serial.print(F(" DispFreq = "));
-    Serial.println(DispFrequency);
+    Serial.println(DispFrequency, 6);
 #endif
     if (InputMode == INPUT_ENTER_FREQ) {
       DispFrequency = keyboardInput;

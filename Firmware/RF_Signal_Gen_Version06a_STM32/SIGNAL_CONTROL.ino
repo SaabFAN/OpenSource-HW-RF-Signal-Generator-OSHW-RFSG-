@@ -15,12 +15,12 @@ void SetFreq(double FreqSetFreq) {
     Freq = Freq_Old; // Set Frequency-Variable to previous value
   }
   else {
-    if (keyboardInput >= 4400000000) {
+    if (FreqSetFreq >= 4400000000) {
       Message("ERROR: Frequency outside limits", RED);
       Freq = Freq_Old; // Set Frequency-Variable to previous value
       return; // Cancel updating Frequency
     }
-    if (keyboardInput >= 3000000000) {
+    if (FreqSetFreq >= 3000000000) {
       Message("WARNING: Frequency outside CAL-Area", AMBER);
     }
     Freq = FreqSetFreq; // Update "Freq" in case the calling function didn't already do so - Kept in here for compatibility reasons.
@@ -33,9 +33,6 @@ void SetFreq(double FreqSetFreq) {
         SetupAD9910(STATE_STANDBY); // Disable the AD9910-Output
         Serial.print(F(" - AD9910 DISABLED - "));
       }
-      else {
-
-      }
       Serial.println(F(" Using ADF4351"));
       SetFreqADF4351(FreqSetFreq);
     }
@@ -47,9 +44,6 @@ void SetFreq(double FreqSetFreq) {
         Serial.print(F(" - ADF4351 DISABLED - "));
         SetupAD9910(STATE_NORM_OP); // Enable the AD9910-Output
         Serial.print(F(" - AD9910 ENABLED - "));
-      }
-      else {
-
       }
       Serial.print(F(" Using AD9910"));
       SetFreqAD9910(FreqSetFreq);

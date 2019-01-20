@@ -39,6 +39,7 @@ void SetupADF4351(int ADFMode) {
       D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 1;        // 1bit 1=VCO off
+      SetFreqADF4351(4200000000); // Send the values to the ADF - Frequency-Value set to 4.2 GHz to move any signal still coming out of the Chip outside the area of interest
       break;
     case STATE_NORM_OP:
       Serial.println("ADFMode = STATE_NORM_OP");
@@ -48,6 +49,7 @@ void SetupADF4351(int ADFMode) {
       D_auxOutSel = 0;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
+      SetFreqADF4351(Freq);   // Send the values to the ADF - Frequency-Value set to the "Freq"-Variable to have the ADF4351 running at that frequency when the frequency-path is being switched (Chip has more time to lock the PLL this way).
       break;
     case STATE_STANDBY:
       Serial.println("ADFMode = STATE_STANDBY");
@@ -56,6 +58,7 @@ void SetupADF4351(int ADFMode) {
       D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
+      SetFreqADF4351(4200000000); // Send the values to the ADF - Frequency-Value set to 4.2 GHz to move any signal still coming out of the Chip outside the area of interest
       break;
     case STATE_VCO_CHECK:
       Serial.println("ADFMode = STATE_VCO_CHECK");
@@ -98,6 +101,7 @@ void SetupADF4351(int ADFMode) {
       D_auxOutSel = 1;         // 1bit  aux OutSel
       D_MTLD = 0;              // 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
       D_VcoPwrDown = 0;        // 1bit 1=VCO off
+      SetFreqADF4351(Freq);
       break;
   }
   Serial.println("ADFMode = STATE HAS BEEN SET");

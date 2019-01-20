@@ -425,7 +425,7 @@ void setup() {
   delay(1000);
 
   tft.fillScreen(BLACK);
-  Freq = 287234912; // Set frequency to 287.234,912 kHz to check if Calculation in Display-Function is correct
+  Freq = 10000000; // Set frequency to 10MHz to check if Calculation in Display-Function is correct
   SetFreq(Freq);
   UpdateDisplay();
   SetAmplitude(100);
@@ -437,7 +437,7 @@ void setup() {
 
 void loop() {
   CheckSerial();
-  ReadTouch(); // Only here for debug-purposes! Remove once Interrupt-System is running!
+//  ReadTouch(); // Only here for debug-purposes! Remove once Interrupt-System is running!
   ReadKeybd();
   ReadGPIO();
   switch (SysStatus) {

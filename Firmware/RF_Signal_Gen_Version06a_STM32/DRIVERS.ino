@@ -391,10 +391,10 @@ int FTW_OFFSET;
 // CFR1-Values | CFR1 contains general settings
 byte RAM_ENABLE = 0;                    // Bit 31
 byte RAM_PLAYBACK_DESTINATION = 0;      // Bits 30 - 29: 0 = Frequency, 1 = Phase, 2 = Amplitude, 3 = Polar (Phase and Amplitude)
-byte MANUAL_OSK_CONTROL = 0;            // Bit 23: Enables / Disables the Manual OSK-Control - NOT USED! PIN NOT CONNECTED
+byte MANUAL_OSK_CONTROL = 1;            // Bit 23: Enables / Disables the Manual OSK-Control - NOT USED! PIN NOT CONNECTED
 byte INVERSE_SINC_FILTER = 1;           // Bit 22: Enables/Disables the Inverse Sinc Filter
 byte INTERNAL_PROFILE_CONTROL = 0;      // Bits 20 - 17: Selects the RAM-Profile
-byte DDS_SINE = 1;                      // Bit 16: Selects the Sine / Cosine-Output
+byte DDS_SINE = 0;                      // Bit 16: Selects the Sine / Cosine-Output
 byte LOAD_LRR_IOUPDATE = 0;         // Bit 15: Sets the behavior of the digital ramp timer
 byte AUTOCLEAR_DIGI_RAMP_ACCU = 0;
 byte AUTOCLEAR_PHASE_ACCU = 0;
@@ -412,7 +412,7 @@ const byte SDIO_INPUT_ONLY = 1; // Bit 1: Sets the way the SDIO-Pin works. 0 = I
 const byte LSB_FIRST = 0; // Bit 0: Switches between MSBFIRST and LSBFIRST
 
 // CFR2-Values
-byte ENABLE_AMPLITUDE_SCALE_CW_PROFILES = 0;
+byte ENABLE_AMPLITUDE_SCALE_CW_PROFILES = 1;
 byte INTERNAL_IOUPDATE_ACTIVE = 0;
 byte SYNC_CLK_ENABLE = 1; //
 byte DIGI_RAMP_DESTINATION = 0; // 2 Bits
@@ -421,9 +421,9 @@ byte DIGI_RAMP_NO_DWELL_HIGH = 0;
 byte DIGI_RAMP_NO_DWELL_LOW = 0;
 byte READ_EFFECTIVE_FTW = 0;
 byte IOUPDATE_RATE_CTRL = 0;
-byte PD_CLK_ENABLE = 0; // Disabled, because PD_CLK-Pin is not used.
+byte PD_CLK_ENABLE = 1;
 byte PD_CLK_INVERT = 0;
-byte TX_ENABLE_INVERT = 1;
+byte TX_ENABLE_INVERT = 0;
 byte MATCHED_LATENCY_ENABLE = 0;
 byte DATA_ASSEMBLER_HOLD_LAST_VALUE = 0;
 byte SYNC_TIMING_VALIDATION_ERROR = 0;
@@ -435,7 +435,7 @@ byte DRV0 = B11;              // Setting for REFCLK_OUT Drive - Default: REFCLK_
 byte VCOSEL = B101;           // Select the VCO - Default: VCO5 for a internal Clock of 920 - 1030 MHz
 byte Icp = B111;              // Sets the Charge Pump Current - This value will require experimentation and may be stored in external NVRAM
 byte REFCLK_Div_Bypass = 0;        // Controls the InputDivider-Bypass - Default: 0 (OFF)
-byte REFCLK_Div_RESET = 0;         // Controls the InputDivider - Default: 0 (Divider is reset and not working)
+byte REFCLK_Div_RESET = 1;         // Controls the InputDivider - Default: 0 (Divider is reset and not working)
 byte PFD_RESET = 0;                // Enables / Disables the Phase Comparator - Default: 1 (Phase Comparator active, PLL working)
 byte PLL_ENABLE = 1;                // Enables / Disables the PLL-Output - Default: true (PLL-Output to DDS-CLOCK
 byte AD9910_PLL_DIVIDER = 25;            // The Divider for the DDS-CLOCK PLL - Default: 25 (40 MHz  * 25 = 1000 MHz) - Formula: PLL_Clock / RefClock = PLL_DIVIDER - PLL_CLOCK = 1000MHz
@@ -451,8 +451,8 @@ unsigned long DDSCLK = 1000000000UL;        // DDS-Clock in Hz
    - 0xFF = PowerOn-Initialization
 */
 
-void SetupAD9910(int ADFMode) {
-  switch (ADFMode) {
+void SetupAD9910(int AD9910_Mode) {
+  switch (AD9910_Mode) {
     case STATE_NORM_OP:
       DIGITAL_POWER_DOWN = 0;
       DAC_POWER_DOWN = 0;
@@ -496,14 +496,16 @@ void SetupAD9910(int ADFMode) {
       Serial.print("RegCFR3 = 0x");
       Serial.println(RegCFR3, HEX);
       FTW = round(4294967296UL / (DDSCLK / 4000000)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock)) // Frequency set to 1MHz
-      ASF = 32768;  // Amplitude Scale Factor set to full Amplitude
-      POW = 0; // No Phase Offset
+      AuxDAC = 0x7F;
+      ASF = 0x3FFF;
+      POW = 0x0000;
       WriteAD9910(CFR1_ADDR);
       WriteAD9910(CFR2_ADDR);
       WriteAD9910(CFR3_ADDR);
       WriteAD9910(AuxDAC_ADDR);
       WriteAD9910(FTW_ADDR);
       WriteAD9910(ASF_ADDR);
+      SetFreqAD9910(1000000);
       Freq_Old = 1000000;
       break;
     default:
@@ -545,16 +547,28 @@ void SetAmplitudeAD9910(float AmplitudeAD9910, bool Decibels) {
   }
 }
 
-#define SPI_DEBUG
+// Function to set the CFR1 and CFR2-Registers - Excludes CFR3 because that register is set at system startup and remains unchanged after that.
+void SendCFR() {
+  RegCFR1 = (unsigned long)(LSB_FIRST + SDIO_INPUT_ONLY * SDIO_INPUT_ONLY_LOC + EXTERNAL_POWER_DOWN * EXTERNAL_POWER_DOWN_LOC + AUX_DAC_POWER_DOWN * AUX_DAC_POWER_DOWN_LOC + REFCLK_INPUT_POWER_DOWN * REFCLK_INPUT_POWER_DOWN_LOC + DAC_POWER_DOWN * DAC_POWER_DOWN_LOC + DIGITAL_POWER_DOWN * DIGITAL_POWER_DOWN_LOC + SELECT_AUTO_OSK * SELECT_AUTO_OSK_LOC + OSK_ENABLE * OSK_ENABLE_LOC + LOAD_ARR_IOUPDATE * LOAD_ARR_IOUPDATE_LOC + CLEAR_PHASE_ACCU * CLEAR_PHASE_ACCU_LOC + CLEAR_DIGI_RAMP_ACCU * CLEAR_DIGI_RAMP_ACCU_LOC + AUTOCLEAR_PHASE_ACCU * AUTOCLEAR_PHASE_ACCU_LOC + AUTOCLEAR_DIGI_RAMP_ACCU * AUTOCLEAR_DIGI_RAMP_ACCU_LOC + LOAD_LRR_IOUPDATE * LOAD_LRR_IOUPDATE_LOC + DDS_SINE * DDS_SINE_LOC + INTERNAL_PROFILE_CONTROL * INTERNAL_PROFILE_CONTROL_LOC + INVERSE_SINC_FILTER * INVERSE_SINC_FILTER_LOC + MANUAL_OSK_CONTROL * MANUAL_OSK_CONTROL_LOC + RAM_PLAYBACK_DESTINATION * RAM_PLAYBACK_DESTINATION_LOC + RAM_ENABLE * RAM_ENABLE_LOC);
+  Serial.print("RegCFR1 = 0x");
+  Serial.println(RegCFR1, HEX);
+  RegCFR2 = (unsigned long)(0 + FM_GAIN + PARALLEL_DATA_PORT_ENABLE * PARALLEL_DATA_PORT_ENABLE_LOC + SYNC_TIMING_VALIDATION_ERROR * SYNC_TIMING_VALIDATION_ERROR_LOC + DATA_ASSEMBLER_HOLD_LAST_VALUE * DATA_ASSEMBLER_HOLD_LAST_VALUE_LOC + MATCHED_LATENCY_ENABLE * MATCHED_LATENCY_ENABLE_LOC + TX_ENABLE_INVERT * TX_ENABLE_INVERT_LOC + PD_CLK_INVERT * PD_CLK_INVERT_LOC + PD_CLK_ENABLE * PD_CLK_ENABLE_LOC + IOUPDATE_RATE_CTRL * IOUPDATE_RATE_CTRL_LOC + READ_EFFECTIVE_FTW * READ_EFFECTIVE_FTW_LOC + DIGI_RAMP_NO_DWELL_LOW * DIGI_RAMP_NO_DWELL_LOW_LOC + DIGI_RAMP_NO_DWELL_HIGH * DIGI_RAMP_NO_DWELL_HIGH_LOC + DIGI_RAMP_ENABLE * DIGI_RAMP_ENABLE_LOC + DIGI_RAMP_DESTINATION * DIGI_RAMP_DESTINATION_LOC + SYNC_CLK_ENABLE * SYNC_CLK_ENABLE_LOC + INTERNAL_IOUPDATE_ACTIVE * INTERNAL_IOUPDATE_ACTIVE_LOC + ENABLE_AMPLITUDE_SCALE_CW_PROFILES * ENABLE_AMPLITUDE_SCALE_CW_PROFILES_LOC);
+  Serial.print("RegCFR2 = 0x");
+  Serial.println(RegCFR2, HEX);
+  WriteAD9910(CFR1_ADDR);
+  WriteAD9910(CFR2_ADDR);
+}
+
+//#define SPI_DEBUG
 void WriteAD9910(byte  AD9910_INST) {
   digitalWrite(AD9910_CS, LOW); //Pull AD9910_CS LOW to select the chip
   byte buf[8]; // 64bit buffer to store individual bytes of the registers
 #ifdef SPI_DEBUG
-  RegCFR1 = 0x00800002;
-  RegCFR2 = 0x01400820;
-  RegCFR3 = 0x35384132;
+  //  RegCFR1 = 0x00800002;
+  //  RegCFR2 = 0x01400820;
+  //  RegCFR3 = 0x35384132;
   AuxDAC = 0x7F;
-  ASF = 0x0FFF;
+  ASF = 0x3FFF;
   POW = 0x0000;
   //FTW = 0x1999999A;
 #endif
@@ -814,17 +828,6 @@ void WriteAD9910(byte  AD9910_INST) {
   digitalWrite(AD9910_CS, HIGH); // Pull AD9910_CS HIGH to deselect the chip
 }
 
-// Function to set the CFR1 and CFR2-Registers - Excludes CFR3 because that register is set at system startup and remains unchanged after that.
-void SendCFR() {
-  RegCFR1 = (unsigned long)(LSB_FIRST + SDIO_INPUT_ONLY * SDIO_INPUT_ONLY_LOC + EXTERNAL_POWER_DOWN * EXTERNAL_POWER_DOWN_LOC + AUX_DAC_POWER_DOWN * AUX_DAC_POWER_DOWN_LOC + REFCLK_INPUT_POWER_DOWN * REFCLK_INPUT_POWER_DOWN_LOC + DAC_POWER_DOWN * DAC_POWER_DOWN_LOC + DIGITAL_POWER_DOWN * DIGITAL_POWER_DOWN_LOC + SELECT_AUTO_OSK * SELECT_AUTO_OSK_LOC + OSK_ENABLE * OSK_ENABLE_LOC + LOAD_ARR_IOUPDATE * LOAD_ARR_IOUPDATE_LOC + CLEAR_PHASE_ACCU * CLEAR_PHASE_ACCU_LOC + CLEAR_DIGI_RAMP_ACCU * CLEAR_DIGI_RAMP_ACCU_LOC + AUTOCLEAR_PHASE_ACCU * AUTOCLEAR_PHASE_ACCU_LOC + AUTOCLEAR_DIGI_RAMP_ACCU * AUTOCLEAR_DIGI_RAMP_ACCU_LOC + LOAD_LRR_IOUPDATE * LOAD_LRR_IOUPDATE_LOC + DDS_SINE * DDS_SINE_LOC + INTERNAL_PROFILE_CONTROL * INTERNAL_PROFILE_CONTROL_LOC + INVERSE_SINC_FILTER * INVERSE_SINC_FILTER_LOC + MANUAL_OSK_CONTROL * MANUAL_OSK_CONTROL_LOC + RAM_PLAYBACK_DESTINATION * RAM_PLAYBACK_DESTINATION_LOC + RAM_ENABLE * RAM_ENABLE_LOC);
-  Serial.print("RegCFR1 = 0x");
-  Serial.println(RegCFR1, HEX);
-  RegCFR2 = (unsigned long)(0 + FM_GAIN + PARALLEL_DATA_PORT_ENABLE * PARALLEL_DATA_PORT_ENABLE_LOC + SYNC_TIMING_VALIDATION_ERROR * SYNC_TIMING_VALIDATION_ERROR_LOC + DATA_ASSEMBLER_HOLD_LAST_VALUE * DATA_ASSEMBLER_HOLD_LAST_VALUE_LOC + MATCHED_LATENCY_ENABLE * MATCHED_LATENCY_ENABLE_LOC + TX_ENABLE_INVERT * TX_ENABLE_INVERT_LOC + PD_CLK_INVERT * PD_CLK_INVERT_LOC + PD_CLK_ENABLE * PD_CLK_ENABLE_LOC + IOUPDATE_RATE_CTRL * IOUPDATE_RATE_CTRL_LOC + READ_EFFECTIVE_FTW * READ_EFFECTIVE_FTW_LOC + DIGI_RAMP_NO_DWELL_LOW * DIGI_RAMP_NO_DWELL_LOW_LOC + DIGI_RAMP_NO_DWELL_HIGH * DIGI_RAMP_NO_DWELL_HIGH_LOC + DIGI_RAMP_ENABLE * DIGI_RAMP_ENABLE_LOC + DIGI_RAMP_DESTINATION * DIGI_RAMP_DESTINATION_LOC + SYNC_CLK_ENABLE * SYNC_CLK_ENABLE_LOC + INTERNAL_IOUPDATE_ACTIVE * INTERNAL_IOUPDATE_ACTIVE_LOC + ENABLE_AMPLITUDE_SCALE_CW_PROFILES * ENABLE_AMPLITUDE_SCALE_CW_PROFILES_LOC);
-  Serial.print("RegCFR2 = 0x");
-  Serial.println(RegCFR2, HEX);
-  WriteAD9910(CFR1_ADDR);
-  WriteAD9910(CFR2_ADDR);
-}
 
 /*
    DRIVERS FOR THE HARDWARE ON THE ANALOG-BOARD

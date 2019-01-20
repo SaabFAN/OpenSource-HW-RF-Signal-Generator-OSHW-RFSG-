@@ -437,7 +437,7 @@ void setup() {
 
 void loop() {
   CheckSerial();
-//  ReadTouch(); // Only here for debug-purposes! Remove once Interrupt-System is running!
+  ReadTouch(); // Only here for debug-purposes! Remove once Interrupt-System is running!
   ReadKeybd();
   ReadGPIO();
   switch (SysStatus) {

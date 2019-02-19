@@ -1,6 +1,4 @@
-/*
-   Setup, Variable declarations and main loop of the program
-*/
+#include "Arduino.h"
 
 // SPI-Library
 #include <SPI.h>
@@ -19,6 +17,8 @@
 // ADC-Library
 #include <Adafruit_ADS1015.h>
 
+
+
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
 #define TFT_CS PA2  // Connect TFT_CS to D4
@@ -31,7 +31,7 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 // Control-Signals for ADF4351
 #define ADF4351_CS PB14
 #define ADF4351_LE PB13
-#define ADF4351_LD 0x10 // Bitmask for the second GPIO-Expander 
+#define ADF4351_LD 0x10 // Bitmask for the second GPIO-Expander
 #define ADF4351_MUX 0x20 // Bitmask for the second GPIO-Expander
 
 // Control-Signals for AD9910
@@ -48,8 +48,9 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
 
-const String SysVersion = "Firmware-Version STM32_0.6a";
+const String SysVersion = "Firmware-Version STM32_0.7a";
 // Starting with Version 0.6a, only REV. C RF-Boards are compatible!
+// Version 0.7a onwards: New and more modular structure, and ported to Eclipse IDE with sloeber PlugIn
 
 // Assign HEX-Values to color-names
 #define BLACK 0x0000
@@ -63,14 +64,14 @@ const String SysVersion = "Firmware-Version STM32_0.6a";
 #define AMBER 0xFDC0
 
 // i2c GPIO-Expander Addresses - ATTENTION: Addresses only valid for PCF8574! PCF8574A requires different addresses!
-#define ATTEN_ADR 0x3E  // i2c-Address of GPIO-Expander that controls the Attenuator - 
+#define ATTEN_ADR 0x3E  // i2c-Address of GPIO-Expander that controls the Attenuator -
 #define KEYBD_ADR 0x3F  // i2c Address of GPIO-Expander connected to the Keyboard - ROW_0 | ROW_1 | ROW_2 | ROW_3 | COLUMN_0 | COLUMN_1 | COLUMN_2 | FREE
 #define GPIO_ADR 0x3A  // i2c Address of the GPIO-Expander - INT/GPIO-BITMAP: INT0 | INT_KEYBD | FREE | ADF4351_LOCK | AD9910_LOCK | ADF4351_CS | AD9910_CS | AD9910_DU
 #define ANALOG_ADR 0x24   // i2c-Address for the Analog Board - Controls the Signal-Path
 
 // Other i2c-Device Addresses
 #define PWR_METER_ADR 0xFF // Address of the ADC in the Power-Meter - 0xFF = Placeholder-Value
-#define EXT_SRC_SEL_ADR 0xE0 // Address of the External Mixer / Signal-Source Board. This board contains the circuitry to select between several sources, including the AD9910 and a Mixer through which the Signal from the AnalogBoard can be routed to achieve Amplitude-Modulation. Commands to this board are described in the documentation of this board. 
+#define EXT_SRC_SEL_ADR 0xE0 // Address of the External Mixer / Signal-Source Board. This board contains the circuitry to select between several sources, including the AD9910 and a Mixer through which the Signal from the AnalogBoard can be routed to achieve Amplitude-Modulation. Commands to this board are described in the documentation of this board.
 
 // Setup-Data for the Keypad
 const byte ROWS = 4; //four rows
@@ -88,7 +89,7 @@ byte colPins[COLS] = {4, 5, 6}; //connect to the column pinouts of the keypad
 
 // System State codes - Valid System states for both the entire System, as well as the SignalSource-Modules:
 const byte STATE_NORM_OP = 0x00; // Default-Screen, also called "Mode_Select_1"-Screen.
-//const byte STATE_INT_WAITING = 0x01;
+const byte STATE_INT_WAITING = 0x01;
 const byte STATE_MODE_SELECT_2 = 0x02; // Second Mode-Select Screen
 const byte STATE_ADV_FUNCTIONS = 0x03;
 const byte STATE_ADV_MODULATION = 0x04;
@@ -423,7 +424,8 @@ void setup() {
   tft.setTextSize(5);
   tft.println(F("READY!"));
   delay(1000);
-
+  Freq = 450000000;
+  SetFreq(Freq);
   tft.fillScreen(BLACK);
   Freq = 10000000; // Set frequency to 10MHz to check if Calculation in Display-Function is correct
   SetFreq(Freq);
@@ -441,13 +443,6 @@ void loop() {
   ReadKeybd();
   ReadGPIO();
   switch (SysStatus) {
-    case STATE_DEBUG:
-      SetFreq(60000000);
-      delay(5000);
-      SetFreq(50000000);
-      delay(5000);
-      // Put some code here to escape Debug-Mode
-      break;
     case STATE_NORM_OP:
       UpdateDisplay();
       DrawSigPathParams();
@@ -463,4 +458,17 @@ void loop() {
     case false:
       break;
   }
+}
+
+
+//The setup function is called once at startup of the sketch
+void setup()
+{
+// Add your initialization code here
+}
+
+// The loop function is called in an endless loop
+void loop()
+{
+//Add your repeated code here
 }

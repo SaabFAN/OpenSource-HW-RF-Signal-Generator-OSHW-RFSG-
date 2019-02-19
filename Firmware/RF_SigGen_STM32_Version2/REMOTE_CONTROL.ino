@@ -37,7 +37,8 @@ void CheckSerial() {
     SERIALMODE = Serial.read();
   }
   else {
-    goto serialEnd;
+    SERIALMODE = 0x00;
+    return;
   }
   switch (SERIALMODE) {
     case 'D':
@@ -89,15 +90,14 @@ void CheckSerial() {
         Freq_Serial = Serial.parseInt();
         if (Freq_Serial < 10.0 || Freq_Serial > 4400000000) {
           Serial.println(F("Out Of Range!"));
-          goto serialEnd;
+          return;
         }
         Serial.print(Freq_Serial, DEC);
         SetFreq(Freq_Serial);
       }
       break;
   }
-serialEnd:
-  SERIALMODE = 0x00;
+  return;
 }
 
 void ReportStatus() {

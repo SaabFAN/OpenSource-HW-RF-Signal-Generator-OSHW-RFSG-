@@ -18,11 +18,11 @@ byte key;
 bool numpress = false; // Indicate that Number was pressed. Needs to be cleared to accept a new keypress
 
 void ReadKeybd() {
-  if (InputMode == INPUT_ENTER_FREQ || SysStatus == INPUT_ENTER_AMPLITUDE || SysStatus == INPUT_ENTER_MODPARA1 || SysStatus == INPUT_ENTER_MODPARA2 || SysStatus == INPUT_ENTER_MODPARA3 || SysStatus == INPUT_ENTER_MODPARA4 || SysStatus == INPUT_ENTER_BURSTPARA1 || SysStatus == INPUT_ENTER_BURSTPARA2 || SysStatus == INPUT_ENTER_BURSTPARA3 || SysStatus == INPUT_ENTER_BURSTPARA4 || SysStatus == INPUT_ENTER_RAMPPARA1 || SysStatus == INPUT_ENTER_RAMPPARA2 || SysStatus == INPUT_ENTER_RAMPPARA3 || SysStatus == INPUT_ENTER_RAMPPARA4 || SysStatus == INPUT_DIG_PATTERN) {
-    ReadKeyboard();
-  }
   if (InputMode == INPUT_NO_INPUT) {
     return;
+  }
+  else{
+    ReadKeyboard();
   }
 }
 

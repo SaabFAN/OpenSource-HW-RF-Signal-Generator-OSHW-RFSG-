@@ -15,41 +15,41 @@ int RF_OUT_SENSE;
 // Function to calculate the Attenuator and DAC-Settings to set the amplitude. Amplitude is expressed as (dBm + 110) x 10 (avoid Floating-Point calculations)
 #define AnalogDebug
 
-void SetAmplitude(int Amplitude) {
-  float AmplitudeFine;
-  int DAC_OFFSET;
-  if (AttenAuto == true) {
-    Atten = Amplitude / 10.00;
-    Amplitude = Amplitude + 10.00; // Compensation for the 10dB Loss in the Attenuator
-    AmplitudeFine = Amplitude - Atten;
-    SetAttenuator(Atten);
-  }
-  else {
-    AmplitudeFine = 5.0;
-  }
-  int AttenBiasCalDataLocation = ((Freq / 25000000UL) * 2) + 0x0F0;
-  int PwrOffsetCalDataLocation = (Freq / 25000000UL) * 2;
-  if (Freq >= 400000000UL) {
-    if (Freq >= 3000000000UL) {
-      AGC_ATTEN_BIAS = 0xFFF;
-      DAC_OFFSET = ReadNVData(0x0F0);
+void SetAmplitude(float Amplitude) {
+    float AmplitudeFine;
+    int DAC_OFFSET;
+    if (AttenAuto == true) {
+      Atten = Amplitude / 10.00;  
+      Amplitude = Amplitude + 10.00; // Compensation for the 10dB Loss in the Attenuator
+      AmplitudeFine = Amplitude - Atten;
+      SetAttenuator(Atten);
     }
     else {
-      AGC_ATTEN_BIAS = ReadNVData(AttenBiasCalDataLocation);
-      DAC_OFFSET = ReadNVData(PwrOffsetCalDataLocation);
+      AmplitudeFine = 5.0;
     }
-    PWR_SET = AmplitudeFine + DAC_OFFSET; // PWR_SET is set to the Correct Value-Value corresponding to the currently set frequency.
-#ifdef AnalogDebug
-    PWR_SET = 3500;
-    AGC_ATTEN_BIAS = 2048;
-    Serial.println(F("ANALOG DEBUG-MODE SET!"));
-#endif
-    SetAGC_LVL(PWR_SET);
-    SetAGC_BIAS(AGC_ATTEN_BIAS);
-  }
-  else {
-
-  }
+    int AttenBiasCalDataLocation = ((Freq / 25000000UL) * 2) + 0x0F0;
+    int PwrOffsetCalDataLocation = (Freq / 25000000UL) * 2;
+    if (Freq >= 400000000UL) {
+      if (Freq >= 3000000000UL) {
+        AGC_ATTEN_BIAS = 0xFFF;
+        DAC_OFFSET = ReadNVData(0x0F0);
+      }
+      else {
+        AGC_ATTEN_BIAS = ReadNVData(AttenBiasCalDataLocation);
+        DAC_OFFSET = ReadNVData(PwrOffsetCalDataLocation);
+      }
+      PWR_SET = AmplitudeFine + DAC_OFFSET; // PWR_SET is set to the Correct Value-Value corresponding to the currently set frequency.
+  #ifdef AnalogDebug
+      PWR_SET = 3500;
+      AGC_ATTEN_BIAS = 2048;
+      Serial.println(F("ANALOG DEBUG-MODE SET!"));
+  #endif
+      SetAGC_LVL(PWR_SET);
+      SetAGC_BIAS(AGC_ATTEN_BIAS);
+    }
+    else {
+  
+    }
 }
 
 //SIGPATH_CTRL BITMAP: DIRECT Signal Source | FILTERED or MIXED Signal Source | Select 750MHz LPF  (U2_V2)| Select 1,5GHz LPF (U2_V1)| Select Bypass-Path (U5_V1)| Select Filtered Path (U5_V2)| Select UNMIXED Signal-Path | Select MIXED Signal-Path

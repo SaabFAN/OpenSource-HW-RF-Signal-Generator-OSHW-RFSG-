@@ -65,5 +65,5 @@ void ReadNVDataBurst(int NV_ADDR, byte burstLength, byte ReadNV_Target) { // Bur
 }
 
 void ReadCalData() {
-RF_OUT_REF = ReadNVData(REF_OUT_CAL_NVRAM);
+  RF_OUT_REF = ReadNVData(REF_OUT_CAL_NVRAM);
 }

@@ -1,0 +1,41 @@
+Notizen zur Amplituden-Berechnung
+
+
+Max. Amplitude am Ausgang des Analog-Boards: +15dBm
+Max. mögliche Dämpfung des PIN-Dioden Attenuators: 30dB
+Max. mögliche Dämpfung des Step-Attenuators: 95dB
+Einfügedämpfung des Step-Attenuators: 10dB
+=> Maximal mögliche Amplitude am Ausgang: +5dBm
+Einfügedämpfung der RF-Switches NACH dem AGC-Level Detector: 2,6dB
+Soll-Pegel am Messanschluss für +5dBm bis +20 dBm
+Dämpfung des Signals am AGC-Messanschluss: 20dB
+Ausgangsspannung des RF-Detectors: Siehe Datenblatt LTC5505-2 (-15dBm = ca. 200mV | +5dBm = ca. 900mV @ Frequenzen <= 2,45 GHz)
+
+Korrekturdaten für die AGC: 
+Beginnend bei 400 MHz alle 50 MHz in 1dB-Schritten von +5dBm bis +20dBm (Pegel an J3). 
+Speicherverbrauch der Tabelle: 2600 x 15 Einträge zu je 2 Bytes = 1560 Bytes
+Adressraum der Korrekturdaten: 0x080 - 0x6C0
+Länge eines Eintrags: 2 Bytes
+Organisation der Einträge: Jeweils 15 Einträge für eine Frequenz, beginnen bei 0x080 = 400 MHz. Nächster Eintrag 32 Bytes höher (A0, C0, etc.)
+Lineare interpolation zwischen zwei Einträgen.
+
+Laden und Berechnen der Werte für den PIN-Attenuator: 
+Benötigte Werte: Frequenz, Amplitude (nicht größer als 15)
+Eintrag A = Frequenz / 50 <- INTEGER - Gibt einen Wert ohne Komma zurück
+Amplituden_Offset = (Amplitude / 15) * 2
+Adresse für Eintrag A: (Eintrag A + Amplituden-Offset) + 128 <- Offset, da die Daten bei 0x080 beginnen
+Adresse für Eintrag B = Eintrag A + 32 (Wenn Eintrag B > 0x6C0, Eintrag B = Eintrag A)
+Interpolationswert: Frequenz - (Eintrag A * 50) <- Gibt eine Zahl zwischen 0 und 50
+Korrekturwert wird ermittelt durch lineare Funktion: Korrekturwert = InterpolationsFrequenz * ((Wert_Eintrag_B - Wert_Eintrag_A) / 50) + Wert_Eintrag_A
+
+Berechnung und einstellen der Amplitude: 
+120 - (Eingegebene Amplitude + 115) = Attenuator-Setting
+Attenuation_Finecontrol = Attenuator-Setting - 95 
+SetAttenuator(Attenuator-Setting)
+
+Beispiel: Eingegebene Amplitude: -100dBm 
+120 - (-100 + 115) = 105
+Attenuation_Finecontrol = 105 - 95 = 10
+SetAttenuator(105); <- SetAttenuator()-Funktion prüft ob Wert größer als 95 und begrenzt auf 95. Danach wird der Attenuator entsprechend gesetzt.
+Ermitteln des PIN-Attenuator-Werts
+PIN-Attenuator auf den ermittelten Wert einstellen

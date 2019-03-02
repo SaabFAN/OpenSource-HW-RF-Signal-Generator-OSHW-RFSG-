@@ -39,7 +39,7 @@
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.23/variants/standard</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.23/variants/eightanaloginputs</locationURI>
 		</link>
 		<link>
 			<name>libraries/RotaryEncoder</name>

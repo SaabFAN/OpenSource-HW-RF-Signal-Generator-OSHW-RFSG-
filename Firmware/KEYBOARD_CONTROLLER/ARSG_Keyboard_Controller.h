@@ -21,6 +21,8 @@ void setInterrupt();
 void releaseInterrupt();
 void respond();
 void receiveEvent(int howMany);
+void enableBuzzer(int buzzertime);
+void reset(); // resets the controller by performing a jump to address 0
 
 
 //Do not add code below this line

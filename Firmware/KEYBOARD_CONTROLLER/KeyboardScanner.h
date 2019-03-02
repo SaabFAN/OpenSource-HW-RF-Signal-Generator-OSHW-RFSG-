@@ -7,26 +7,32 @@
 
 #ifndef KEYBOARDSCANNER_H_
 #define KEYBOARDSCANNER_H_
+#include "Arduino.h"
+
+#define RB0 4
+#define RB1 5
+#define RB2 2
+#define RB3 3
+#define SW_AUX_1 A3
+#define SW_AUX_2 A2
+#define ARROW_UP A1
+#define ARROW_DN A0
 
 class KeyboardScanner {
 public:
 	KeyboardScanner();
 	virtual ~KeyboardScanner();
 	// Public Functions
+	void init();
 	int getKey();
 private:
 	// Private Functions
-	void SetHighPin(char pin);
-	void SetInterrupt();
-	void ReadTouchInt();
+	void SetLOWPin(unsigned char pin);
+	unsigned char decode(unsigned char decode_data, unsigned char row);
 
 	// Private data
-	char key;
-	char matrix_state;
-	char RB0 = 0; // Pin Connected to ROW 0
-	char RB1 = 1;	// Pin connected to ROW 1
-	char RB2 = 2; // Pin connected to ROW 2
-	char RB3 = 3; // Pin connected to ROW 3
+	unsigned char key;
+	unsigned char matrix_state[4];
 };
 
 #endif /* KEYBOARDSCANNER_H_ */

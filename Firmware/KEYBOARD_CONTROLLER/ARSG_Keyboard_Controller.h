@@ -17,8 +17,10 @@
 
 
 //add your function definitions for the project ARSG_Keyboard_Controller here
-
-
+void setInterrupt();
+void releaseInterrupt();
+void respond();
+void receiveEvent(int howMany);
 
 
 //Do not add code below this line

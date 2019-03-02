@@ -33,13 +33,13 @@ The controller must have the following features:
 Numerical Keypad with decimal point and BACK-Key, One Column of additional keys (MHZ / +dBm | kHz / -dBm | Hz / mV | ENTER), ARROW UP and ARROW DOWN-Keys, AUX KEY 2 and AUX KEY 3)
 Recommended pattern [Respond with the value in Brackets]:
 
-7 [0x07] 8 [0x08] 9 [0x09]		MHZ / +dBm 	[0xA1]	AUX KEY 2	[0xA5]	PowerButton	[0xA6]
+7 [0x07] 8 [0x08] 9 [0x09]		MHZ / +dBm 	[0xA1]		AUX KEY 2	[0xA5]	PowerButton	[0xA6]
 
 4 [0x04] 5 [0x05] 6 [0x06]		kHz / -dBm	[0xA2]
 
 1 [0x01] 2 [0x02] 3 [0x03]		Hz / mV	[0xA3]
 
-0 [0x00] . [0x10] BACK [0x20]	ENTER	[0xA4]	ARROW DOWN	[0xAD]	ARROW UP	[0xAA]
+0 [0x00] . [0x10] BACK [0x20]	ENTER	[0xA4]			ARROW DOWN	[0xAD]	ARROW UP	[0xAA]
 
 Encoding of Rotary Inputs: 
 
@@ -54,7 +54,7 @@ The Interrupt must be RELEASED after the "REPORT"-Command has been issued.
 ATTENTION! AUX_CS1 is NOT 5V Tolerant! MAKE SURE this pin CAN NOT be driven above 3.3V by the keyboard controller! Recommendation: Use a Diode to ensure the Pin can only be pulled LOW by the controller, or use a 3.3V Controller. 
 
 Recommended behavior when using Interrupt: 
-Upon detecting a Keypress or (if fitted) an input on the rotary encoder has occurred (employing methods to debounce the inputs highly recommended), disable scanning the Inputs and ASSERT Interrupt. 
+Upon detecting a Keypress or (if fitted) an input on the rotary encoder has occurred (employing methods to debounce the inputs highly recommended), disable scanning the Keyboard-Matrix and ASSERT Interrupt. 
 Upon receiving REPORT-Command, send the data, RELEASE Interrupt and resume scanning the Inputs. 
 
 COMMANDS:

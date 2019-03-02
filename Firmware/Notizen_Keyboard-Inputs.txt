@@ -1,0 +1,58 @@
+Method for checking Keyboard-Inputs:
+
+3 Methods possible (Auto-Selected during startup):
+- PCF8574 based keyboard
+- Custom Micro-Controller based Keyboard-Controller with rotary support
+- Touch Only Inputs ("Keys" will be displayed when required - This probably requires a pointing tool on a small 3,5 inch screen to avoid pressing the wrong "keys")
+
+Autodetect-Routine: 
+- Firmware checks for i2c-Devices listening on Address 0x3F and 0x4F
+- IF Device at 0x3F found -> PCF8574 based keyboard detected
+- IF Device at 0x4F found -> Custom Keyboard-Controller detected
+
+PCF8574 based keyboard: 
+Main application of Firmware periodically (every 50ms) checks the keyboard. 
+The keyboard must be a 3 x 4 matrix with the following connections: 
+COLUMN 0 = P6
+COLUMN 1 = P5
+COLUMN 2 = P4
+ROW 0 = P0
+ROW 1 = P1
+ROW 2 = P2 
+ROW 4 = P3
+The Functions to read the PCF8574 Keyboard are based on the i2c Keyboard Library "Keypad_I2C" by Alexander Brevig
+Keep in mind: This keyboard-variant does NOT support decimal points! 
+
+Custom Microcontroller based Keyboard Controller: 
+The custom controller must listen on i2c-Address 0x4F and react to a command-byte send via i2c-Bus. It may implement a Interrupt-Output to be connected to AUX_CS1 of the main CPU.
+IMPORTANT: The controller must be ready to respond to commands 1500ms after power is applied!
+
+The controller must have the following features: 
+Numerical Keypad with decimal point and BACK-Key, One Column of additional keys (MHZ / +dBm | kHz / -dBm | Hz / mV | ENTER), ARROW UP and ARROW DOWN-Keys, AUX KEY 2 and AUX KEY 3)
+Recommended pattern [Respond with the value in Brackets]:
+
+7 [0x07] 8 [0x08] 9 [0x09]		MHZ / +dBm 	[0xA1]	AUX KEY 2	[0xA5]	PowerButton	[0xA6]
+
+4 [0x04] 5 [0x05] 6 [0x06]		kHz / -dBm	[0xA2]
+
+1 [0x01] 2 [0x02] 3 [0x03]		Hz / mV	[0xA3]
+
+0 [0x00] . [0x10] BACK [0x20]	ENTER	[0xA4]	ARROW DOWN	[0xBD]	ARROW UP	[0xBA]
+
+INTERRUPT: 
+Interrupt-Output is a recommended feature, but not necessary. The main Firmware checks for Interrupt-Capability upon startup and switches to active polling when no interrupt is detected. 
+ATTENTION: AUX_CS1 is NOT 5V Tolerant! MAKE SURE this pin CAN NOT be driven above 3.3V by the keyboard controller! Recommendation: Use a Diode to ensure the Pin can only be pulled LOW by the controller. 
+
+The commands (with response in [Brackets]) are as follows: 
+0x10 = INITIALIZE [Respond with 0xA0 (no Rotary detected) or 0xA1 (Rotary detected) once controller is ready or 0xFA to indicate a failure] (This can be called at any moment. Interrupts must be cleared upon calling INITIALIZE. A LOW AUX_CS0 Input at the Main CPU 250ms after INITIALIZE was called indicates a Failure.)
+0x11 = INTERRUPT_TEST [Controller pulls Interrupt_Line (if available) LOW within 500ms of receiving this command and switches back to INPUT after 250ms - if no interrupt is detected by the firmware after 500ms, it is assumed that the controller has no interrupt capability and will be polled by main application every 50ms)
+0x20 = REPORT_KEY [Respond with the key that was pressed and clear the Interrupt]
+0x30 = REPORT_ROTARY [Respond with: 0x10 = ROTARY_UP, 0x20 = ROTARY_DOWN, 0x30 = ROTARY_SWITCH PRESSED, 0xFF = NO CHANGE]
+0xB0 = REBOOT (Reset the controller)
+0xFA = FAIL-REPORT [Respond with one Byte that encodes the error]
+0xFB = FAIL-REPORT_KEYBOARD-DUMP [Respond with a complete dump of the Keyboard-Scan. Main Firmware expects 12 Bytes and will print these 12 Bytes to the serial console, as well as on Screen in the Error-Page. Actual implementation of this is up to the developer of the keyboard-controller.]
+
+Error-Codes: 
+0x00 = UNKNOWN
+0x10 = KEY-MATRIX ERROR (Command 0xFB can be used to get a dump of the keyboard-scan to find out if there is a short circuit)
+0x20 = ROTARY ERROR (This is caused by one input of the rotary encoder to be LOW while the rest are HIGH during Startup - All Rotary-Inputs LOW = No Rotary encoder connected)

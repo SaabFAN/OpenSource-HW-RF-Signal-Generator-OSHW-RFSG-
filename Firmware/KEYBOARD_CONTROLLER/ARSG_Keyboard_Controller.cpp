@@ -14,6 +14,9 @@ const uint8_t BUZZER = 8;
 
 const uint8_t INT = 9;
 
+const uint8_t LED_GREEN = 6;
+const uint8_t LED_RED = 10;
+
 // Global Variables
 unsigned long task_time1 = 0;	// Timer-Variable for scanning the keyboard
 unsigned long task_time2 = 0;	// Timer for checking the
@@ -43,7 +46,7 @@ void setup() {
 // Add your initialization code here
 	// Configure the PINS
 	delay(5000); // Delay to get the serial-monitor up
-	Serial.begin(9600);
+	Serial.begin(57600);
 	Serial.println(F("Keyboard-Controller for the ARSG"));
 #ifdef DEBUG
 	Serial.println(F("Setting up Pins"));
@@ -51,7 +54,10 @@ void setup() {
 	pinMode(INT, OUTPUT);
 	digitalWrite(INT, HIGH);
 	pinMode(BUZZER, OUTPUT);
+	pinMode(LED_RED, OUTPUT);
+	pinMode(LED_GREEN, OUTPUT);
 	pinMode(ROTARY_SW, INPUT_PULLUP);
+	digitalWrite(LED_GREEN, HIGH);
 #ifdef DEBUG
 	Serial.println(F("Pin-Setup complete"));
 	Serial.println(F("Initialize the keyboard-scanner"));
@@ -72,48 +78,66 @@ void setup() {
 	Serial.println(F("Make some noise"));
 #endif
 	enableBuzzer(100);
-	delay(500);
-	enableBuzzer(100);
-	delay(500);
-	enableBuzzer(100);
-	delay(500);
 	response = 0xFF;
+	encoder.tick();
+	current_pos = encoder.getPosition();
+	old_pos = current_pos;
+	task_time1 = millis();
+	task_time2 = millis();
+	task_time3 = millis();
+	i2c_cmd = 0x20;
 #ifdef DEBUG
 	Serial.println(F("Setup complete"));
 #endif
 }
 
+//#define DEBUG2
 // The loop function is called in an endless loop
 void loop() {
 	if ((millis() - task_time1) >= 50 && response == 0xFF) {
-#ifdef DEBUG
-	Serial.println(F("50ms have passed, check the keys"));
+#ifdef DEBUG2
+		Serial.println(F("50ms have passed, check the keys"));
 #endif
+		digitalWrite(LED_GREEN, LOW);
 		current_key = keyboard.getKey();
-#ifdef DEBUG
-	Serial.print(F("keyboard.getKey = 0x"));
-	Serial.println(current_key, HEX);
+#ifdef DEBUG2
+		Serial.print(F("keyboard.getKey = 0x"));
+		Serial.println(current_key, HEX);
 #endif
 		if (current_key != 0xFF) {
 			response = current_key;
 			setInterrupt();
 			if (make_noise == true) {
-				enableBuzzer(25);
+				enableBuzzer(15);
 			}
 		}
+#ifdef DEBUG2
+		Serial.print(F("KeyCheck-Routine set Response to: 0x"));
+		Serial.println(response, HEX);
+#endif
 		task_time1 = millis();
+		task_time3 = millis();
+		digitalWrite(LED_GREEN, HIGH);
 	}
-	if ((millis() - task_time2) >= 10 && response == 0xFF && rotary_enable == true) {
-#ifdef DEBUG
+	if ((millis() - task_time2) >= 10 && response == 0xFF
+			&& rotary_enable == true) {
+#ifdef DEBUG2
 		Serial.println(F("10ms passed, checking the Rotary encoder"));
 #endif
+		digitalWrite(LED_GREEN, LOW);
 		encoder.tick();
 		current_pos = encoder.getPosition();
 		if (current_pos > old_pos) {
 			response = 0xC0;
+			if (make_noise == true) {
+				enableBuzzer(5);
+			}
 		}
 		if (current_pos < old_pos) {
 			response = 0xCA;
+			if (make_noise == true) {
+				enableBuzzer(5);
+			}
 		}
 		if (current_pos < ROTARY_MIN) {
 			encoder.setPosition(6);
@@ -122,16 +146,25 @@ void loop() {
 			encoder.setPosition(6);
 		}
 		old_pos = current_pos;
+#ifdef DEBUG2
+		Serial.print(F("Encoder-Routine set Response to: 0x"));
+		Serial.println(response, HEX);
+#endif
+		task_time2 = millis();
+		task_time3 = millis();
+		digitalWrite(LED_GREEN, HIGH);
 	}
-	if ((millis() - task_time3) >= 1000 && response != 0xFF) {
-#ifdef DEBUG
+	if ((millis() - task_time3) >= 2000 && response != 0xFF) {
+#ifdef DEBUG2
 		Serial.println(F("Timeout! - Discarding data"));
 #endif
 		response = 0xFF; // Data wasn't fetched, discard data.
+		releaseInterrupt();
 		task_time3 = millis();
 	}
 }
 
+//#define i2c_DEBUG
 void receiveEvent(int howMany) {
 	int i2c_data[howMany];
 	int pointer = 0;
@@ -140,6 +173,20 @@ void receiveEvent(int howMany) {
 		i2c_data[pointer] = Wire.read();
 	}
 	i2c_cmd = i2c_data[pointer];
+#ifdef i2c_DEBUG
+	Serial.println(F("I2C_RECEIVE:"));
+	Serial.print(F("Data-Buffer Size: "));
+	Serial.println(howMany, DEC);
+	int dump_pointer = 0;
+	Serial.println(F("DUMPING DATA-BUFFER: "));
+	while (dump_pointer <= howMany) {
+		Serial.print(F("ENTRY: "));
+		Serial.print(dump_pointer, DEC);
+		Serial.print(F(" DATA: 0x"));
+		Serial.println(i2c_data[dump_pointer], HEX);
+		dump_pointer++;
+	}
+#endif
 	switch (i2c_cmd) {
 	case 0x10:
 		releaseInterrupt();
@@ -148,11 +195,12 @@ void receiveEvent(int howMany) {
 		current_key = 0xFF;
 		old_key = 0xFF;
 		response = 0xFF;
-		i2c_cmd = 0x20;
+		i2c_cmd = 0x10;
 		break;
 	case 0x11:
 		setInterrupt();
 		delay(250);
+		releaseInterrupt();
 		i2c_cmd = 0x20;
 		break;
 	case 0x12:
@@ -187,7 +235,7 @@ void receiveEvent(int howMany) {
 		response = failmode;
 		break;
 	case 0xFB:
-		i2c_cmd = 0xFB;
+//		i2c_cmd = 0xFB;
 		break;
 	default:
 		break;
@@ -201,11 +249,17 @@ void respond() {
 		break;
 	case 0x10:
 		Wire.write(0xA0);
+		i2c_cmd = 0x20;
 		break;
 	case 0x20:
 		Wire.write(response);
 		response = 0xFF;
 		releaseInterrupt();
+		i2c_cmd = 0x20;
+		break;
+	case 0xFA:
+		Wire.write(response);
+		i2c_cmd = 0x20;
 		break;
 	default:
 		break;
@@ -213,17 +267,19 @@ void respond() {
 }
 
 void setInterrupt() {
-#ifdef DEBUG
+#ifdef DEBUG2
 	Serial.println(F("Set Interrupt"));
 #endif
+	digitalWrite(LED_RED, HIGH);
 	digitalWrite(INT, LOW);
 }
 
 void releaseInterrupt() {
-#ifdef DEBUG
+#ifdef DEBUG2
 	Serial.println(F("Release Interrupt"));
 #endif
 	digitalWrite(INT, HIGH);
+	digitalWrite(LED_RED, LOW);
 }
 
 void enableBuzzer(int buzzertime) {

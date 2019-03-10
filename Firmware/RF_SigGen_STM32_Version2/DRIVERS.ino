@@ -842,11 +842,12 @@ void WriteAD9910(byte  AD9910_INST) {
 
 // Driver for the Attenuator, controlled by one GPIO-Controller
 // Bitmap for the Attenuator: Latch_Enable(LE) | 32dB | 32dB | 16dB | 8dB | 4dB | 2dB | 1dB
-void SetAttenuator(byte Attenuation) {
+void SetAttenuator(unsigned char Attenuation) {
 
 #ifdef SetAttenDEBUG
-  Serial.print(F("Attenuation = "));
-  Serial.print(Attenuation, HEX);
+  Serial.print(F("Attenuation set to: "));
+  Serial.print(Attenuation, DEC);
+  Serial.print(F(" dB "));
 #endif
 if( Attenuation > 96){
   Attenuation = 95; // Set Attenuation to 95, as there's no 
@@ -857,8 +858,11 @@ if( Attenuation > 96){
   }
   bitClear(Attenuation, 7); // Make sure the LE-Pin is LOW
 
-#ifdef SetAttenDEBUG
-  Serial.print(F("Attenuation = "));
+#ifdef SetAttenDEBUG2
+  Serial.print(F(" Value sent to the GPIO-Expander = 0x"));
+  if(Attenuation < 0x10){
+	  Serial.print(F("0"));
+  }
   Serial.println(Attenuation, HEX);
 #endif
 

@@ -58,11 +58,11 @@ void SetFreq(double FreqSetFreq) {
     //    SigPathAuto = false; // DEBUG-Statement - Disable for normal operation
     switch (SigPathAuto) {
       case true:
-        if (Freq <= 600000000) {
+        if (Freq <= 700000000) {
           SetLPF(LPF_750, SelAD9910, false);
           break;
         }
-        if (Freq >= 600000000 && Freq <= 1100000000) {
+        if (Freq >= 700000000 && Freq <= 1400000000) {
           SetLPF(LPF_1500, SelAD9910, false);
           break;
         }

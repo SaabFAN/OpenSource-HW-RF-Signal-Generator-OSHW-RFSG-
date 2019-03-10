@@ -1,6 +1,6 @@
 /*
-   This file contains the serial-control software. It's an adapted version of the Serial Control-Interface of the EINFEGA Game-Controller.
-*/
+ This file contains the serial-control software. It's an adapted version of the Serial Control-Interface of the EINFEGA Game-Controller.
+ */
 //// System State codes - Valid System states for both the entire System, as well as the SignalSource-Modules:
 //const byte STATE_NORM_OP = 0x00; // Default-Screen, also called "Mode_Select_1"-Screen.
 //const byte STATE_INT_WAITING = 0x01;
@@ -31,76 +31,137 @@
 //// Sys-State when the device is started:
 //const byte STATE_INIT = 0xFF;
 //
-
 void CheckSerial() {
-  if (Serial.available() > 0) {
-    SERIALMODE = Serial.read();
-  }
-  else {
-    SERIALMODE = 0x00;
-    return;
-  }
-  switch (SERIALMODE) {
-    case 'D':
-      SERIALMODE = Serial.read();
-      Serial.print(F("DEBUG_MODE - "));
-      switch (SERIALMODE) {
-        case 'A':
-          Serial.println(F("AD9910"));
-          for (int i = 0; i < 30; i++) {
-            SetFreqAD9910(66000000);
-            delay(1000);
-          }
-          break;
-        case 'B':
-          Serial.println(F("ADF4351"));
-          for (int i = 0; i < 30; i++) {
-            SetFreqADF4351(60000000);
-            delay(1000);
-          }
-          break;
-      }
-      break;
-    case 'R':
-      nvic_sys_reset();
-      break;
-    case 'T':
-      SERIALMODE = Serial.read();
-      Serial.print(F("TEST_MODE - "));
-      switch (SERIALMODE) {
-        case 'A':
-          Serial.println(F("AD9910"));
-          break;
-        case 'B':
-          Serial.println(F("ADF4351"));
-          CheckADF4351();
-          break;
-      }
-      break;
-    case 'S': // STATUS-Request
-      ReportStatus();
-      break;
-    case 'C':
-      Serial.println(F("CALIBRATION-MODE"));
-      break;
-    case 'F':
-      Serial.print(F("Setting Frequency: "));
-      uint32_t Freq_Serial = 0;
-      if (Serial.available() > 0) {
-        Freq_Serial = Serial.parseInt();
-        if (Freq_Serial < 10.0 || Freq_Serial > 4400000000) {
-          Serial.println(F("Out Of Range!"));
-          return;
-        }
-        Serial.print(Freq_Serial, DEC);
-        SetFreq(Freq_Serial);
-      }
-      break;
-  }
-  return;
+	if (Serial.available() > 0) {
+		SERIALMODE = Serial.read();
+	} else {
+		SERIALMODE = 0x00;
+		return;
+	}
+	int Att_Serial = 0;
+	uint32_t Freq_Serial = 0;
+	int AGC_Serial = 0;
+	switch (SERIALMODE) {
+	case 'A':	// Manual setting of Attenuator
+		SERIALMODE = Serial.read();
+		switch (SERIALMODE) {
+		case 'G':
+			SERIALMODE = Serial.read();
+			switch (SERIALMODE) {
+			case 'B':
+				AGC_Serial = Serial.parseInt();
+				Serial.println(F("Setting AGC_BIAS to: "));
+				if (AGC_Serial > 4095) {
+					Serial.println(F("Out of Range"));
+					return;
+				}
+				Serial.print(AGC_Serial, DEC);
+				Serial.println(F(" mV"));
+				SetAGC_BIAS(AGC_Serial);
+				break;
+			case 'L':
+				AGC_Serial = Serial.parseInt();
+				Serial.print(F("Setting AGC_BIAS to: "));
+				if (AGC_Serial > 4095) {
+					Serial.println(F("Out of Range"));
+					return;
+				}
+				Serial.print(AGC_Serial, DEC);
+				Serial.println(F(" mV"));
+				SetAGC_LVL(AGC_Serial);
+				break;
+			}
+			break;
+		case 'T':
+			Serial.println(F("Setting Attenuator"));
+			Att_Serial = Serial.parseInt();
+			if (Att_Serial > 95) {
+				Serial.println(F("Out of Range"));
+				return;
+			} else {
+				SetAttenuator(Att_Serial);
+			}
+			break;
+		}
+		break;
+
+	case 'D':
+		SERIALMODE = Serial.read();
+		Serial.print(F("DEBUG_MODE - "));
+		switch (SERIALMODE) {
+		case 'A':
+			Serial.println(F("AD9910"));
+			for (int i = 0; i < 30; i++) {
+				SetFreqAD9910(66000000);
+				delay(1000);
+			}
+			break;
+		case 'B':
+			Serial.println(F("ADF4351"));
+			for (int i = 0; i < 30; i++) {
+				SetFreqADF4351(60000000);
+				delay(1000);
+			}
+			break;
+		}
+		break;
+
+	case 'M':
+		Serial.print(F("RF Level Sense = "));
+		Serial.print(ADC_READ(ADC_RF_LEVEL_SENSE), DEC);
+		Serial.print(F(" mV "));
+		Serial.print(F("RF OUT Sense = "));
+		Serial.print(ADC_READ(ADC_RF_OUT_SENSE), DEC);
+		Serial.println(F(" mV "));
+		break;
+
+	case 'R':
+		nvic_sys_reset();
+		break;
+
+	case 'T':
+		SERIALMODE = Serial.read();
+		Serial.print(F("TEST_MODE - "));
+		switch (SERIALMODE) {
+		case 'A':
+			Serial.println(F("AD9910"));
+			break;
+		case 'B':
+			Serial.println(F("ADF4351"));
+			CheckADF4351();
+			break;
+		case 'C':
+			Serial.println(F("Checking Analog Board"));
+			CheckAnalog();
+			break;
+		}
+		break;
+
+	case 'S': // STATUS-Request
+		ReportStatus();
+		break;
+
+	case 'C':
+		Serial.println(F("CALIBRATION-MODE"));
+		break;
+
+	case 'F':
+		Serial.print(F("Setting Frequency: "));
+		if (Serial.available() > 0) {
+			Freq_Serial = Serial.parseInt();
+			if (Freq_Serial < 10.0 || Freq_Serial > 4400000000) {
+				Serial.println(F("Out Of Range!"));
+				return;
+			}
+			Serial.print(Freq_Serial, DEC);
+			SetFreq(Freq_Serial);
+		}
+		break;
+	}
+	return;
 }
 
 void ReportStatus() {
-  // Print all Variables to the Serial console to get a picture of the current system status
-  Serial.println(F("==== SYSTEM STATUS ===="));
+	// Print all Variables to the Serial console to get a picture of the current system status
+	Serial.println(F("==== SYSTEM STATUS ===="));
 }

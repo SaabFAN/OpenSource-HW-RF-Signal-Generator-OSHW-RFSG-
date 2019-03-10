@@ -5,7 +5,7 @@
  *      Author: voyag
  */
 
-#include "ARSGSigPathConfig.h"
+#include "../DRIVER_ANALOGBOARD/ARSGSigPathConfig.h"
 Adafruit_ADS1015 adsSigPath;
 const byte ANALOG_ADR = 0x24;
 const byte SIGPATH_ADC = 0x48;

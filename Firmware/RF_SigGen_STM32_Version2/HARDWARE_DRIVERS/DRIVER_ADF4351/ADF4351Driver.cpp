@@ -5,7 +5,7 @@
  *      Author: voyag
  */
 
-#include "ADF4351Driver.h"
+#include "../DRIVER_ADF4351/ADF4351Driver.h"
 
 ADF4351_Driver::ADF4351_Driver() {
 	// TODO Auto-generated constructor stub

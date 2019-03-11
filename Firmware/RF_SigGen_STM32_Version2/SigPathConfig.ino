@@ -40,8 +40,8 @@ void SetAmplitude(float Amplitude) {
       }
       PWR_SET = AmplitudeFine + DAC_OFFSET; // PWR_SET is set to the Correct Value-Value corresponding to the currently set frequency.
   #ifdef AnalogDebug
-      PWR_SET = 3500;
-      AGC_ATTEN_BIAS = 2048;
+      PWR_SET = 1000;
+      AGC_ATTEN_BIAS = 750;
       Serial.println(F("ANALOG DEBUG-MODE SET!"));
   #endif
       SetAGC_LVL(PWR_SET);

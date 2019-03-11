@@ -18,7 +18,8 @@ public:
 	ARSG_SigPathConfig(byte ANALOG_ADR, byte DAC_ADR, byte ADC_ADR);
 	void SetAGC(int Amplitude, long Frequency);
 	void SetLPF(byte LPF_SEL, bool SelectAD9910, bool mixpath);
-	void SetDAC(bool dac_chan);
+	bool SetLEVEL(int lvl_mv);
+	bool SetBIAS(int bias_mv);
 	int GetLEVEL();	// Get the current value of the LEVEL-Sense
 	int GetPWROUT();	// Get the current value of the PWR_OUT-Sensor
 	int GetCAL();// Get the value at the CAL-Input of the ADC (Connect this to a calibration-module)

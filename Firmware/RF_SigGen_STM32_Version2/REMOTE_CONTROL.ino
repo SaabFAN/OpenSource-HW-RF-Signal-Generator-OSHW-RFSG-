@@ -50,8 +50,8 @@ void CheckSerial() {
 			switch (SERIALMODE) {
 			case 'B':
 				AGC_Serial = Serial.parseInt();
-				Serial.println(F("Setting AGC_BIAS to: "));
-				if (AGC_Serial > 4095) {
+				Serial.print(F("Setting AGC_BIAS to: "));
+				if (AGC_Serial > 6600) {
 					Serial.println(F("Out of Range"));
 					return;
 				}
@@ -61,8 +61,8 @@ void CheckSerial() {
 				break;
 			case 'L':
 				AGC_Serial = Serial.parseInt();
-				Serial.print(F("Setting AGC_BIAS to: "));
-				if (AGC_Serial > 4095) {
+				Serial.print(F("Setting AGC_LEVEL to: "));
+				if (AGC_Serial > 3300) {
 					Serial.println(F("Out of Range"));
 					return;
 				}
@@ -109,7 +109,9 @@ void CheckSerial() {
 	case 'M':
 		Serial.print(F("RF Level Sense = "));
 		Serial.print(ADC_READ(ADC_RF_LEVEL_SENSE), DEC);
-		Serial.print(F(" mV "));
+		Serial.print(F(" mV = "));
+		Serial.print((ADC_READ(ADC_RF_LEVEL_SENSE) * 3.2), 0);
+		Serial.print(F(" mV @ RF-Level_Sense Input of AGC | "));
 		Serial.print(F("RF OUT Sense = "));
 		Serial.print(ADC_READ(ADC_RF_OUT_SENSE), DEC);
 		Serial.println(F(" mV "));

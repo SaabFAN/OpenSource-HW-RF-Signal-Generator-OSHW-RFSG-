@@ -655,7 +655,7 @@ environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.BOARD_NA
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.BOARD_NAME/value=Generic STM32F103C series
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.COM_PORT/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.COM_PORT/operation=replace
-environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.COM_PORT/value=COM7
+environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.COM_PORT/value=COM22
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.ECLIPSE_LOCATION/delimiter=;
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.ECLIPSE_LOCATION/operation=replace
 environment/project/io.sloeber.core.toolChain.release.1839928971/JANTJE.ECLIPSE_LOCATION/value=E\:\\Proggies\\sloeber\\

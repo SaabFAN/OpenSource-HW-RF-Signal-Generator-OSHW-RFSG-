@@ -41,8 +41,60 @@ void ARSG_SigPathConfig::SetAGC(int Amplitude, long Frequency) {
 // CODE TO SET THE AGC
 }
 
-void ARSG_SigPathConfig::SetDAC(bool dac_chan) {
-	// Code to set the DACs manually or by the AGC-Function
+bool ARSG_SigPathConfig::SetLEVEL(int lvl_mv) {
+#ifdef DAC_DEBUG
+	Serial.print(F("Setting LEVEL-DAC to: "));
+	Serial.print(lvl_mv, DEC);
+	Serial.println(F(" mV"));
+#endif
+	if (lvl_mv > 3300) {
+#ifdef DAC_DEBUG
+		Serial.println(F("DAC-Value out of range! Set to 3300 mV!"));
+#endif
+		return false;
+	}
+	int lvl = map(lvl_mv, 0, 3300, 0, 4095);
+#ifdef DAC_DEBUG
+	Serial.print(F("DAC_Value = 0x"));
+	Serial.println(lvl, HEX);
+#endif
+	byte buf[2];
+	buf[1] = (byte) lvl;
+	buf[0] = (byte)(lvl >> 8);
+	// MultiWrite-Command to set DAC to new value
+	Wire.beginTransmission(RF_DAC_ADR);
+	Wire.write(0x42);
+	Wire.write(buf[0]);
+	Wire.write(buf[1]);
+	Wire.endTransmission();
+}
+
+bool ARSG_SigPathConfig::SetBIAS(int bias_mv) {
+#ifdef DAC_DEBUG
+	Serial.print(F("Setting BIAS-DAC to: "));
+	Serial.print(bias_mv, DEC);
+	Serial.println(F(" mV"));
+#endif
+	if (bias_mv > 6600) {
+#ifdef DAC_DEBUG
+		Serial.println(F("DAC-Value out of range! Set to 6600 mV!"));
+#endif
+		return false;
+	}
+	int bias = map(bias_mv, 0, 6600, 0, 4095);
+#ifdef DAC_DEBUG
+	Serial.print(F("DAC_Value = 0x"));
+	Serial.println(bias, HEX);
+#endif
+	byte buf[2];
+	buf[1] = (byte) bias;
+	buf[0] = (byte)(bias >> 8);
+	// MultiWrite-Command to set DAC to new value
+	Wire.beginTransmission(RF_DAC_ADR);
+	Wire.write(0x40);
+	Wire.write(buf[0]);
+	Wire.write(buf[1]);
+	Wire.endTransmission();
 }
 
 //SIGPATH_CTRL BITMAP: DIRECT Signal Source | FILTERED or MIXED Signal Source | Select 750MHz LPF  (U2_V2)| Select 1,5GHz LPF (U2_V1)| Select Bypass-Path (U5_V1)| Select Filtered Path (U5_V2)| Select UNMIXED Signal-Path | Select MIXED Signal-Path

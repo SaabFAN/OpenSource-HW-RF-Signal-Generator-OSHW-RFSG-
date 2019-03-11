@@ -62,7 +62,7 @@ void SetFreq(double FreqSetFreq) {
           SetLPF(LPF_750, SelAD9910, false);
           break;
         }
-        if (Freq >= 700000000 && Freq <= 1400000000) {
+        if (Freq >= 700000000 && Freq <= 1500000000) {
           SetLPF(LPF_1500, SelAD9910, false);
           break;
         }

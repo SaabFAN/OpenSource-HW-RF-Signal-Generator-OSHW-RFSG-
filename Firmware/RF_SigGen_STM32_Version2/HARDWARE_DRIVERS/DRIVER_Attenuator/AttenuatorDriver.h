@@ -17,7 +17,7 @@ class Attenuator_Driver {
 public:
 	Attenuator_Driver();
 	virtual ~Attenuator_Driver();
-	void SetAttenuator(unsigned char Attenuation);
+	void SetAttenuation(unsigned char Attenuation);
 	unsigned char GetAttenuation();
 private:
 	unsigned char current_attenuation;

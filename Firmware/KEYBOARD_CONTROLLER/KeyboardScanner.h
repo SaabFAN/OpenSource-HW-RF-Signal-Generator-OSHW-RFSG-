@@ -13,10 +13,10 @@
 #define RB1 5
 #define RB2 2
 #define RB3 3
-#define SW_AUX_1 A3
-#define SW_AUX_2 A2
-#define ARROW_UP A1
-#define ARROW_DN A0
+#define SW_AUX_1 0xA3
+#define SW_AUX_2 0xA2
+#define ARROW_UP 0xA1
+#define ARROW_DN 0xA0
 
 class KeyboardScanner {
 public:

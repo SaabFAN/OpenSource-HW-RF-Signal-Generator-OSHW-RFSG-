@@ -28,9 +28,9 @@ void SignalPathTest() {
 	Serial.println(F("LF-Test done. Setting AD9910 to Standby-Mode"));
 	SetupAD9910 (STATE_STANDBY);
 	Serial.println(F("ADF4351 in TEST-MODE"));
-	SetupADF4351(STATE_TEST);
+	HF_Source.SetMode(STATE_TEST);
 	Serial.println(F("ADF4351 STANDBY"));
-	SetupADF4351(STATE_STANDBY);
+	HF_Source.SetMode(STATE_STANDBY);
 	Serial.println(F("ADF4351 TEST COMPLETE"));
 	SetAmplitude(100);
 }
@@ -63,7 +63,7 @@ void CheckAttenuator(bool PowerOnTest) {
 		Serial.print(F("Checking Attenuator: "));
 		tft.print(F("Checking Attenuator: "));
 		Atten = 0;
-		SetAttenuator (Atten);
+		Attenuator.SetAttenuation(Atten);
 		Serial.print(Atten);
 		Serial.print(F("dB "));
 		tft.print(Atten);
@@ -71,7 +71,7 @@ void CheckAttenuator(bool PowerOnTest) {
 		delay(100);
 		Atten++;
 		while (Atten < 95) {
-			SetAttenuator(Atten);
+			Attenuator.SetAttenuation(Atten);
 			Serial.print(Atten);
 			Serial.print(F("dB "));
 			tft.print(Atten);
@@ -80,7 +80,7 @@ void CheckAttenuator(bool PowerOnTest) {
 			Atten = Atten * 2;
 		}
 		Atten = 95;
-		SetAttenuator(Atten);
+		Attenuator.SetAttenuation(Atten);
 		Serial.print(Atten);
 		Serial.print(F("dB "));
 		tft.print(Atten);
@@ -92,7 +92,7 @@ void CheckAttenuator(bool PowerOnTest) {
 	case false:
 		Serial.print(F("Checking Attenuator(SLOW): "));
 		Atten = 0;
-		SetAttenuator(Atten);
+		Attenuator.SetAttenuation(Atten);
 		UpdateAmpArea = true;
 		DrawAmplitudeArea (OUTPUT_dBm);
 		Serial.print(Atten);
@@ -100,7 +100,7 @@ void CheckAttenuator(bool PowerOnTest) {
 		delay(1000);
 		Atten++;
 		while (Atten < 95) {
-			SetAttenuator(Atten);
+			Attenuator.SetAttenuation(Atten);
 			UpdateAmpArea = true;
 			DrawAmplitudeArea(OUTPUT_dBm);
 			Serial.print(Atten);
@@ -109,7 +109,7 @@ void CheckAttenuator(bool PowerOnTest) {
 			Atten = Atten * 2;
 		}
 		Atten = 95;
-		SetAttenuator(Atten);
+		Attenuator.SetAttenuation(Atten);
 		UpdateAmpArea = true;
 		DrawAmplitudeArea(OUTPUT_dBm);
 		Serial.print(Atten);
@@ -119,14 +119,14 @@ void CheckAttenuator(bool PowerOnTest) {
 		Serial.print(F("Checking Attenuator(FAST): "));
 		Atten = 0;
 		while (Atten < 95) {
-			SetAttenuator(Atten);
+			Attenuator.SetAttenuation(Atten);
 			UpdateAmpArea = true;
 			DrawAmplitudeArea(OUTPUT_dBm);
 			delay(10);
 			Atten++;
 		}
 		Atten = 95;
-		SetAttenuator(Atten);
+		Attenuator.SetAttenuation(Atten);
 		UpdateAmpArea = true;
 		DrawAmplitudeArea(OUTPUT_dBm);
 		delay(1000);
@@ -143,7 +143,7 @@ void CheckAD9910() {
 void CheckADF4351() {
 	unsigned long waittimer = millis();
 	Message("VCO_CHECK", RED);
-	SetupADF4351 (STATE_VCO_CHECK); // Enable the ADF4351-Output
+	HF_Source.SetMode (STATE_VCO_CHECK); // Enable the ADF4351-Output
 	Freq = 2200000000;
 	UpdateFreqArea = true;
 	DrawFrequencyArea (Freq);
@@ -151,7 +151,7 @@ void CheckADF4351() {
 	while (millis() < waittimer) {
 		DrawSigPathParams();
 	}
-	SetupADF4351 (STATE_NORM_OP); // Enable the ADF4351-Output
+	HF_Source.SetMode (STATE_NORM_OP); // Enable the ADF4351-Output
 	Message("ADF4351 NORM_OP", RED);
 	UpdateFreqArea = true;
 	DrawFrequencyArea(Freq);
@@ -161,7 +161,7 @@ void CheckADF4351() {
 		DrawSigPathParams();
 	}
 
-	SetFreqADF4351(50000000);
+	HF_Source.SetFrequency(50000000);
 	Freq = 50000000;
 	Message("ADF4351 @ 50MHZ", RED);
 	UpdateFreqArea = true;
@@ -170,7 +170,7 @@ void CheckADF4351() {
 	while (millis() < waittimer) {
 		DrawSigPathParams();
 	}
-	SetFreqADF4351(100000000);
+	HF_Source.SetFrequency(100000000);
 	Freq = 100000000;
 	Message("ADF4351 @ 100MHZ", RED);
 	UpdateFreqArea = true;
@@ -268,7 +268,7 @@ void CheckAnalog() {
 	DrawAmplitudeArea(100);
 	DrawSigPathParams();
 	Serial.println(F("Set Attenuator to 0"));
-	SetAttenuator(0);
+	Attenuator.SetAttenuation(0);
 	Serial.print(F("Switching Filters: BYPASS | "));
 	SetLPF(BYPASS, false, false);
 	delay(5000);

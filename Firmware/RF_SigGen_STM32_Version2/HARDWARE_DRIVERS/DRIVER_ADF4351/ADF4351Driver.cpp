@@ -61,35 +61,35 @@ bool ADF4351_Driver::Init(unsigned long reference_frequency, int stepSize,
 
 void ADF4351_Driver::SetMode(char mode) {
 	switch (mode) {
-	case STATE_POWERDOWN:
+	case 0x10:	// Power Down-Mode
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case STATE_STANDBY:
+	case 0x11:	// ColdStart
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 0;		// 1bit 1=VCO off
 		break;
-	case STATE_VCO_CHECK:
+	case 0x20:	// Standby-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 1;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case STATE_TEST:
+	case 0x40:	// Test-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 1;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case 0x00:
+	case 0x00:	// Normal-Mode
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel

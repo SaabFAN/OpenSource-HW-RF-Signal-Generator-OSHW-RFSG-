@@ -17,8 +17,20 @@
 // Touch-Library
 #include <Adafruit_STMPE610.h>
 
-// ADC-Library
+
+
+// Drivers for the Hardware
+// ANALOG BOARD
+#include "HARDWARE_DRIVERS/DRIVER_ANALOGBOARD/ARSGSigPathConfig.h"
 #include <Adafruit_ADS1015.h>
+// ATTENUATOR
+#include "HARDWARE_DRIVERS/DRIVER_Attenuator/AttenuatorDriver.h"
+// ADF4351 Signal Source
+#include "HARDWARE_DRIVERS/DRIVER_ADF4351/ADF4351Driver.h"
+// ADF5355 Signal Source
+//#include "HARDWARE_DRIVERS/DRIVER_ADF5355/ADF5355Driver.h"
+// AD9910 Signal Source
+#include "HARDWARE_DRIVERS/DRIVER_AD9910/AD9910Driver.h"
 
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
@@ -49,8 +61,9 @@ Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 // Setup-Data for the ADC on the analog board
 Adafruit_ADS1015 ads;     /* Use this for the 12-bit version */
 
-const String SysVersion = "Firmware-Version STM32_0.6a";
+const String SysVersion = "Firmware-Version STM32_0.7a";
 // Starting with Version 0.6a, only REV. C RF-Boards are compatible!
+// Starting from Version 0.7a: Switch to Sloeber IDE and use of more modular programming
 
 // Assign HEX-Values to color-names
 #define BLACK 0x0000
@@ -96,11 +109,11 @@ const byte STATE_ADV_MODULATION = 0x04;
 const byte STATE_ARBITRARY_WAVE = 0x05;
 const byte STATE_SIGPATH_CTRL = 0x06;// SignalPath-Control
 
-const byte STATE_POWERDOWN = 0x10;
-const byte STATE_COLDSTART = 0x11;
-const byte STATE_STANDBY = 0x20;
-const byte STATE_VCO_CHECK = 0x30;
-const byte STATE_TEST = 0x40;
+const unsigned char STATE_POWERDOWN = 0x10;
+const unsigned char STATE_COLDSTART = 0x11;
+const unsigned char STATE_STANDBY = 0x20;
+const unsigned char STATE_VCO_CHECK = 0x30;
+const unsigned char STATE_TEST = 0x40;
 // Calibration and setup-Modes
 const byte STATE_SIGPATH_MANUAL = 0xC0;
 const byte STATE_SIGSOURCE_CAL = 0xC1;
@@ -175,11 +188,11 @@ volatile byte InputMode = 0xFF;
 
 const byte PWR_SET_CAL_START = 0x000;
 const byte AGC_BIAS_CAL_START = 0x0F2;
-const byte REF_OUT_CAL_NVRAM = 0x200;
-const byte USER_CONFIG_START = 0x400;
-const byte SYSCONFIG_START = 0x05B0;
-const byte SWEEP_SETTINGS_START = 0x600;
-const byte NVRAM_ADR_END = 0x7FF;
+const int REF_OUT_CAL_NVRAM = 0x200;
+const int USER_CONFIG_START = 0x400;
+const int SYSCONFIG_START = 0x05B0;
+const int SWEEP_SETTINGS_START = 0x600;
+const int NVRAM_ADR_END = 0x7FF;
 
 /*
    Error-Codes for the Error-Handler
@@ -248,6 +261,18 @@ boolean UpdateModArea = true; // Shows that the Modulation-Area needs to be Upda
 unsigned long keyboardInput; // Stores the input made via the Keypad
 bool updateButtons = true;
 byte SERIALMODE = 0;
+
+// CONSTRUCTORS
+// Constructor for AnalogBoard-Driver
+ARSG_SigPathConfig SigPath(ANALOG_ADR);
+// Constructor for the Attenuator-Driver
+Attenuator_Driver Attenuator;
+// Driver for the High Frequency (400 MHz and up) Signal-Source
+ADF4351_Driver HF_Source;
+//ADF5355_Driver HF_Source; // Driver for a ADF5355-Module
+// Driver for the Low Frequency Signal Source (0.1 mHz to 400 MHz)
+AD9910_Driver LF_Source;
+//
 
 void setup() {
   SysStatus = STATE_INIT;
@@ -369,8 +394,10 @@ void setup() {
   delay(500); // Delay added to yield Processor-Core to the WiFi-Code
 
   Serial.println(F("ADF4351 INIT"));
+  HF_Source.Init(20000000, 1000, ADF4351_CS, ADF4351_LE);
+  delay(500);
   tft.println(F("ADF4351 INIT"));
-  SetupADF4351(STATE_INIT);
+  HF_Source.SetMode(STATE_INIT);
   delay(500);
 
   Serial.println(F("Setting up analog board with default value --- "));
@@ -378,7 +405,7 @@ void setup() {
   SetLPF(BYPASS, false, false);
   delay(500);
   CheckAttenuator(true);
-  SetAttenuator(0x00);
+  Attenuator.SetAttenuation(0x00);
   delay(500);
   SetAmplitude(OUTPUT_dBm);
   delay(500);

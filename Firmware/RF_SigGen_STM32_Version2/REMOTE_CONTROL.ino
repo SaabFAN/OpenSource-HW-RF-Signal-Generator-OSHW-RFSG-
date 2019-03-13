@@ -79,7 +79,7 @@ void CheckSerial() {
 				Serial.println(F("Out of Range"));
 				return;
 			} else {
-				SetAttenuator(Att_Serial);
+				Attenuator.SetAttenuation(Att_Serial);
 			}
 			break;
 		}
@@ -99,7 +99,7 @@ void CheckSerial() {
 		case 'B':
 			Serial.println(F("ADF4351"));
 			for (int i = 0; i < 30; i++) {
-				SetFreqADF4351(60000000);
+				HF_Source.SetFrequency(60000000);
 				delay(1000);
 			}
 			break;

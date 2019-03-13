@@ -524,7 +524,7 @@ void TouchButton() {
           Message("Checking Attenuator - Please wait", CYAN);
           CheckAttenuator(false);
           Atten = AttenBackup;
-          SetAttenuator(Atten);
+          Attenuator.SetAttenuation(Atten);
           UpdateAmpArea = true;
           UpdateAmpArea = true;
           DrawAmplitudeArea(OUTPUT_dBm);
@@ -877,7 +877,7 @@ void TouchButton() {
         if (cy > 150 && cy < 200) {
           if (AttenAuto == false) {
             Atten++;
-            SetAttenuator(Atten);
+            Attenuator.SetAttenuation(Atten);
           }
           UpdateAmpArea = true;
           return;
@@ -885,7 +885,7 @@ void TouchButton() {
         if (cy > 210 && cy < 260) {
           if (AttenAuto == false) {
             Atten--;
-            SetAttenuator(Atten);
+            Attenuator.SetAttenuation(Atten);
           }
           UpdateAmpArea = true;
           return;

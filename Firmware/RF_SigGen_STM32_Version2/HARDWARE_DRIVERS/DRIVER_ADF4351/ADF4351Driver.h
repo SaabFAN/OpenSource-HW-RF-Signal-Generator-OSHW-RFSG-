@@ -15,11 +15,6 @@
 #include "SPI.h"
 #include "Wire.h"
 
-#define STATE_POWERDOWN 0x10
-#define STATE_COLDSTART 0x11
-#define STATE_STANDBY 0x20
-#define STATE_VCO_CHECK 0x30
-#define STATE_TEST 0x40
 #define GPIO_Address 0x3A
 
 class ADF4351_Driver {

@@ -18,7 +18,7 @@ Attenuator_Driver::~Attenuator_Driver() {
 
 #define SetAttenDEBUG
 
-void Attenuator_Driver::SetAttenuator(unsigned char Attenuation) {
+void Attenuator_Driver::SetAttenuation(unsigned char Attenuation) {
 
 #ifdef SetAttenDEBUG
   Serial.print(F("Attenuation = "));

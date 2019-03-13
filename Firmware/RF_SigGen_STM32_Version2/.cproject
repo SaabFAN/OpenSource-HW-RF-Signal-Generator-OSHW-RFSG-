@@ -66,9 +66,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="libraries/?*/**/test*/**|HARDWARE_DRIVERS|libraries/Adafruit_GFX_Library/fontconvert|libraries/?*/**/third-party/**|libraries/Adafruit_GFX_Library/Fonts|libraries/?*/utility/*/*|libraries/?*/**/?xamples/**|DRIVER_Attenuator|libraries/?*/**/?xtras/**|DRIVER_ANALOGBOARD|libraries/**/._*|DRIVER_ADF4351" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
-						<entry excluding="DRIVER_Attenuator|DRIVER_ANALOGBOARD|DRIVER_ADF4351" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS"/>
+						<entry excluding="DRIVER_ADF5355|DRIVER_AD9910|libraries/?*/**/test*/**|HARDWARE_DRIVERS|libraries/Adafruit_GFX_Library/fontconvert|libraries/?*/**/third-party/**|libraries/Adafruit_GFX_Library/Fonts|libraries/?*/utility/*/*|libraries/?*/**/?xamples/**|DRIVER_Attenuator|libraries/?*/**/?xtras/**|DRIVER_ANALOGBOARD|libraries/**/._*|DRIVER_ADF4351" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="DRIVER_ADF5355|DRIVER_AD9910|DRIVER_Attenuator|DRIVER_ANALOGBOARD|DRIVER_ADF4351" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS/DRIVER_AD9910"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS/DRIVER_ADF4351"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS/DRIVER_ADF5355"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS/DRIVER_ANALOGBOARD"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HARDWARE_DRIVERS/DRIVER_Attenuator"/>
 					</sourceEntries>

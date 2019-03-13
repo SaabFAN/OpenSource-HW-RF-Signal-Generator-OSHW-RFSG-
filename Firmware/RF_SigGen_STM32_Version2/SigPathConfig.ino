@@ -22,7 +22,7 @@ void SetAmplitude(float Amplitude) {
       Atten = Amplitude / 10.00;
       Amplitude = Amplitude + 10.00; // Compensation for the 10dB Loss in the Attenuator
       AmplitudeFine = Amplitude - Atten;
-      SetAttenuator(Atten);
+      Attenuator.SetAttenuation(Atten);
     }
     else {
       AmplitudeFine = 5.0;

@@ -19,14 +19,11 @@ const short int SWEEP_SETTINGS_START = 0x600;
 const short int NVRAM_ADR_END = 0x7FF;
 const byte NVRAM_ADDR = 0x50;
 
-ARSG_SigPathConfig::ARSG_SigPathConfig(byte ANALOG_ADR, byte DAC_ADR,
-		byte ADC_ADR) {
+ARSG_SigPathConfig::ARSG_SigPathConfig(byte ANALOG_ADR) {
 	// TODO Auto-generated constructor stub
 	Wire.begin();
 	adsSigPath.begin();
 	_ANALOG_ADR = ANALOG_ADR;
-	_DAC_ADR = DAC_ADR;
-	_ADC_ADR = ADC_ADR;
 	_SIGPATH_CTRL = 0xA5;
 	_NVRAM_AnalogBoard_ADR = NVRAM_ADDR;
 }
@@ -159,8 +156,12 @@ int ARSG_SigPathConfig::GetCAL() {
 	return cal_data;
 }
 
-int ADC_read(byte channel) {
+int GetCALPWR() {
+// Read the ADC-Channel that is connected to a RF PowerMeter
+}
 
+int GetVCCD() {
+// Read the ADC-Channel that is connected to the 3.3V Digital-Supplyrail of the Analog Board.
 }
 
 void ADC_setGain(byte gain) {

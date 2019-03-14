@@ -30,13 +30,13 @@
 // ADF5355 Signal Source
 //#include "HARDWARE_DRIVERS/DRIVER_ADF5355/ADF5355Driver.h"
 // AD9910 Signal Source
-#include "HARDWARE_DRIVERS/DRIVER_AD9910/AD9910Driver.h"
+//#include "HARDWARE_DRIVERS/DRIVER_AD9910/AD9910Driver.h"
 
 // Setup-Data for TFT-Display
 #define TFT_DC PA1 // Connect TFT_DC to D3
 #define TFT_CS PA2  // Connect TFT_CS to D4
 #define TFT_RST PA0 //
-Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC); // Create Display-Object
+Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);// Create Display-Object
 Adafruit_STMPE610 touch = Adafruit_STMPE610(); // Create TouchController-Object
 
 #define INT 16  // Interrupt-Pin: GPIO16
@@ -271,7 +271,7 @@ Attenuator_Driver Attenuator;
 ADF4351_Driver HF_Source;
 //ADF5355_Driver HF_Source; // Driver for a ADF5355-Module
 // Driver for the Low Frequency Signal Source (0.1 mHz to 400 MHz)
-AD9910_Driver LF_Source;
+//AD9910_Driver LF_Source;
 //
 
 void setup() {

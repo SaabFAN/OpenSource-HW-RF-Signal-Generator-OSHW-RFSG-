@@ -1,0 +1,66 @@
+Info: Starting: Create simulation model
+Info: qsys-generate E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE.qsys --simulation=VHDL --allow-mixed-language-simulation --output-directory=E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE\simulation --family="MAX V" --part=5M1270ZT144C5
+Progress: Loading CPLD_GlueLogic/i2c_CORE.qsys
+Progress: Reading input file
+Progress: Adding ufm_i2c_0 [altera_ufm_i2c 18.1]
+Progress: Parameterizing module ufm_i2c_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: i2c_CORE: Generating i2c_CORE "i2c_CORE" for SIM_VHDL
+Info: ufm_i2c_0: Generating top-level entity i2c_CORE_ufm_i2c_0.
+Info: ufm_i2c_0: "i2c_CORE" instantiated altera_ufm_i2c "ufm_i2c_0"
+Info: i2c_CORE: Done "i2c_CORE" with 2 modules, 2 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE\i2c_CORE.spd --output-directory=E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE\i2c_CORE.spd --output-directory=E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	1 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE.qsys --block-symbol-file --output-directory=E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE --family="MAX V" --part=5M1270ZT144C5
+Progress: Loading CPLD_GlueLogic/i2c_CORE.qsys
+Progress: Reading input file
+Progress: Adding ufm_i2c_0 [altera_ufm_i2c 18.1]
+Progress: Parameterizing module ufm_i2c_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE.qsys --synthesis=VHDL --greybox --output-directory=E:\EigeneDateien\Seafile\Seafile\Elektronik\Projects\Signal-Generator\GIT-Repo\Firmware\CPLD_GlueLogic\i2c_CORE\synthesis --family="MAX V" --part=5M1270ZT144C5
+Progress: Loading CPLD_GlueLogic/i2c_CORE.qsys
+Progress: Reading input file
+Progress: Adding ufm_i2c_0 [altera_ufm_i2c 18.1]
+Progress: Parameterizing module ufm_i2c_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: i2c_CORE: Generating i2c_CORE "i2c_CORE" for QUARTUS_SYNTH
+Info: ufm_i2c_0: Generating top-level entity i2c_CORE_ufm_i2c_0.
+Info: ufm_i2c_0: "i2c_CORE" instantiated altera_ufm_i2c "ufm_i2c_0"
+Info: i2c_CORE: Done "i2c_CORE" with 2 modules, 2 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

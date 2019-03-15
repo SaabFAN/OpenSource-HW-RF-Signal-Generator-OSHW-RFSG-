@@ -1,0 +1,127 @@
+--alt_sync_fifo DEVICE_FAMILY="MAX V" LPM_NUMWORDS=8 LPM_SHOWAHEAD="OFF" LPM_WIDTH=32 LPM_WIDTHU=3 OVERFLOW_CHECKING="ON" UNDERFLOW_CHECKING="ON" USE_EAB="OFF" aclr data q rdclk rdempty rdreq rdusedw wrclk wrfull wrreq wrusedw
+--VERSION_BEGIN 18.1 cbx_a_gray2bin 2018:09:12:13:04:24:SJ cbx_a_graycounter 2018:09:12:13:04:24:SJ cbx_altdpram 2018:09:12:13:04:24:SJ cbx_altera_counter 2018:09:12:13:04:24:SJ cbx_altera_gray_counter 2018:09:12:13:04:24:SJ cbx_altera_syncram 2018:09:12:13:04:24:SJ cbx_altera_syncram_nd_impl 2018:09:12:13:04:24:SJ cbx_altsyncram 2018:09:12:13:04:24:SJ cbx_cycloneii 2018:09:12:13:04:24:SJ cbx_dcfifo 2018:09:12:13:04:24:SJ cbx_fifo_common 2018:09:12:13:04:24:SJ cbx_lpm_add_sub 2018:09:12:13:04:24:SJ cbx_lpm_compare 2018:09:12:13:04:24:SJ cbx_lpm_counter 2018:09:12:13:04:24:SJ cbx_lpm_decode 2018:09:12:13:04:24:SJ cbx_lpm_mux 2018:09:12:13:04:24:SJ cbx_mgl 2018:09:12:13:10:36:SJ cbx_nadder 2018:09:12:13:04:24:SJ cbx_scfifo 2018:09:12:13:04:24:SJ cbx_stratix 2018:09:12:13:04:24:SJ cbx_stratixii 2018:09:12:13:04:24:SJ cbx_stratixiii 2018:09:12:13:04:24:SJ cbx_stratixv 2018:09:12:13:04:24:SJ cbx_util_mgl 2018:09:12:13:04:24:SJ  VERSION_END
+
+
+-- Copyright (C) 2018  Intel Corporation. All rights reserved.
+--  Your use of Intel Corporation's design tools, logic functions 
+--  and other software and tools, and its AMPP partner logic 
+--  functions, and any output files from any of the foregoing 
+--  (including device programming or simulation files), and any 
+--  associated documentation or information are expressly subject 
+--  to the terms and conditions of the Intel Program License 
+--  Subscription Agreement, the Intel Quartus Prime License Agreement,
+--  the Intel FPGA IP License Agreement, or other applicable license
+--  agreement, including, without limitation, that your use is for
+--  the sole purpose of programming logic devices manufactured by
+--  Intel and sold by Intel or its authorized distributors.  Please
+--  refer to the applicable agreement for further details.
+
+
+FUNCTION altdpram (aclr, byteena[WIDTH_BYTEENA-1..0], data[WIDTH-1..0], inclock, inclocken, outclock, outclocken, rdaddress[WIDTHAD-1..0], rdaddressstall, rden, sclr, wraddress[WIDTHAD-1..0], wraddressstall, wren)
+WITH ( ACF_BLOCK_RAM_AND_MLAB_EQUIVALENT_PAUSED_READ_CAPABILITIES, ACF_BLOCK_RAM_AND_MLAB_EQUIVALENT_POWER_UP_CONDITIONS, ACF_DISABLE_MLAB_RAM_USE, ACF_IMPLEMENT_MLAB_IN_16_BIT_DEEP_MODE, BYTE_SIZE, INDATA_ACLR, INDATA_REG, LPM_FILE, lpm_hint, MAXIMUM_DEPTH, NUMWORDS, OUTDATA_ACLR, OUTDATA_REG, OUTDATA_SCLR, RAM_BLOCK_TYPE, RDADDRESS_ACLR, RDADDRESS_REG, RDCONTROL_ACLR, RDCONTROL_REG, READ_DURING_WRITE_MODE_MIXED_PORTS, USE_EAB, WIDTH, WIDTH_BYTEENA = 1, WIDTHAD, WRADDRESS_ACLR, WRADDRESS_REG, WRCONTROL_ACLR, WRCONTROL_REG)
+RETURNS ( q[WIDTH-1..0]);
+FUNCTION carry_sum (cin, sin)
+RETURNS ( cout, sout);
+FUNCTION add_sub_568 (dataa[2..0], datab[2..0])
+RETURNS ( cout, result[2..0]);
+FUNCTION add_sub_bn7 (dataa[3..0], datab[3..0])
+RETURNS ( result[3..0]);
+FUNCTION cntr_mka (aclr, clock, cnt_en)
+RETURNS ( q[3..0]);
+
+--synthesis_resources = altdpram 1 lut 46 
+SUBDESIGN alt_sync_fifo_4nk
+( 
+	aclr	:	input;
+	data[31..0]	:	input;
+	q[31..0]	:	output;
+	rdclk	:	input;
+	rdempty	:	output;
+	rdreq	:	input;
+	rdusedw[2..0]	:	output;
+	wrclk	:	input;
+	wrempty	:	output;
+	wrfull	:	output;
+	wrreq	:	input;
+	wrusedw[2..0]	:	output;
+) 
+VARIABLE 
+	dpram4 : altdpram
+		WITH (
+			OUTDATA_REG = "OUTCLOCK",
+			RDCONTROL_ACLR = "OFF",
+			RDCONTROL_REG = "UNREGISTERED",
+			USE_EAB = "OFF",
+			WIDTH = 32,
+			WIDTHAD = 3
+		);
+	cs11a[1..0] : carry_sum;
+	cs12a[3..0] : carry_sum;
+	cs13a[3..0] : carry_sum;
+	cs14 : carry_sum;
+	cs6a[3..0] : carry_sum;
+	dffe10a[3..0] : dffe;
+	dffe5a[3..0] : dffe;
+	dffe7a[3..0] : dffe;
+	dffe8a[3..0] : dffe;
+	dffe9a[3..0] : dffe;
+	add_sub2 : add_sub_568;
+	add_sub3 : add_sub_bn7;
+	cntr1 : cntr_mka;
+	fast_feed_read	: WIRE;
+	one[3..0]	: WIRE;
+	read_count_actual[3..0]	: WIRE;
+
+BEGIN 
+	dpram4.aclr = aclr;
+	dpram4.data[] = data[];
+	dpram4.inclock = wrclk;
+	dpram4.outclock = rdclk;
+	dpram4.outclocken = cs14.sout;
+	dpram4.rdaddress[2..0] = read_count_actual[2..0];
+	dpram4.wraddress[2..0] = cntr1.q[2..0];
+	dpram4.wren = cs11a[1..1].sout;
+	cs11a[].cin = ( ((! cs11a[0..0].cout) & wrreq), ((! (cntr1.q[3..3] $ dffe10a[3..3].q)) $ add_sub2.cout));
+	cs11a[].sin = ( ((! cs11a[0..0].cout) & wrreq), ((! (cntr1.q[3..3] $ dffe10a[3..3].q)) $ add_sub2.cout));
+	cs12a[].cin = ( ((! (cntr1.q[3..1] $ dffe10a[3..1].q)) & cs12a[2..0].cout), (! (cntr1.q[0..0] $ dffe10a[0..0].q)));
+	cs12a[].sin = ( ((! (cntr1.q[3..1] $ dffe10a[3..1].q)) & cs12a[2..0].cout), (! (cntr1.q[0..0] $ dffe10a[0..0].q)));
+	cs13a[].cin = ( ((! (dffe9a[3..1].q $ dffe7a[3..1].q)) & cs13a[2..0].cout), (! (dffe9a[0..0].q $ dffe7a[0..0].q)));
+	cs13a[].sin = ( ((! (dffe9a[3..1].q $ dffe7a[3..1].q)) & cs13a[2..0].cout), (! (dffe9a[0..0].q $ dffe7a[0..0].q)));
+	cs14.cin = ((! cs13a[3..3].cout) & rdreq);
+	cs14.sin = ((! cs13a[3..3].cout) & rdreq);
+	cs6a[].cin = ( (read_count_actual[3..1] & cs6a[2..0].cout), (fast_feed_read & read_count_actual[0..0]));
+	cs6a[].sin = ( (read_count_actual[3..1] $ cs6a[2..0].cout), (fast_feed_read $ read_count_actual[0..0]));
+	dffe10a[].clk = wrclk;
+	dffe10a[].clrn = (! aclr);
+	dffe10a[].d = dffe7a[].q;
+	dffe5a[].clk = rdclk;
+	dffe5a[].clrn = (! aclr);
+	dffe5a[].d = (cs6a[].sout $ one[]);
+	dffe7a[].clk = rdclk;
+	dffe7a[].clrn = (! aclr);
+	dffe7a[].d = read_count_actual[];
+	dffe7a[].ena = cs14.sout;
+	dffe8a[].clk = wrclk;
+	dffe8a[].clrn = (! aclr);
+	dffe8a[].d = cntr1.q[];
+	dffe9a[].clk = rdclk;
+	dffe9a[].clrn = (! aclr);
+	dffe9a[].d = dffe8a[].q;
+	add_sub2.dataa[2..0] = cntr1.q[2..0];
+	add_sub2.datab[2..0] = dffe10a[2..0].q;
+	add_sub3.dataa[] = dffe9a[].q;
+	add_sub3.datab[] = dffe7a[].q;
+	cntr1.aclr = aclr;
+	cntr1.clock = wrclk;
+	cntr1.cnt_en = cs11a[1..1].sout;
+	fast_feed_read = cs14.cout;
+	one[] = B"0001";
+	q[] = dpram4.q[];
+	rdempty = cs13a[3..3].sout;
+	rdusedw[2..0] = add_sub3.result[2..0];
+	read_count_actual[] = (dffe5a[].q $ one[]);
+	wrempty = cs12a[3..3].sout;
+	wrfull = cs11a[0..0].sout;
+	wrusedw[2..0] = add_sub2.result[2..0];
+END;
+--VALID FILE

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="ufm_i2c_0"
+ megafunction_name="ALTERA_UFM_I2C"
+ intended_family="MAX V"
+ specifies="all_ports">
+ <global>
+  <pin name="a0" direction="input" scope="external" />
+  <pin name="a1" direction="input" scope="external" />
+  <pin name="a2" direction="input" scope="external" />
+  <pin name="scl" direction="bidir" scope="external" />
+  <pin name="sda" direction="bidir" scope="external" />
+  <pin name="global_reset" direction="input" scope="external" />
+  <pin name="osc" direction="output" scope="external" />
+ </global>
+</pinplan>

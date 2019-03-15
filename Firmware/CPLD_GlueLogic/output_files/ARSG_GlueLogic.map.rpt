@@ -1,0 +1,393 @@
+Analysis & Synthesis report for ARSG_GlueLogic
+Fri Mar 15 20:44:23 2019
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |ARSG_GlueLogic|i2c_slave_fsm:inst_i2cSlave|state
+  9. Registers Removed During Synthesis
+ 10. Removed Registers Triggering Further Register Optimizations
+ 11. General Register Statistics
+ 12. Parameter Settings for User Entity Instance: i2c_slave_fsm:inst_i2cSlave
+ 13. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++---------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                              ;
++-----------------------------+---------------------------------------------+
+; Analysis & Synthesis Status ; Successful - Fri Mar 15 20:44:23 2019       ;
+; Quartus Prime Version       ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Revision Name               ; ARSG_GlueLogic                              ;
+; Top-level Entity Name       ; ARSG_GlueLogic                              ;
+; Family                      ; MAX V                                       ;
+; Total logic elements        ; 13                                          ;
+; Total pins                  ; 46                                          ;
+; Total virtual pins          ; 0                                           ;
+; UFM blocks                  ; 0 / 1 ( 0 % )                               ;
++-----------------------------+---------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                          ;
++------------------------------------------------------------------+----------------+--------------------+
+; Option                                                           ; Setting        ; Default Value      ;
++------------------------------------------------------------------+----------------+--------------------+
+; Device                                                           ; 5M1270ZT144C5  ;                    ;
+; Top-level entity name                                            ; ARSG_GlueLogic ; ARSG_GlueLogic     ;
+; Family name                                                      ; MAX V          ; Cyclone V          ;
+; Use smart compilation                                            ; On             ; Off                ;
+; Restructure Multiplexers                                         ; Off            ; Auto               ;
+; Optimization Technique                                           ; Speed          ; Balanced           ;
+; Perform WYSIWYG Primitive Resynthesis                            ; On             ; Off                ;
+; Type of Retiming Performed During Resynthesis                    ; Full           ;                    ;
+; Resynthesis Optimization Effort                                  ; Normal         ;                    ;
+; Physical Synthesis Level for Resynthesis                         ; Normal         ;                    ;
+; Use Generated Physical Constraints File                          ; On             ;                    ;
+; Power Optimization During Synthesis                              ; Extra effort   ; Normal compilation ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On             ; On                 ;
+; Enable compact report table                                      ; Off            ; Off                ;
+; Create Debugging Nodes for IP Cores                              ; Off            ; Off                ;
+; Preserve fewer node names                                        ; On             ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable         ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001   ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993      ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto           ; Auto               ;
+; Safe State Machine                                               ; Off            ; Off                ;
+; Extract Verilog State Machines                                   ; On             ; On                 ;
+; Extract VHDL State Machines                                      ; On             ; On                 ;
+; Ignore Verilog initial constructs                                ; Off            ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000           ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250            ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On             ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On             ; On                 ;
+; Parallel Synthesis                                               ; On             ; On                 ;
+; NOT Gate Push-Back                                               ; On             ; On                 ;
+; Power-Up Don't Care                                              ; On             ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off            ; Off                ;
+; Remove Duplicate Registers                                       ; On             ; On                 ;
+; Ignore CARRY Buffers                                             ; Off            ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off            ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off            ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off            ; Off                ;
+; Ignore LCELL Buffers                                             ; Off            ; Off                ;
+; Ignore SOFT Buffers                                              ; On             ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off            ; Off                ;
+; Carry Chain Length                                               ; 70             ; 70                 ;
+; Auto Carry Chains                                                ; On             ; On                 ;
+; Auto Open-Drain Pins                                             ; On             ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto           ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto           ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On             ; On                 ;
+; Allow Synchronous Control Signals                                ; On             ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off            ; Off                ;
+; Auto Resource Sharing                                            ; Off            ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On             ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off            ; Off                ;
+; Report Parameter Settings                                        ; On             ; On                 ;
+; Report Source Assignments                                        ; On             ; On                 ;
+; Report Connectivity Checks                                       ; On             ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off            ; Off                ;
+; Synchronization Register Chain Length                            ; 2              ; 2                  ;
+; HDL message level                                                ; Level2         ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off            ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000           ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000           ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100            ; 100                ;
+; Clock MUX Protection                                             ; On             ; On                 ;
+; Block Design Naming                                              ; Auto           ; Auto               ;
+; Synthesis Effort                                                 ; Auto           ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On             ; On                 ;
+; Analysis & Synthesis Message Level                               ; Medium         ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto           ; Auto               ;
++------------------------------------------------------------------+----------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 12          ;
+; Maximum allowed            ; 12          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
++----------------------------+-------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                        ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                                                              ; Library ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------+---------+
+; ARSG_GlueLogic.bdf               ; yes             ; User Block Diagram/Schematic File  ; E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.bdf ;         ;
+; i2c_GPIO.vhd                     ; yes             ; User VHDL File                     ; E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_GPIO.vhd       ;         ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------+---------+
+
+
++------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary          ;
++---------------------------------------------+--------+
+; Resource                                    ; Usage  ;
++---------------------------------------------+--------+
+; Total logic elements                        ; 13     ;
+;     -- Combinational with no register       ; 13     ;
+;     -- Register only                        ; 0      ;
+;     -- Combinational with a register        ; 0      ;
+;                                             ;        ;
+; Logic element usage by number of LUT inputs ;        ;
+;     -- 4 input functions                    ; 0      ;
+;     -- 3 input functions                    ; 6      ;
+;     -- 2 input functions                    ; 7      ;
+;     -- 1 input functions                    ; 0      ;
+;     -- 0 input functions                    ; 0      ;
+;                                             ;        ;
+; Logic elements by mode                      ;        ;
+;     -- normal mode                          ; 13     ;
+;     -- arithmetic mode                      ; 0      ;
+;     -- qfbk mode                            ; 0      ;
+;     -- register cascade mode                ; 0      ;
+;     -- synchronous clear/load mode          ; 0      ;
+;     -- asynchronous clear/load mode         ; 0      ;
+;                                             ;        ;
+; Total registers                             ; 0      ;
+; I/O pins                                    ; 46     ;
+; Maximum fan-out node                        ; ADF_CS ;
+; Maximum fan-out                             ; 8      ;
+; Total fan-out                               ; 46     ;
+; Average fan-out                             ; 0.78   ;
++---------------------------------------------+--------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                   ;
++----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+----------------+--------------+
+; Compilation Hierarchy Node ; Logic Cells ; LC Registers ; UFM Blocks ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Packed LCs ; Full Hierarchy Name ; Entity Name    ; Library Name ;
++----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+----------------+--------------+
+; |ARSG_GlueLogic            ; 13 (13)     ; 0            ; 0          ; 46   ; 0            ; 13 (13)      ; 0 (0)             ; 0 (0)            ; 0 (0)           ; 0 (0)      ; |ARSG_GlueLogic     ; ARSG_GlueLogic ; work         ;
++----------------------------+-------------+--------------+------------+------+--------------+--------------+-------------------+------------------+-----------------+------------+---------------------+----------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |ARSG_GlueLogic|i2c_slave_fsm:inst_i2cSlave|state                                                                                                  ;
++--------------------+-----------------+------------------+------------------+----------------+-----------------+------------------+--------------------+------------+
+; Name               ; state.WAIT_STOP ; state.WAIT_ACK_2 ; state.WAIT_ACK_1 ; state.READ_CMD ; state.WRITE_CMD ; state.SEND_ACK_1 ; state.READ_ADDRESS ; state.IDLE ;
++--------------------+-----------------+------------------+------------------+----------------+-----------------+------------------+--------------------+------------+
+; state.IDLE         ; 0               ; 0                ; 0                ; 0              ; 0               ; 0                ; 0                  ; 0          ;
+; state.READ_ADDRESS ; 0               ; 0                ; 0                ; 0              ; 0               ; 0                ; 1                  ; 1          ;
+; state.SEND_ACK_1   ; 0               ; 0                ; 0                ; 0              ; 0               ; 1                ; 0                  ; 1          ;
+; state.WRITE_CMD    ; 0               ; 0                ; 0                ; 0              ; 1               ; 0                ; 0                  ; 1          ;
+; state.READ_CMD     ; 0               ; 0                ; 0                ; 1              ; 0               ; 0                ; 0                  ; 1          ;
+; state.WAIT_ACK_1   ; 0               ; 0                ; 1                ; 0              ; 0               ; 0                ; 0                  ; 1          ;
+; state.WAIT_ACK_2   ; 0               ; 1                ; 0                ; 0              ; 0               ; 0                ; 0                  ; 1          ;
+; state.WAIT_STOP    ; 1               ; 0                ; 0                ; 0              ; 0               ; 0                ; 0                  ; 1          ;
++--------------------+-----------------+------------------+------------------+----------------+-----------------+------------------+--------------------+------------+
+
+
++---------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                    ;
++------------------------------------------------+--------------------------------------+
+; Register name                                  ; Reason for Removal                   ;
++------------------------------------------------+--------------------------------------+
+; i2c_slave_fsm:inst_i2cSlave|rx_data_buf[0..3]  ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|scl_d              ; Stuck at VCC due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|scl_d2             ; Stuck at VCC due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|sda_d              ; Stuck at VCC due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|sda_d2             ; Stuck at VCC due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|scl_rising_strobe  ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|scl_falling_strobe ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|start_strobe       ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|tx_done            ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|stop_strobe        ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|rx_data_buf[4..6]  ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|continue_read      ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[0..7]  ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|rw_command         ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|addr_buf[0..6]     ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|bit_counter[0..3]  ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|rx_data_rdy_reg    ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|sda_out_en         ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|sda_o              ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.IDLE         ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.READ_ADDRESS ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.SEND_ACK_1   ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.WRITE_CMD    ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.READ_CMD     ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.WAIT_ACK_1   ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.WAIT_ACK_2   ; Stuck at GND due to stuck port clock ;
+; i2c_slave_fsm:inst_i2cSlave|state.WAIT_STOP    ; Stuck at GND due to stuck port clock ;
+; Total Number of Removed Registers = 48         ;                                      ;
++------------------------------------------------+--------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                       ;
++-----------------------------------+-------------------------+-------------------------------------------------------------------------------------+
+; Register name                     ; Reason for Removal      ; Registers Removed due to This Register                                              ;
++-----------------------------------+-------------------------+-------------------------------------------------------------------------------------+
+; i2c_slave_fsm:inst_i2cSlave|sda_d ; Stuck at VCC            ; i2c_slave_fsm:inst_i2cSlave|stop_strobe,                                            ;
+;                                   ; due to stuck port clock ; i2c_slave_fsm:inst_i2cSlave|rx_data_buf[4],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|rx_data_buf[5],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|rx_data_buf[6],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|continue_read,                                          ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[0],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[1],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[2],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[3],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[4],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[5],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[6],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|tx_byte_buf[7], i2c_slave_fsm:inst_i2cSlave|rw_command, ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|addr_buf[0], i2c_slave_fsm:inst_i2cSlave|addr_buf[1],   ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|addr_buf[2], i2c_slave_fsm:inst_i2cSlave|addr_buf[3],   ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|addr_buf[4], i2c_slave_fsm:inst_i2cSlave|addr_buf[5],   ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|addr_buf[6], i2c_slave_fsm:inst_i2cSlave|sda_out_en,    ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|sda_o                                                   ;
+; i2c_slave_fsm:inst_i2cSlave|scl_d ; Stuck at VCC            ; i2c_slave_fsm:inst_i2cSlave|scl_rising_strobe,                                      ;
+;                                   ; due to stuck port clock ; i2c_slave_fsm:inst_i2cSlave|scl_falling_strobe,                                     ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|start_strobe, i2c_slave_fsm:inst_i2cSlave|tx_done,      ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|bit_counter[0],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|bit_counter[1],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|bit_counter[2],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|bit_counter[3],                                         ;
+;                                   ;                         ; i2c_slave_fsm:inst_i2cSlave|rx_data_rdy_reg                                         ;
++-----------------------------------+-------------------------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 0     ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: i2c_slave_fsm:inst_i2cSlave ;
++----------------+---------+-----------------------------------------------+
+; Parameter Name ; Value   ; Type                                          ;
++----------------+---------+-----------------------------------------------+
+; slave_addr     ; 0001111 ; Unsigned Binary                               ;
++----------------+---------+-----------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Fri Mar 15 20:44:13 2019
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ARSG_GlueLogic -c ARSG_GlueLogic
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Info (12021): Found 4 design units, including 2 entities, in source file int_osc.vhd
+    Info (12022): Found design unit 1: INT_OSC_altufm_osc_7v7-RTL File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/INT_OSC.vhd Line: 54
+    Info (12022): Found design unit 2: int_osc-RTL File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/INT_OSC.vhd Line: 123
+    Info (12023): Found entity 1: INT_OSC_altufm_osc_7v7 File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/INT_OSC.vhd Line: 46
+    Info (12023): Found entity 2: INT_OSC File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/INT_OSC.vhd Line: 114
+Info (12021): Found 1 design units, including 1 entities, in source file arsg_gluelogic.bdf
+    Info (12023): Found entity 1: ARSG_GlueLogic
+Info (12021): Found 2 design units, including 1 entities, in source file i2c_gpio.vhd
+    Info (12022): Found design unit 1: i2c_slave_fsm-i2c_slave_fsm File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_GPIO.vhd Line: 33
+    Info (12023): Found entity 1: i2c_slave_fsm File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_GPIO.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file adf_fifo.vhd
+    Info (12022): Found design unit 1: adf_fifo-SYN File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ADF_FIFO.vhd Line: 60
+    Info (12023): Found entity 1: ADF_FIFO File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ADF_FIFO.vhd Line: 42
+Info (12021): Found 2 design units, including 1 entities, in source file shiftregisterin.vhd
+    Info (12022): Found design unit 1: shiftregisterin-SYN File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ShiftRegisterIN.vhd Line: 53
+    Info (12023): Found entity 1: ShiftRegisterIN File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ShiftRegisterIN.vhd Line: 42
+Info (12021): Found 2 design units, including 1 entities, in source file shiftregisterout.vhd
+    Info (12022): Found design unit 1: shiftregisterout-SYN File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ShiftRegisterOUT.vhd Line: 54
+    Info (12023): Found entity 1: ShiftRegisterOUT File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ShiftRegisterOUT.vhd Line: 42
+Info (12127): Elaborating entity "ARSG_GlueLogic" for the top level hierarchy
+Warning (275013): Port "clk" of type i2c_slave_fsm and instance "inst_i2cSlave" is missing source signal
+Warning (275043): Pin "INT_OUT" is missing source
+Warning (275043): Pin "INT_VECT[2..0]" is missing source
+Warning (275009): Pin "ADF4351_LD" not connected
+Warning (275009): Pin "ADF4351_MUX" not connected
+Warning (275009): Pin "ADF5355_LD" not connected
+Warning (275009): Pin "ADF5355_MUX" not connected
+Warning (275009): Pin "CPLD_CS" not connected
+Warning (275009): Pin "INT_TOUCH" not connected
+Warning (275009): Pin "INT_KEYBD" not connected
+Info (12128): Elaborating entity "i2c_slave_fsm" for hierarchy "i2c_slave_fsm:inst_i2cSlave"
+Info (17026): Resynthesizing 0 WYSIWYG logic cells and I/Os using "speed" technology mapper which leaves 0 WYSIWYG logic cells and I/Os untouched
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "ATTEN_1dB" is stuck at GND
+    Warning (13410): Pin "ATTEN_2dB" is stuck at GND
+    Warning (13410): Pin "ATTEN_4dB" is stuck at GND
+    Warning (13410): Pin "ATTEN_8dB" is stuck at GND
+    Warning (13410): Pin "ATTEN_16dB" is stuck at GND
+    Warning (13410): Pin "ATTEN_32dB_1" is stuck at GND
+    Warning (13410): Pin "ATTEN_32dB_2" is stuck at GND
+    Warning (13410): Pin "ATTEN_LE" is stuck at GND
+    Warning (13410): Pin "INT_OUT" is stuck at GND
+    Warning (13410): Pin "i2c_InProgress" is stuck at GND
+    Warning (13410): Pin "tx_done" is stuck at GND
+    Warning (13410): Pin "INT_VECT[2]" is stuck at GND
+    Warning (13410): Pin "INT_VECT[1]" is stuck at GND
+    Warning (13410): Pin "INT_VECT[0]" is stuck at GND
+Warning (21074): Design contains 8 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "SCL"
+    Warning (15610): No output dependent on input pin "ADF4351_LD"
+    Warning (15610): No output dependent on input pin "ADF4351_MUX"
+    Warning (15610): No output dependent on input pin "ADF5355_LD"
+    Warning (15610): No output dependent on input pin "ADF5355_MUX"
+    Warning (15610): No output dependent on input pin "CPLD_CS"
+    Warning (15610): No output dependent on input pin "INT_TOUCH"
+    Warning (15610): No output dependent on input pin "INT_KEYBD"
+Info (21057): Implemented 59 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 17 input pins
+    Info (21059): Implemented 28 output pins
+    Info (21060): Implemented 1 bidirectional pins
+    Info (21061): Implemented 13 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 35 warnings
+    Info: Peak virtual memory: 4787 megabytes
+    Info: Processing ended: Fri Mar 15 20:44:23 2019
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:22
+
+

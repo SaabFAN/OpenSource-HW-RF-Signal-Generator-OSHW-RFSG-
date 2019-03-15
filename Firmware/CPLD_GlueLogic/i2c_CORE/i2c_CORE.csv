@@ -1,0 +1,18 @@
+# system info i2c_CORE on 2019.03.15.16:44:30
+system_info:
+name,value
+DEVICE,5M1270ZT144C5
+DEVICE_FAMILY,MAX V
+GENERATION_ID,1552664669
+#
+#
+# Files generated for i2c_CORE on 2019.03.15.16:44:30
+files:
+filepath,kind,attributes,module,is_top
+simulation/i2c_CORE.vhd,VHDL,,i2c_CORE,true
+simulation/submodules/i2c_CORE_ufm_i2c_0.v,VERILOG,,i2c_CORE_ufm_i2c_0,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+i2c_CORE.ufm_i2c_0,i2c_CORE_ufm_i2c_0

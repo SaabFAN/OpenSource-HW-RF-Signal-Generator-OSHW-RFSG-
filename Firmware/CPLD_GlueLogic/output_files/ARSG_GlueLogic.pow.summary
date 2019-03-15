@@ -1,0 +1,12 @@
+Power Analyzer Status : Successful - Fri Mar 15 20:44:29 2019
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : ARSG_GlueLogic
+Top-level Entity Name : ARSG_GlueLogic
+Family : MAX V
+Device : 5M1270ZT144C5
+Power Models : Final
+Total Thermal Power Dissipation : 56.42 mW
+Core Dynamic Thermal Power Dissipation : 0.50 mW
+Core Static Thermal Power Dissipation : 7.12 mW
+I/O Thermal Power Dissipation : 48.80 mW
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

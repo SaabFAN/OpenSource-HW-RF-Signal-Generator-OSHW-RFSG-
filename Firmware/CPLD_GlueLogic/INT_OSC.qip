@@ -1,0 +1,9 @@
+set_global_assignment -name IP_TOOL_NAME "MAX II/MAX V oscillator"
+set_global_assignment -name IP_TOOL_VERSION "18.1"
+set_global_assignment -name IP_GENERATED_DEVICE_FAMILY "{MAX V}"
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "INT_OSC.vhd"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "INT_OSC.bsf"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "INT_OSC_inst.vhd"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "INT_OSC.inc"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "INT_OSC.cmp"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "INT_OSC_syn.v"]

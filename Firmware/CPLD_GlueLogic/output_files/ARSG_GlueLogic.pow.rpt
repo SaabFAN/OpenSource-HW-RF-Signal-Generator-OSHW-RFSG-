@@ -1,0 +1,455 @@
+Power Analyzer report for ARSG_GlueLogic
+Fri Mar 15 20:44:29 2019
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Power Analyzer Summary
+  3. Power Analyzer Settings
+  4. Indeterminate Toggle Rates
+  5. Operating Conditions Used
+  6. Thermal Power Dissipation by Block
+  7. Thermal Power Dissipation by Block Type
+  8. Thermal Power Dissipation by Hierarchy
+  9. Core Dynamic Thermal Power Dissipation by Clock Domain
+ 10. Current Drawn from Voltage Supplies Summary
+ 11. VCCIO Supply Current Drawn by I/O Bank
+ 12. VCCIO Supply Current Drawn by Voltage
+ 13. Confidence Metric Details
+ 14. Signal Activities
+ 15. Power Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------------------------------+
+; Power Analyzer Summary                                                                    ;
++----------------------------------------+--------------------------------------------------+
+; Power Analyzer Status                  ; Successful - Fri Mar 15 20:44:29 2019            ;
+; Quartus Prime Version                  ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition      ;
+; Revision Name                          ; ARSG_GlueLogic                                   ;
+; Top-level Entity Name                  ; ARSG_GlueLogic                                   ;
+; Family                                 ; MAX V                                            ;
+; Device                                 ; 5M1270ZT144C5                                    ;
+; Power Models                           ; Final                                            ;
+; Total Thermal Power Dissipation        ; 56.42 mW                                         ;
+; Core Dynamic Thermal Power Dissipation ; 0.50 mW                                          ;
+; Core Static Thermal Power Dissipation  ; 7.12 mW                                          ;
+; I/O Thermal Power Dissipation          ; 48.80 mW                                         ;
+; Power Estimation Confidence            ; Low: user provided insufficient toggle rate data ;
++----------------------------------------+--------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Power Analyzer Settings                                                                                        ;
++------------------------------------------------------------------+-----------------------------+---------------+
+; Option                                                           ; Setting                     ; Default Value ;
++------------------------------------------------------------------+-----------------------------+---------------+
+; Use smart compilation                                            ; On                          ; Off           ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                          ; On            ;
+; Enable compact report table                                      ; Off                         ; Off           ;
+; Default Power Toggle Rate                                        ; 50.0%                       ; 12.5%         ;
+; Default Power Input I/O Toggle Rate                              ; 50.0%                       ; 12.5%         ;
+; Use vectorless estimation                                        ; Off                         ; On            ;
+; Power Analyzer Report Signal Activity                            ; On                          ; Off           ;
+; Power Analyzer Report Power Dissipation                          ; On                          ; Off           ;
+; Device Power Characteristics                                     ; MAXIMUM                     ; TYPICAL       ;
+; Preset Cooling Solution                                          ; No Heat Sink With Still Air ;               ;
+; Use Input Files                                                  ; Off                         ; Off           ;
+; Filter Glitches in VCD File Reader                               ; On                          ; On            ;
+; Automatically Compute Junction Temperature                       ; On                          ; On            ;
+; Specified Junction Temperature                                   ; 25                          ; 25            ;
+; Ambient Temperature                                              ; 25                          ; 25            ;
+; Use Custom Cooling Solution                                      ; Off                         ; Off           ;
++------------------------------------------------------------------+-----------------------------+---------------+
+
+
++----------------------------------------------+
+; Indeterminate Toggle Rates                   ;
++----------------+-----------------------------+
+; Node           ; Reason                      ;
++----------------+-----------------------------+
+; ADF4351_LE     ; No valid clock domain found ;
+; ADF4351_CS     ; No valid clock domain found ;
+; ADF5355_LE     ; No valid clock domain found ;
+; ADF5355_CS     ; No valid clock domain found ;
+; TFT_MOSI       ; No valid clock domain found ;
+; ATTEN_1dB      ; No valid clock domain found ;
+; SCL            ; No valid clock domain found ;
+; ATTEN_2dB      ; No valid clock domain found ;
+; ATTEN_4dB      ; No valid clock domain found ;
+; ATTEN_8dB      ; No valid clock domain found ;
+; ATTEN_16dB     ; No valid clock domain found ;
+; ATTEN_32dB_1   ; No valid clock domain found ;
+; ATTEN_32dB_2   ; No valid clock domain found ;
+; ATTEN_LE       ; No valid clock domain found ;
+; SPI_MISO       ; No valid clock domain found ;
+; INT_OUT        ; No valid clock domain found ;
+; i2c_InProgress ; No valid clock domain found ;
+; tx_done        ; No valid clock domain found ;
+; TFT_DC_OUT     ; No valid clock domain found ;
+; TFT_CS_OUT     ; No valid clock domain found ;
+; TFT_RST_OUT    ; No valid clock domain found ;
+; INT_VECT[2]    ; No valid clock domain found ;
+; INT_VECT[1]    ; No valid clock domain found ;
+; INT_VECT[0]    ; No valid clock domain found ;
+; ADF4351_LD     ; No valid clock domain found ;
+; ADF4351_MUX    ; No valid clock domain found ;
+; ADF5355_LD     ; No valid clock domain found ;
+; ADF5355_MUX    ; No valid clock domain found ;
+; CPLD_CS        ; No valid clock domain found ;
+; INT_TOUCH      ; No valid clock domain found ;
+; INT_KEYBD      ; No valid clock domain found ;
+; ADF_CS         ; No valid clock domain found ;
+; ADF_SELECT     ; No valid clock domain found ;
+; SPI_MOSI       ; No valid clock domain found ;
+; inst16         ; No valid clock domain found ;
+; ADF_LE         ; No valid clock domain found ;
+; inst18         ; No valid clock domain found ;
+; inst17~0       ; No valid clock domain found ;
+; inst14         ; No valid clock domain found ;
+; inst6          ; No valid clock domain found ;
+; inst7~0        ; No valid clock domain found ;
+; TFT_CS         ; No valid clock domain found ;
+; inst9          ; No valid clock domain found ;
+; TFT_MISO       ; No valid clock domain found ;
+; inst10         ; No valid clock domain found ;
+; TFT_DC         ; No valid clock domain found ;
+; inst11         ; No valid clock domain found ;
+; TFT_RST        ; No valid clock domain found ;
+; inst12         ; No valid clock domain found ;
++----------------+-----------------------------+
+
+
++----------------------------------------------------------------------+
+; Operating Conditions Used                                            ;
++-----------------------------------------+----------------------------+
+; Setting                                 ; Value                      ;
++-----------------------------------------+----------------------------+
+; Device power characteristics            ; Maximum                    ;
+;                                         ;                            ;
+; Voltages                                ;                            ;
+;     VCCINT                              ; 1.80 V                     ;
+;     3.3-V LVTTL I/O Standard            ; 3.3 V                      ;
+;                                         ;                            ;
+; Auto computed junction temperature      ; 27.5 degrees Celsius       ;
+;     Ambient temperature                 ; 25.0 degrees Celsius       ;
+;     Junction-to-Case thermal resistance ; 13.70 degrees Celsius/Watt ;
+;     Case-to-Ambient thermal resistance  ; 30.20 degrees Celsius/Watt ;
++-----------------------------------------+----------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------+
+; Thermal Power Dissipation by Block                                                                                                               ;
++----------------+------------+---------------------+-----------------------------+--------------------------------+-------------------------------+
+; Block Name     ; Block Type ; Total Thermal Power ; Block Thermal Dynamic Power ; Block Thermal Static Power (1) ; Routing Thermal Dynamic Power ;
++----------------+------------+---------------------+-----------------------------+--------------------------------+-------------------------------+
+; ADF4351_CLK    ; I/O        ; 8.81 mW             ; 8.81 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF4351_MOSI   ; I/O        ; 8.81 mW             ; 8.81 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF4351_LE     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF4351_CS     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_CLK    ; I/O        ; 8.81 mW             ; 8.81 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_MOSI   ; I/O        ; 8.81 mW             ; 8.81 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_LE     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_CS     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; TFT_CLK        ; I/O        ; 8.81 mW             ; 8.81 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; TFT_MOSI       ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_1dB      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; SCL            ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_2dB      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_4dB      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_8dB      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_16dB     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_32dB_1   ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_32dB_2   ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ATTEN_LE       ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; SPI_MISO       ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_OUT        ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; i2c_InProgress ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; tx_done        ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; TFT_DC_OUT     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; TFT_CS_OUT     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; TFT_RST_OUT    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_VECT[2]    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_VECT[1]    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_VECT[0]    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF4351_LD     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF4351_MUX    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_LD     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF5355_MUX    ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; CPLD_CS        ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_TOUCH      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; INT_KEYBD      ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; SDA            ; I/O        ; 1.90 mW             ; 1.90 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; SPI_CLK        ; I/O        ; 0.86 mW             ; 0.69 mW                     ; 0.00 mW                        ; 0.17 mW                       ;
+; ADF_CS         ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; ADF_SELECT     ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst17         ; Logic cell ; 0.12 mW             ; 0.04 mW                     ; --                             ; 0.09 mW                       ;
+; SPI_MOSI       ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst16         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; ADF_LE         ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst18         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; inst17~0       ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; inst7          ; Logic cell ; 0.13 mW             ; 0.04 mW                     ; --                             ; 0.09 mW                       ;
+; inst14         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; inst6          ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; inst7~0        ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; TFT_CS         ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst8          ; Logic cell ; 0.08 mW             ; 0.04 mW                     ; --                             ; 0.04 mW                       ;
+; inst9          ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; TFT_MISO       ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst10         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; TFT_DC         ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst11         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
+; TFT_RST        ; I/O        ; 0.00 mW             ; 0.00 mW                     ; 0.00 mW                        ; 0.00 mW                       ;
+; inst12         ; Logic cell ; 0.00 mW             ; 0.00 mW                     ; --                             ; 0.00 mW                       ;
++----------------+------------+---------------------+-----------------------------+--------------------------------+-------------------------------+
+(1) The "Block Thermal Static Power" for all block types except Pins is part of the "Core Static Thermal Power Dissipation" value found on the PowerPlay Power Analyzer-->Summary report panel. The "Core Static Thermal Power Dissipation" also contains the thermal static power dissipated by the routing.
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Thermal Power Dissipation by Block Type                                                                                                                                                                   ;
++------------+-----------------------------------+-----------------------------+--------------------------------+-------------------------------+-----------------------------------------------------------+
+; Block Type ; Total Thermal Power by Block Type ; Block Thermal Dynamic Power ; Block Thermal Static Power (1) ; Routing Thermal Dynamic Power ; Block Average Toggle Rate (millions of transitions / sec) ;
++------------+-----------------------------------+-----------------------------+--------------------------------+-------------------------------+-----------------------------------------------------------+
+; Logic cell ; 0.33 mW                           ; 0.11 mW                     ; --                             ; 0.22 mW                       ;    5.769                                                  ;
+; I/O        ; 46.80 mW                          ; 46.63 mW                    ; 0.00 mW                        ; 0.17 mW                       ;   13.091                                                  ;
++------------+-----------------------------------+-----------------------------+--------------------------------+-------------------------------+-----------------------------------------------------------+
+(1) The "Block Thermal Static Power" for all block types except Pins and the Voltage Regulator, if one exists, is part of the "Core Static Thermal Power Dissipation" value found on the PowerPlay Power Analyzer-->Summary report panel. The "Core Static Thermal Power Dissipation" also contains the thermal static power dissipated by the routing.
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Thermal Power Dissipation by Hierarchy                                                                                                                                                                                          ;
++----------------------------------+--------------------------------------+---------------------------------+-----------------------------------+-----------------------------------+---------------------------------------------+
+; Compilation Hierarchy Node       ; Total Thermal Power by Hierarchy (1) ; Block Thermal Dynamic Power (1) ; Block Thermal Static Power (1)(2) ; Routing Thermal Dynamic Power (1) ; Full Hierarchy Name                         ;
++----------------------------------+--------------------------------------+---------------------------------+-----------------------------------+-----------------------------------+---------------------------------------------+
+; |ARSG_GlueLogic                  ; 47.13 mW (47.13 mW)                  ; 46.75 mW (46.75 mW)             ; 0.00 mW (0.00 mW)                 ; 0.39 mW (0.39 mW)                 ; |ARSG_GlueLogic                             ;
+;     |i2c_slave_fsm:inst_i2cSlave ; 0.00 mW (0.00 mW)                    ; 0.00 mW (0.00 mW)               ; --                                ; 0.00 mW (0.00 mW)                 ; |ARSG_GlueLogic|i2c_slave_fsm:inst_i2cSlave ;
++----------------------------------+--------------------------------------+---------------------------------+-----------------------------------+-----------------------------------+---------------------------------------------+
+(1) Value in parentheses is the power consumed at that level of hierarchy. Value not in parentheses is the power consumed at that level of hierarchy plus the power consumed by all levels of hierarchy below it.
+
+(2) The "Block Thermal Static Power" for all levels of hierarchy except the top-level hierarchy is part of the "Core Static Thermal Power Dissipation" value found on the PowerPlay Power Analyzer-->Summary report panel. The "Core Static Thermal Power Dissipation" also contains the thermal static power dissipated by the routing.
+
+
++-----------------------------------------------------------------+
+; Core Dynamic Thermal Power Dissipation by Clock Domain          ;
++--------------+-----------------------+--------------------------+
+; Clock Domain ; Clock Frequency (MHz) ; Total Core Dynamic Power ;
++--------------+-----------------------+--------------------------+
+; ADF4351_CLK  ; 50.00                 ; 0.00                     ;
+; ADF4351_MOSI ; 50.00                 ; 0.00                     ;
+; ADF5355_CLK  ; 50.00                 ; 0.00                     ;
+; ADF5355_MOSI ; 50.00                 ; 0.00                     ;
+; TFT_CLK      ; 50.00                 ; 0.00                     ;
+; SDA          ; 10.00                 ; 0.00                     ;
+; SPI_CLK      ; 50.00                 ; 0.50                     ;
++--------------+-----------------------+--------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------+
+; Current Drawn from Voltage Supplies Summary                                                                                        ;
++----------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+; Voltage Supply ; Total Current Drawn (1) ; Dynamic Current Drawn (1) ; Static Current Drawn (1) ; Minimum Power Supply Current (2) ;
++----------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+; VCCIO          ; 14.14 mA                ; 13.48 mA                  ; 0.66 mA                  ; 14.14 mA                         ;
+; VCCINT         ; 5.14 mA                 ; 1.19 mA                   ; 3.95 mA                  ; 5.14 mA                          ;
++----------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+(1) Currents reported in columns "Total Current Drawn", "Dynamic Current Drawn", and "Static Current Drawn" are sufficient for user operation of the device.  
+(2) Currents reported in column "Minimum Power Supply Current" are sufficient for power-up, configuration, and user operation of the device.
+
+
++-----------------------------------------------------------------------------------------------+
+; VCCIO Supply Current Drawn by I/O Bank                                                        ;
++----------+---------------+---------------------+-----------------------+----------------------+
+; I/O Bank ; VCCIO Voltage ; Total Current Drawn ; Dynamic Current Drawn ; Static Current Drawn ;
++----------+---------------+---------------------+-----------------------+----------------------+
+; 1        ; 3.3V          ; 0.70 mA             ; 0.54 mA               ; 0.16 mA              ;
+; 2        ; 3.3V          ; 2.75 mA             ; 2.59 mA               ; 0.16 mA              ;
+; 3        ; 3.3V          ; 10.52 mA            ; 10.35 mA              ; 0.16 mA              ;
+; 4        ; 3.3V          ; 0.16 mA             ; 0.00 mA               ; 0.16 mA              ;
++----------+---------------+---------------------+-----------------------+----------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------+
+; VCCIO Supply Current Drawn by Voltage                                                                                             ;
++---------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+; VCCIO Voltage ; Total Current Drawn (1) ; Dynamic Current Drawn (1) ; Static Current Drawn (1) ; Minimum Power Supply Current (2) ;
++---------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+; 3.3V          ; 14.14 mA                ; 13.48 mA                  ; 0.66 mA                  ; 14.14 mA                         ;
++---------------+-------------------------+---------------------------+--------------------------+----------------------------------+
+(1) Currents reported in columns "Total Current Drawn", "Dynamic Current Drawn", and "Static Current Drawn" are sufficient for user operation of the device.  
+(2) Currents reported in column "Minimum Power Supply Current" are sufficient for power-up, configuration, and user operation of the device.
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Confidence Metric Details                                                                                                                     ;
++----------------------------------------------------------------------------------------+------------+------------+------------+---------------+
+; Data Source                                                                            ; Total      ; Pin        ; Registered ; Combinational ;
++----------------------------------------------------------------------------------------+------------+------------+------------+---------------+
+; Simulation (from file)                                                                 ;            ;            ;            ;               ;
+;     -- Number of signals with Toggle Rate from Simulation                              ; 0 (0.0%)   ; 0 (0.0%)   ; 0 (100.0%) ; 0 (0.0%)      ;
+;     -- Number of signals with Static Probability from Simulation                       ; 0 (0.0%)   ; 0 (0.0%)   ; 0 (100.0%) ; 0 (0.0%)      ;
+;                                                                                        ;            ;            ;            ;               ;
+; Node, entity or clock assignment                                                       ;            ;            ;            ;               ;
+;     -- Number of signals with Toggle Rate from Node, entity or clock assignment        ; 8 (13.3%)  ; 8 (17.0%)  ; 0 (100.0%) ; 0 (0.0%)      ;
+;     -- Number of signals with Static Probability from Node, entity or clock assignment ; 8 (13.3%)  ; 8 (17.0%)  ; 0 (100.0%) ; 0 (0.0%)      ;
+;                                                                                        ;            ;            ;            ;               ;
+; Vectorless estimation                                                                  ;            ;            ;            ;               ;
+;     -- Number of signals with Toggle Rate from Vectorless estimation                   ; 0 (0.0%)   ; 0 (0.0%)   ; 0 (100.0%) ; 0 (0.0%)      ;
+;     -- Number of signals with Static Probability from Vectorless estimation            ; 0 (0.0%)   ; 0 (0.0%)   ; 0 (100.0%) ; 0 (0.0%)      ;
+;                                                                                        ;            ;            ;            ;               ;
+; Default assignment                                                                     ;            ;            ;            ;               ;
+;     -- Number of signals with Toggle Rate from Default assignment                      ; 3 (5.0%)   ; 0 (0.0%)   ; 0 (100.0%) ; 3 (23.1%)     ;
+;     -- Number of signals with Static Probability from Default assignment               ; 52 (86.7%) ; 39 (83.0%) ; 0 (100.0%) ; 13 (100.0%)   ;
+;                                                                                        ;            ;            ;            ;               ;
+; Assumed 0                                                                              ;            ;            ;            ;               ;
+;     -- Number of signals with Toggle Rate assumed 0                                    ; 49 (81.7%) ; 39 (83.0%) ; 0 (100.0%) ; 10 (76.9%)    ;
++----------------------------------------------------------------------------------------+------------+------------+------------+---------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Activities                                                                                                                                               ;
++----------------+------------------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+; Signal         ; Type             ; Toggle Rate (millions of transitions / sec) ; Toggle Rate Data Source ; Static Probability ; Static Probability Data Source ;
++----------------+------------------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+; ADF4351_CLK    ; Output Pin       ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; ADF4351_CS     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF4351_LD     ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF4351_LE     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF4351_MOSI   ; Output Pin       ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; ADF4351_MUX    ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF5355_CLK    ; Output Pin       ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; ADF5355_CS     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF5355_LD     ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF5355_LE     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF5355_MOSI   ; Output Pin       ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; ADF5355_MUX    ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF_CS         ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF_LE         ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ADF_SELECT     ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_1dB      ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_2dB      ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_4dB      ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_8dB      ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_16dB     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_32dB_1   ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_32dB_2   ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; ATTEN_LE       ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; CPLD_CS        ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; i2c_InProgress ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst6          ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst7          ; Combinational    ;   25.000                                    ; Default assignment      ; 0.500              ; Default assignment             ;
+; inst7~0        ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst8          ; Combinational    ;   25.000                                    ; Default assignment      ; 0.500              ; Default assignment             ;
+; inst9          ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst10         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst11         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst12         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst14         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst16         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst17         ; Combinational    ;   25.000                                    ; Default assignment      ; 0.500              ; Default assignment             ;
+; inst17~0       ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; inst18         ; Combinational    ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_KEYBD      ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_OUT        ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_TOUCH      ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_VECT[0]    ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_VECT[1]    ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; INT_VECT[2]    ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; SCL            ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; SDA~result     ; Bidir Pin Input  ;   20.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; SDA~output     ; Bidir Pin Output ;   20.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; SPI_CLK        ; Input Pin        ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; SPI_MISO       ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; SPI_MOSI       ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_CLK        ; Output Pin       ;  100.000                                    ; Node assignment         ; 0.500              ; Node assignment                ;
+; TFT_CS         ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_CS_OUT     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_DC         ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_DC_OUT     ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_MISO       ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_MOSI       ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_RST        ; Input Pin        ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; TFT_RST_OUT    ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
+; tx_done        ; Output Pin       ;    0.000                                    ; Assumed 0               ; 0.500              ; Default assignment             ;
++----------------+------------------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+
+
++-------------------------+
+; Power Analyzer Messages ;
++-------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Power Analyzer
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Fri Mar 15 20:44:28 2019
+Info: Command: quartus_pow --read_settings_files=off --write_settings_files=off ARSG_GlueLogic -c ARSG_GlueLogic
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 85 degrees C
+Info (332104): Reading SDC File: 'ARSG_GlueLogic.out.sdc'
+Warning (332174): Ignored filter at ARSG_GlueLogic.out.sdc(42): SCL could not be matched with a port File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+Warning (332049): Ignored create_clock at ARSG_GlueLogic.out.sdc(42): Argument <targets> is an empty collection File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+    Info (332050): create_clock -name {SCL} -period 100.000 -waveform { 0.000 50.000 } [get_ports { SCL }] File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+Warning (222013): Relative toggle rates could not be calculated because no clock domain could be identified for some nodes
+Info (334003): Started post-fitting delay annotation
+Info (334004): Delay annotation completed successfully
+Warning (218001): Found 29 output pins without output pin load capacitance assignment
+    Warning (218002): Pin "ADF4351_CLK" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF4351_MOSI" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF4351_LE" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF4351_CS" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF5355_CLK" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF5355_MOSI" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF5355_LE" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ADF5355_CS" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "TFT_CLK" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "TFT_MOSI" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_1dB" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_2dB" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_4dB" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_8dB" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_16dB" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_32dB_1" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_32dB_2" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "ATTEN_LE" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "SPI_MISO" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "INT_OUT" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "i2c_InProgress" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "tx_done" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "TFT_DC_OUT" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "TFT_CS_OUT" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "TFT_RST_OUT" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "INT_VECT[2]" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "INT_VECT[1]" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "INT_VECT[0]" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+    Warning (218002): Pin "SDA" has no specified output pin load capacitance -- assuming default load capacitance of 10 pF for Power Estimation
+Info (215049): Average toggle rate for this design is 11.691 millions of transitions / sec
+Info (215031): Total thermal power estimate for the design is 56.42 mW
+Info: Quartus Prime Power Analyzer was successful. 0 errors, 34 warnings
+    Info: Peak virtual memory: 4695 megabytes
+    Info: Processing ended: Fri Mar 15 20:44:29 2019
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

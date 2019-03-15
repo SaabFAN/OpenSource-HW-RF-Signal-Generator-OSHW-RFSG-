@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags="INTERNAL_COMPONENT=true"
+   categories="" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element ufm_i2c_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="device" value="5M1270ZT144C5" />
+ <parameter name="deviceFamily" value="MAX V" />
+ <parameter name="deviceSpeedGrade" value="5" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="true" />
+ <parameter name="lockedInterfaceDefinition" value="" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface name="a0" internal="ufm_i2c_0.a0" type="conduit" dir="end">
+  <port name="a0" internal="a0" />
+ </interface>
+ <interface name="a1" internal="ufm_i2c_0.a1" type="conduit" dir="end">
+  <port name="a1" internal="a1" />
+ </interface>
+ <interface name="a2" internal="ufm_i2c_0.a2" type="conduit" dir="end">
+  <port name="a2" internal="a2" />
+ </interface>
+ <interface
+   name="global_reset"
+   internal="ufm_i2c_0.global_reset"
+   type="conduit"
+   dir="end">
+  <port name="global_reset" internal="global_reset" />
+ </interface>
+ <interface name="osc" internal="ufm_i2c_0.osc" type="conduit" dir="end">
+  <port name="osc" internal="osc" />
+ </interface>
+ <interface name="scl" internal="ufm_i2c_0.scl" type="conduit" dir="end">
+  <port name="scl" internal="scl" />
+ </interface>
+ <interface name="sda" internal="ufm_i2c_0.sda" type="conduit" dir="end">
+  <port name="sda" internal="sda" />
+ </interface>
+ <module
+   name="ufm_i2c_0"
+   kind="altera_ufm_i2c"
+   version="18.1"
+   enabled="1"
+   autoexport="1">
+  <parameter name="ACCESS_MODE" value="READ_WRITE" />
+  <parameter name="AUTO_CLOCK_ENABLE_RECOGNITION" value="OFF" />
+  <parameter name="CBX_AUTO_BLACKBOX" value="ALL" />
+  <parameter name="DEVICE_FAMILY" value="MAX V" />
+  <parameter name="ERASE_METHOD" value="MEM_ADD" />
+  <parameter name="FIXED_DEVICE_ADD" value="1010" />
+  <parameter name="GUI_ERASE_TIME" value="500000" />
+  <parameter name="GUI_GLOBAL_CHECK" value="true" />
+  <parameter name="GUI_MEM_ADD_ERASE0" value="00000000" />
+  <parameter name="GUI_MEM_ADD_ERASE1" value="01000000" />
+  <parameter name="GUI_MEM_INIT">Initialize blank memory</parameter>
+  <parameter name="GUI_OSC_FREQUENCY" value="5.56" />
+  <parameter name="GUI_PROGRAM_TIME" value="1600" />
+  <parameter name="LPM_FILE" value="" />
+  <parameter name="MEMORY_SIZE" value="4K" />
+  <parameter name="MEM_PROTECT" value="FULL" />
+  <parameter name="OSCENA_CHECK" value="false" />
+  <parameter name="OSC_CHECK" value="true" />
+  <parameter name="PAGE_WRITE_SIZE" value="16" />
+  <parameter name="WP_CHECK" value="false" />
+  <parameter name="WRITE_MODE" value="SINGLE_BYTE" />
+ </module>
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

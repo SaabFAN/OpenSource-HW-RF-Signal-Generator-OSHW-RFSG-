@@ -52,9 +52,19 @@
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/Adafruit_HX8357_Library/1.0.7</locationURI>
 		</link>
 		<link>
+			<name>libraries/Adafruit_STMPE610</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/Adafruit_STMPE610/1.0.1</locationURI>
+		</link>
+		<link>
 			<name>libraries/SPI</name>
 			<type>2</type>
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/stm32duino/hardware/STM32F1/2019.2.4/libraries/SPI</locationURI>
+		</link>
+		<link>
+			<name>libraries/Wire</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/stm32duino/hardware/STM32F1/2019.2.4/libraries/Wire</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

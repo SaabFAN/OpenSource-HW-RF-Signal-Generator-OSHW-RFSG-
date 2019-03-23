@@ -156,23 +156,23 @@ int ARSG_SigPathConfig::GetCAL() {
 	return cal_data;
 }
 
-int GetCALPWR() {
+int ARSG_SigPathConfig::GetCALPWR() {
 // Read the ADC-Channel that is connected to a RF PowerMeter
 }
 
-int GetVCCD() {
+int ARSG_SigPathConfig::GetVCCD() {
 // Read the ADC-Channel that is connected to the 3.3V Digital-Supplyrail of the Analog Board.
 }
 
-void ADC_setGain(byte gain) {
+void ARSG_SigPathConfig::ADC_setGain(byte gain) {
 
 }
 
-void ADC_init() {
+void ARSG_SigPathConfig::ADC_init() {
 
 }
 
-int NVRAM_getCALdata(int entry) {
+int ARSG_SigPathConfig::NVRAM_getCALdata(int entry) {
 	byte NVRAM_ADDR_OFFSET = entry % 0xFF;// Calculate the i2c_Bus-Address: First 4 bits are always 1010b, the remaining 3 bits are the upper 3 bits of the word-address
 	entry = entry - NVRAM_ADDR_OFFSET; // Subtract the highByte from the entry-value
 	byte entryLowByte = byte(entry);// and create a byte-variable to prevent the wire.write-function from writing more than one byte
@@ -185,7 +185,7 @@ int NVRAM_getCALdata(int entry) {
 	return NV_DATA;
 }
 
-void NVRAM_writeCALdata(int entry, int data) {
+void ARSG_SigPathConfig::NVRAM_writeCALdata(int entry, int data) {
 	byte buf[2];
 	for (byte i = 0; i < 2; i++) {
 		buf[i] = data >> (8 * i);
@@ -202,6 +202,6 @@ void NVRAM_writeCALdata(int entry, int data) {
 	Wire.endTransmission();
 }
 
-int NVRAM_calcCALentry(int Amplitude, long frequency) {
+int ARSG_SigPathConfig::NVRAM_calcCALentry(int Amplitude, long frequency) {
 
 }

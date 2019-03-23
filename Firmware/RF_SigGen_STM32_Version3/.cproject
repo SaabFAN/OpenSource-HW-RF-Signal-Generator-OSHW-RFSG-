@@ -24,6 +24,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_GFX_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_HX8357_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/SPI/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_STMPE610}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.427034771" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -34,6 +37,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_GFX_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_HX8357_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/SPI/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_STMPE610}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1931576047" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -44,6 +50,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_GFX_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_HX8357_Library}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/SPI/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Adafruit_STMPE610}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire/utility}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RF_SigGen_STM32_Version3/libraries/Wire}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.1332747062" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>
@@ -54,7 +63,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="libraries/Adafruit_GFX_Library/Fonts|libraries/Adafruit_GFX_Library/fontconvert|UI|libraries/?*/**/?xamples/**|libraries/?*/**/?xtras/**|libraries/?*/**/test*/**|libraries/?*/**/third-party/**|libraries/**/._*|libraries/?*/utility/*/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="SignalControls|libraries/Adafruit_GFX_Library/Fonts|libraries/Adafruit_GFX_Library/fontconvert|UI|libraries/?*/**/?xamples/**|libraries/?*/**/?xtras/**|libraries/?*/**/test*/**|libraries/?*/**/third-party/**|libraries/**/._*|libraries/?*/utility/*/*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="SignalControls"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="UI"/>
 					</sourceEntries>
 				</configuration>
@@ -69,4 +79,5 @@
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

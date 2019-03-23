@@ -16,6 +16,7 @@
 class ARSG_SigPathConfig {
 public:
 	ARSG_SigPathConfig(byte ANALOG_ADR);
+	virtual ~ARSG_SigPathConfig();
 	void SetAGC(int Amplitude, long Frequency);
 	void SetLPF(byte LPF_SEL, bool SelectAD9910, bool mixpath);
 	bool SetLEVEL(int lvl_mv);
@@ -25,13 +26,13 @@ public:
 	int GetCAL();// Get the value at the CAL-Input of the ADC (Connect this to a calibration-module)
 	int NVRAM_getCALdata(int entry);
 	void NVRAM_writeCALdata(int entry, int data);
-	virtual ~ARSG_SigPathConfig();
+	int GetCALPWR();
 private:
 	int ADC_read(byte channel);
 	int GetVCCD();
 	void ADC_setGain(byte gain);
 	void ADC_init();
-	int NVRAM_calCALentry(int Amplitude, long frequency);
+	int NVRAM_calcCALentry(int Amplitude, long frequency);
 	byte _SIGPATH_CTRL;
 	byte _ANALOG_ADR;
 	const byte _DAC_ADR = 0x60;

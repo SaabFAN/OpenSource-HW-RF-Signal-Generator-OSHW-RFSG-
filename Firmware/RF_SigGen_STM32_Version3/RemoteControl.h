@@ -7,6 +7,8 @@
 #include <Arduino.h>
 #ifndef REMOTECONTROL_H_
 #define REMOTECONTROL_H_
+#include "SignalControls/AnalogBoardDriver.h"
+#include "SignalControl.h"
 
 class RemoteControl {
 public:

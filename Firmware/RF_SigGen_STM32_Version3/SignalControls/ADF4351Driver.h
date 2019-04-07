@@ -19,7 +19,7 @@ public:
 	bool Init(unsigned long reference_frequency, int stepSize, int CS_PIN, int LE_PIN, unsigned char Addr);	// This sets up the driver and initializes the ADF4351-Chip. i2c_address is the address of the GPIO-Expander that is connected to the Lock Detect and Mux-Outputs.
 		void SetMode(char mode);
 		void Configure(int selector, int value);
-		bool SetAmplitude(char amplitude);
+		bool SetAmplitude(int8_t amplitude);
 		void SetFrequency(unsigned long frequency);
 		void SetPhase(float phase_angle);
 		bool CheckLock();

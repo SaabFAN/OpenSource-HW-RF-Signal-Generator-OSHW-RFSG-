@@ -20,8 +20,10 @@ void setup() {
 		break;
 	case 0x02:
 		Serial.println(F("Keyboard: ERROR | Touch: OK | UI: ERROR"));
+		break;
 	case 0x05:
 		Serial.println(F("Keyboard: OK | Touch: ERROR | UI: OK"));
+		break;
 	case 0x04:
 		Serial.println(F("Keyboard: OK | Touch: ERROR | UI: ERROR"));
 		break;

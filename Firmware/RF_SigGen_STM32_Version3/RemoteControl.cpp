@@ -7,6 +7,9 @@
 
 #include "RemoteControl.h"
 
+AnalogBoardDriver PATH_DIRECT;
+SignalControl SigDIRECT;
+
 RemoteControl::RemoteControl() {
 	// TODO Auto-generated constructor stub
 
@@ -58,7 +61,7 @@ void RemoteControl::CheckSerial() {
 		return;
 	}
 	int Att_Serial = 0;
-	uint32_t Freq_Serial = 0;
+	unsigned long Freq_Serial = 0;
 	int AGC_Serial = 0;
 	switch (SERIALMODE) {
 	case 'A':	// Manual setting of Attenuator
@@ -76,7 +79,7 @@ void RemoteControl::CheckSerial() {
 				}
 				Serial.print(AGC_Serial, DEC);
 				Serial.println(F(" mV"));
-		 // TODO: Implement		SetAGC_BIAS(AGC_Serial);
+				PATH_DIRECT.SetBIAS(AGC_Serial);
 				break;
 			case 'L':
 				AGC_Serial = Serial.parseInt();
@@ -87,7 +90,7 @@ void RemoteControl::CheckSerial() {
 				}
 				Serial.print(AGC_Serial, DEC);
 				Serial.println(F(" mV"));
-				// TODO: Implement		SetAGC_LVL(AGC_Serial);
+				PATH_DIRECT.SetLVL(AGC_Serial);
 				break;
 			}
 			break;
@@ -111,14 +114,14 @@ void RemoteControl::CheckSerial() {
 		case 'A':
 			Serial.println(F("AD9910"));
 			for (int i = 0; i < 30; i++) {
-				// TODO: Implement this SetFreqAD9910(66000000);
+				SigDIRECT.SetFreq_Man(66000000, false);
 				delay(1000);
 			}
 			break;
 		case 'B':
 			Serial.println(F("ADF4351"));
 			for (int i = 0; i < 30; i++) {
-				// TODO: Implement this HF_Source.SetFrequency(60000000);
+				SigDIRECT.SetFreq_Man(120000000, false);
 				delay(1000);
 			}
 			break;
@@ -127,12 +130,12 @@ void RemoteControl::CheckSerial() {
 
 	case 'M':
 		Serial.print(F("RF Level Sense = "));
-		// TODO: Implement this Serial.print(ADC_READ(ADC_RF_LEVEL_SENSE), DEC);
+		Serial.print(PATH_DIRECT.GetLEVEL(), DEC);
 		Serial.print(F(" mV = "));
-		// TODO: Implement this Serial.print((ADC_READ(ADC_RF_LEVEL_SENSE) * 3.2), 0);
+		Serial.print((PATH_DIRECT.GetPWR() * 3.2), 0);
 		Serial.print(F(" mV @ RF-Level_Sense Input of AGC | "));
 		Serial.print(F("RF OUT Sense = "));
-		// TODO: Implement this Serial.print(ADC_READ(ADC_RF_OUT_SENSE), DEC);
+		Serial.print(PATH_DIRECT.GetPWR(), DEC);
 		Serial.println(F(" mV "));
 		break;
 
@@ -170,12 +173,12 @@ void RemoteControl::CheckSerial() {
 		Serial.print(F("Setting Frequency: "));
 		if (Serial.available() > 0) {
 			Freq_Serial = Serial.parseInt();
-			if (Freq_Serial < 10.0 || Freq_Serial > 4400000000) {
+			if (Freq_Serial > 4200000000) {
 				Serial.println(F("Out Of Range!"));
 				return;
 			}
 			Serial.print(Freq_Serial, DEC);
-			// TODO: Implement this 	SetFreq(Freq_Serial);
+			SigDIRECT.SetFreq_Auto(Freq_Serial);
 		}
 		break;
 	}

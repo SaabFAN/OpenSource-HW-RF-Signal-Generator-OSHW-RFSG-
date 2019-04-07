@@ -10,18 +10,21 @@
 ADF4351Driver::ADF4351Driver() {
 	// TODO Auto-generated constructor stub
 	// TODO Auto-generated constructor stub
-		ADF4351refin = 20000000; // Initialize reference-frequency with the 20 MHz default-frequency
-		init_complete = false; // Initialize the flag that shows whether the chip is initialized with "false"
-		current_freq = 40000000; // Initialized the Frequency-Variable with the default-Value: 40 MHz
-		ChanStep = 1000;
-		dBm = 2;				// Set the amplitude to +5 dBm
-		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
-		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-		aux_select = 1;		// 1bit  aux OutSel
-		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
-		VcoPwrDown = 0;		// 1bit 1=VCO off
-		ADF4351_CS = PB14;		// Default-Value for the CS-Pin
-		ADF4351_LE = PB13;		// Default-Value for the LE_Pin
+	GPIO_Addr = 0x3A;
+	ADF4351refin = 20000000; // Initialize reference-frequency with the 20 MHz default-frequency
+	init_complete = false; // Initialize the flag that shows whether the chip is initialized with "false"
+	current_freq = 40000000; // Initialized the Frequency-Variable with the default-Value: 40 MHz
+	ChanStep = 1000;
+	dBm = 2;				// Set the amplitude to +5 dBm
+	output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
+	aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
+	aux_select = 1;		// 1bit  aux OutSel
+	MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
+	VcoPwrDown = 0;		// 1bit 1=VCO off
+	ADF4351_CS = PB14;		// Default-Value for the CS-Pin
+	ADF4351_LE = PB13;		// Default-Value for the LE_Pin
+	MUX_OUT = true;
+	PLL_LOCK = false;
 }
 
 ADF4351Driver::~ADF4351Driver() {
@@ -41,8 +44,8 @@ bool ADF4351Driver::Init(unsigned long reference_frequency, int stepSize,
 	if (LE_PIN != 0) {
 		ADF4351_LE = LE_PIN;
 	}
-	  pinMode(ADF4351_CS, OUTPUT);
-	  pinMode(ADF4351_LE, OUTPUT);
+	pinMode(ADF4351_CS, OUTPUT);
+	pinMode(ADF4351_LE, OUTPUT);
 	current_freq = 50000000;
 	ADF4351refin = reference_frequency;
 	Serial.println(F("ADFMode = STATE_INIT"));
@@ -66,35 +69,35 @@ bool ADF4351Driver::Init(unsigned long reference_frequency, int stepSize,
 
 void ADF4351Driver::SetMode(char mode) {
 	switch (mode) {
-	case 0x10:	// Power Down-Mode
+	case 'P':	// Power Down-Mode
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case 0x11:	// ColdStart
+	case 'C':	// ColdStart
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 0;		// 1bit 1=VCO off
 		break;
-	case 0x20:	// Standby-Mode
+	case 'S':	// Standby-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 1;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case 0x40:	// Test-Mode
+	case 'T':	// Test-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 1;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
-	case 0x00:	// Normal-Mode
+	case 'N':	// Normal-Mode
 		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 0;		// 1bit  aux OutSel
@@ -104,7 +107,7 @@ void ADF4351Driver::SetMode(char mode) {
 	}
 }
 
-bool ADF4351Driver::SetAmplitude(char amplitude) {
+bool ADF4351Driver::SetAmplitude(int8_t amplitude) {
 	bool amplitude_set = true;
 	switch (amplitude) {
 	case -4:
@@ -165,27 +168,25 @@ int ADF4351Driver::GetPhase() {
 
 }
 
-bool ADF4351Driver::CheckLock(){
+bool ADF4351Driver::CheckLock() {
 	Wire.requestFrom(GPIO_Addr, 1);
 	unsigned char GPIO_PINS = Wire.read();
-	if((GPIO_PINS & 0x04) == 1){
+	if ((GPIO_PINS & 0x04) == 1) {
 		PLL_LOCK = true;
-	}
-	else{
+	} else {
 		PLL_LOCK = false;
 	}
 	return PLL_LOCK;
 }
 
-bool ADF4351Driver::CheckMux(){
+bool ADF4351Driver::CheckMux() {
 	Wire.requestFrom(GPIO_Addr, 1);
-		unsigned char GPIO_PINS = Wire.read();
-		if((GPIO_PINS & 0x05) == 1){
-			MUX_OUT = true;
-		}
-		else{
-			MUX_OUT = false;
-		}
+	unsigned char GPIO_PINS = Wire.read();
+	if ((GPIO_PINS & 0x05) == 1) {
+		MUX_OUT = true;
+	} else {
+		MUX_OUT = false;
+	}
 	return MUX_OUT;
 }
 

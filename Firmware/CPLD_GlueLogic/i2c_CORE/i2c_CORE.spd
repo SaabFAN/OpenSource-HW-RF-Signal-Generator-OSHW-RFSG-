@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="simulation/submodules/i2c_CORE_ufm_i2c_0.v"
+   type="VERILOG"
+   library="ufm_i2c_0" />
+ <file path="simulation/i2c_CORE.vhd" type="VHDL" />
+ <topLevel name="i2c_CORE" />
+ <deviceFamily name="maxv" />
+</simPackage>

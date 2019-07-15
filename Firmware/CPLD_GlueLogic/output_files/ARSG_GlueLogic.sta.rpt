@@ -1,0 +1,407 @@
+Timing Analyzer report for ARSG_GlueLogic
+Fri Mar 15 20:44:31 2019
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Timing Analyzer Summary
+  3. Parallel Compilation
+  4. SDC File List
+  5. Clocks
+  6. Slow Model Fmax Summary
+  7. Slow Model Setup Summary
+  8. Slow Model Hold Summary
+  9. Slow Model Recovery Summary
+ 10. Slow Model Removal Summary
+ 11. Slow Model Minimum Pulse Width Summary
+ 12. Fast Model Setup Summary
+ 13. Fast Model Hold Summary
+ 14. Fast Model Recovery Summary
+ 15. Fast Model Removal Summary
+ 16. Fast Model Minimum Pulse Width Summary
+ 17. Multicorner Timing Analysis Summary
+ 18. Clock Transfers
+ 19. Report TCCS
+ 20. Report RSKM
+ 21. Unconstrained Paths Summary
+ 22. Clock Status Summary
+ 23. Unconstrained Input Ports
+ 24. Unconstrained Output Ports
+ 25. Unconstrained Input Ports
+ 26. Unconstrained Output Ports
+ 27. Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                     ;
++-----------------------+-----------------------------------------------------+
+; Quartus Prime Version ; Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Timing Analyzer       ; Legacy Timing Analyzer                              ;
+; Revision Name         ; ARSG_GlueLogic                                      ;
+; Device Family         ; MAX V                                               ;
+; Device Name           ; 5M1270ZT144C5                                       ;
+; Timing Models         ; Final                                               ;
+; Delay Model           ; Combined                                            ;
+; Rise/Fall Delays      ; Unavailable                                         ;
++-----------------------+-----------------------------------------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 12          ;
+; Maximum allowed            ; 12          ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
++----------------------------+-------------+
+
+
++------------------------------------------------------------+
+; SDC File List                                              ;
++------------------------+--------+--------------------------+
+; SDC File Path          ; Status ; Read at                  ;
++------------------------+--------+--------------------------+
+; ARSG_GlueLogic.out.sdc ; OK     ; Fri Mar 15 20:44:31 2019 ;
++------------------------+--------+--------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                                      ;
++--------------+------+---------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------------+
+; Clock Name   ; Type ; Period  ; Frequency ; Rise  ; Fall   ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets          ;
++--------------+------+---------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------------+
+; ADF4351_CLK  ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { ADF4351_CLK }  ;
+; ADF4351_MOSI ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { ADF4351_MOSI } ;
+; ADF5355_CLK  ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { ADF5355_CLK }  ;
+; ADF5355_MOSI ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { ADF5355_MOSI } ;
+; SDA          ; Base ; 100.000 ; 10.0 MHz  ; 0.000 ; 50.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { SDA }          ;
+; SPI_CLK      ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { SPI_CLK }      ;
+; TFT_CLK      ; Base ; 20.000  ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { TFT_CLK }      ;
++--------------+------+---------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+------------------+
+
+
+---------------------------
+; Slow Model Fmax Summary ;
+---------------------------
+No paths to report.
+
+
+----------------------------
+; Slow Model Setup Summary ;
+----------------------------
+No paths to report.
+
+
+---------------------------
+; Slow Model Hold Summary ;
+---------------------------
+No paths to report.
+
+
+-------------------------------
+; Slow Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Slow Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
++----------------------------------------+
+; Slow Model Minimum Pulse Width Summary ;
++--------------+--------+----------------+
+; Clock        ; Slack  ; End Point TNS  ;
++--------------+--------+----------------+
+; SPI_CLK      ; 10.000 ; 0.000          ;
+; ADF4351_CLK  ; 16.711 ; 0.000          ;
+; ADF4351_MOSI ; 16.711 ; 0.000          ;
+; ADF5355_CLK  ; 16.711 ; 0.000          ;
+; ADF5355_MOSI ; 16.711 ; 0.000          ;
+; TFT_CLK      ; 16.711 ; 0.000          ;
+; SDA          ; 96.711 ; 0.000          ;
++--------------+--------+----------------+
+
+
+----------------------------
+; Fast Model Setup Summary ;
+----------------------------
+No paths to report.
+
+
+---------------------------
+; Fast Model Hold Summary ;
+---------------------------
+No paths to report.
+
+
+-------------------------------
+; Fast Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Fast Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
++----------------------------------------+
+; Fast Model Minimum Pulse Width Summary ;
++--------------+--------+----------------+
+; Clock        ; Slack  ; End Point TNS  ;
++--------------+--------+----------------+
+; SPI_CLK      ; 10.000 ; 0.000          ;
+; ADF4351_CLK  ; 16.711 ; 0.000          ;
+; ADF4351_MOSI ; 16.711 ; 0.000          ;
+; ADF5355_CLK  ; 16.711 ; 0.000          ;
+; ADF5355_MOSI ; 16.711 ; 0.000          ;
+; TFT_CLK      ; 16.711 ; 0.000          ;
+; SDA          ; 96.711 ; 0.000          ;
++--------------+--------+----------------+
+
+
++----------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                        ;
++------------------+-------+------+----------+---------+---------------------+
+; Clock            ; Setup ; Hold ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+-------+------+----------+---------+---------------------+
+; Worst-case Slack ; N/A   ; N/A  ; N/A      ; N/A     ; 10.000              ;
+;  ADF4351_CLK     ; N/A   ; N/A  ; N/A      ; N/A     ; 16.711              ;
+;  ADF4351_MOSI    ; N/A   ; N/A  ; N/A      ; N/A     ; 16.711              ;
+;  ADF5355_CLK     ; N/A   ; N/A  ; N/A      ; N/A     ; 16.711              ;
+;  ADF5355_MOSI    ; N/A   ; N/A  ; N/A      ; N/A     ; 16.711              ;
+;  SDA             ; N/A   ; N/A  ; N/A      ; N/A     ; 96.711              ;
+;  SPI_CLK         ; N/A   ; N/A  ; N/A      ; N/A     ; 10.000              ;
+;  TFT_CLK         ; N/A   ; N/A  ; N/A      ; N/A     ; 16.711              ;
+; Design-wide TNS  ; 0.0   ; 0.0  ; 0.0      ; 0.0     ; 0.0                 ;
+;  ADF4351_CLK     ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  ADF4351_MOSI    ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  ADF5355_CLK     ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  ADF5355_MOSI    ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  SDA             ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  SPI_CLK         ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
+;  TFT_CLK         ; N/A   ; N/A  ; N/A      ; N/A     ; 0.000               ;
++------------------+-------+------+----------+---------+---------------------+
+
+
+-------------------
+; Clock Transfers ;
+-------------------
+Nothing to report.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No non-DPA dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths Summary                    ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 8     ; 8    ;
+; Unconstrained Input Port Paths  ; 30    ; 30   ;
+; Unconstrained Output Ports      ; 14    ; 14   ;
+; Unconstrained Output Port Paths ; 30    ; 30   ;
++---------------------------------+-------+------+
+
+
++--------------------------------------------------+
+; Clock Status Summary                             ;
++--------------+--------------+------+-------------+
+; Target       ; Clock        ; Type ; Status      ;
++--------------+--------------+------+-------------+
+; ADF4351_CLK  ; ADF4351_CLK  ; Base ; Constrained ;
+; ADF4351_MOSI ; ADF4351_MOSI ; Base ; Constrained ;
+; ADF5355_CLK  ; ADF5355_CLK  ; Base ; Constrained ;
+; ADF5355_MOSI ; ADF5355_MOSI ; Base ; Constrained ;
+; SDA          ; SDA          ; Base ; Constrained ;
+; SPI_CLK      ; SPI_CLK      ; Base ; Constrained ;
+; TFT_CLK      ; TFT_CLK      ; Base ; Constrained ;
++--------------+--------------+------+-------------+
+
+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; ADF_CS     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF_LE     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF_SELECT ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; SPI_MOSI   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_CS     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_DC     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_MISO   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_RST    ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; Unconstrained Output Ports                                                                           ;
++--------------+---------------------------------------------------------------------------------------+
+; Output Port  ; Comment                                                                               ;
++--------------+---------------------------------------------------------------------------------------+
+; ADF4351_CLK  ; Partially constrained                                                                 ;
+; ADF4351_CS   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF4351_LE   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF4351_MOSI ; Partially constrained                                                                 ;
+; ADF5355_CLK  ; Partially constrained                                                                 ;
+; ADF5355_CS   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF5355_LE   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF5355_MOSI ; Partially constrained                                                                 ;
+; SPI_MISO     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_CLK      ; Partially constrained                                                                 ;
+; TFT_CS_OUT   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_DC_OUT   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_MOSI     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_RST_OUT  ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
++--------------+---------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; ADF_CS     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF_LE     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF_SELECT ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; SPI_MOSI   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_CS     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_DC     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_MISO   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_RST    ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; Unconstrained Output Ports                                                                           ;
++--------------+---------------------------------------------------------------------------------------+
+; Output Port  ; Comment                                                                               ;
++--------------+---------------------------------------------------------------------------------------+
+; ADF4351_CLK  ; Partially constrained                                                                 ;
+; ADF4351_CS   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF4351_LE   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF4351_MOSI ; Partially constrained                                                                 ;
+; ADF5355_CLK  ; Partially constrained                                                                 ;
+; ADF5355_CS   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF5355_LE   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; ADF5355_MOSI ; Partially constrained                                                                 ;
+; SPI_MISO     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_CLK      ; Partially constrained                                                                 ;
+; TFT_CS_OUT   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_DC_OUT   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_MOSI     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; TFT_RST_OUT  ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
++--------------+---------------------------------------------------------------------------------------+
+
+
++--------------------------+
+; Timing Analyzer Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Timing Analyzer
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Fri Mar 15 20:44:30 2019
+Info: Command: quartus_sta ARSG_GlueLogic -c ARSG_GlueLogic
+Info: qsta_default_script.tcl version: #1
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 85 degrees C
+Info (334003): Started post-fitting delay annotation
+Info (334004): Delay annotation completed successfully
+Info (332104): Reading SDC File: 'ARSG_GlueLogic.out.sdc'
+Warning (332174): Ignored filter at ARSG_GlueLogic.out.sdc(42): SCL could not be matched with a port File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+Warning (332049): Ignored create_clock at ARSG_GlueLogic.out.sdc(42): Argument <targets> is an empty collection File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+    Info (332050): create_clock -name {SCL} -period 100.000 -waveform { 0.000 50.000 } [get_ports { SCL }] File: E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/ARSG_GlueLogic.out.sdc Line: 42
+Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Info: Analyzing Slow Model
+Info (332140): No fmax paths to report
+Info: Can't run Report Timing Closure Recommendations. The current device family is not supported.
+Info (332140): No Setup paths to report
+Info (332140): No Hold paths to report
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 10.000
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    10.000               0.000 SPI_CLK 
+    Info (332119):    16.711               0.000 ADF4351_CLK 
+    Info (332119):    16.711               0.000 ADF4351_MOSI 
+    Info (332119):    16.711               0.000 ADF5355_CLK 
+    Info (332119):    16.711               0.000 ADF5355_MOSI 
+    Info (332119):    16.711               0.000 TFT_CLK 
+    Info (332119):    96.711               0.000 SDA 
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info: Analyzing Fast Model
+Info (334003): Started post-fitting delay annotation
+Info (334004): Delay annotation completed successfully
+Info (332140): No Setup paths to report
+Info (332140): No Hold paths to report
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 10.000
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    10.000               0.000 SPI_CLK 
+    Info (332119):    16.711               0.000 ADF4351_CLK 
+    Info (332119):    16.711               0.000 ADF4351_MOSI 
+    Info (332119):    16.711               0.000 ADF5355_CLK 
+    Info (332119):    16.711               0.000 ADF5355_MOSI 
+    Info (332119):    16.711               0.000 TFT_CLK 
+    Info (332119):    96.711               0.000 SDA 
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 3 warnings
+    Info: Peak virtual memory: 4694 megabytes
+    Info: Processing ended: Fri Mar 15 20:44:31 2019
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

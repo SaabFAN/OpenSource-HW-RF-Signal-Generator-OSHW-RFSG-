@@ -1,0 +1,11 @@
+Fitter Status : Successful - Fri Mar 15 20:44:26 2019
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : ARSG_GlueLogic
+Top-level Entity Name : ARSG_GlueLogic
+Family : MAX V
+Device : 5M1270ZT144C5
+Timing Models : Final
+Total logic elements : 13 / 1,270 ( 1 % )
+Total pins : 46 / 114 ( 40 % )
+Total virtual pins : 0
+UFM blocks : 0 / 1 ( 0 % )

@@ -1,0 +1,12 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst unsaved.ufm_i2c_0 -pg 1 -lvl 1 -y 30
+preplace inst unsaved -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)ufm_i2c_0.osc,(SLAVE)unsaved.osc) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)ufm_i2c_0.a0,(SLAVE)unsaved.a0) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.a2,(SLAVE)ufm_i2c_0.a2) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.a1,(SLAVE)ufm_i2c_0.a1) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)ufm_i2c_0.sda,(SLAVE)unsaved.sda) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.scl,(SLAVE)ufm_i2c_0.scl) 1 0 1 NJ
+levelinfo -pg 1 0 30 170
+levelinfo -hier unsaved 40 70 160

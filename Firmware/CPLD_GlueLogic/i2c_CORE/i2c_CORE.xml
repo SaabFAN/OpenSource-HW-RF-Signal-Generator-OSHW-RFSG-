@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy
+ date="2019.03.15.16:44:32"
+ outputDirectory="E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/">
+ <perimeter>
+  <parameter
+     name="AUTO_GENERATION_ID"
+     type="Integer"
+     defaultValue="0"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_UNIQUE_ID"
+     type="String"
+     defaultValue=""
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_FAMILY"
+     type="String"
+     defaultValue="MAX V"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE"
+     type="String"
+     defaultValue="5M1270ZT144C5"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_SPEEDGRADE"
+     type="String"
+     defaultValue="5"
+     onHdl="0"
+     affectsHdl="1" />
+  <interface name="a0" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="a0" direction="input" role="a0" width="1" />
+  </interface>
+  <interface name="a1" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="a1" direction="input" role="a1" width="1" />
+  </interface>
+  <interface name="a2" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="a2" direction="input" role="a2" width="1" />
+  </interface>
+  <interface name="global_reset" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="global_reset" direction="input" role="global_reset" width="1" />
+  </interface>
+  <interface name="osc" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="osc" direction="output" role="osc" width="1" />
+  </interface>
+  <interface name="scl" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="scl" direction="bidir" role="scl" width="1" />
+  </interface>
+  <interface name="sda" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="sda" direction="bidir" role="sda" width="1" />
+  </interface>
+ </perimeter>
+ <entity
+   path=""
+   parameterizationKey="i2c_CORE:1.0:AUTO_DEVICE=5M1270ZT144C5,AUTO_DEVICE_FAMILY=MAX V,AUTO_DEVICE_SPEEDGRADE=5,AUTO_GENERATION_ID=1552664672,AUTO_UNIQUE_ID=(altera_ufm_i2c:18.1:ACCESS_MODE=READ_WRITE,AUTO_CLOCK_ENABLE_RECOGNITION=OFF,CBX_AUTO_BLACKBOX=ALL,DEVICE_FAMILY=MAX V,ERASE_METHOD=MEM_ADD,ERASE_TIME=500000000,FIXED_DEVICE_ADD=1010,GUI_ERASE_TIME=500000,GUI_GLOBAL_CHECK=true,GUI_MEM_ADD_ERASE0=00000000,GUI_MEM_ADD_ERASE1=01000000,GUI_MEM_INIT=Initialize blank memory,GUI_OSC_FREQUENCY=5.56,GUI_PROGRAM_TIME=1600,LPM_FILE=,MEMORY_SIZE=4K,MEM_ADD_ERASE0=00000000,MEM_ADD_ERASE1=01000000,MEM_PROTECT=FULL,OSCENA_CHECK=false,OSC_CHECK=true,OSC_FREQUENCY=180000,PAGE_WRITE_SIZE=16,PORT_GLOBAL_RESET=USED,PROGRAM_TIME=1600000,WP_CHECK=false,WRITE_MODE=SINGLE_BYTE)"
+   instancePathKey="i2c_CORE"
+   kind="i2c_CORE"
+   version="1.0"
+   name="i2c_CORE">
+  <parameter name="AUTO_GENERATION_ID" value="1552664672" />
+  <parameter name="AUTO_DEVICE" value="5M1270ZT144C5" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="MAX V" />
+  <parameter name="AUTO_UNIQUE_ID" value="" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="5" />
+  <generatedFiles>
+   <file
+       path="E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/synthesis/i2c_CORE.vhd"
+       type="VHDL" />
+  </generatedFiles>
+  <childGeneratedFiles>
+   <file
+       path="E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/synthesis/submodules/i2c_CORE_ufm_i2c_0.v"
+       type="VERILOG"
+       attributes="" />
+  </childGeneratedFiles>
+  <sourceFiles>
+   <file
+       path="E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE.qsys" />
+  </sourceFiles>
+  <childSourceFiles>
+   <file
+       path="D:/intel_fpga/quartus_lite/ip/altera/altera_ufm/altera_ufm_i2c/altera_ufm_i2c_hw.tcl" />
+  </childSourceFiles>
+  <messages>
+   <message level="Debug" culprit="i2c_CORE">queue size: 0 starting:i2c_CORE "i2c_CORE"</message>
+   <message level="Progress" culprit="min"></message>
+   <message level="Progress" culprit="max"></message>
+   <message level="Progress" culprit="current"></message>
+   <message level="Debug">Transform: CustomInstructionTransform</message>
+   <message level="Debug">No custom instruction connections, skipping transform </message>
+   <message level="Debug" culprit="merlin_custom_instruction_transform"><![CDATA[After transform: <b>1</b> modules, <b>0</b> connections]]></message>
+   <message level="Debug">Transform: MMTransform</message>
+   <message level="Debug">Transform: InterruptMapperTransform</message>
+   <message level="Debug">Transform: InterruptSyncTransform</message>
+   <message level="Debug">Transform: InterruptFanoutTransform</message>
+   <message level="Debug">Transform: AvalonStreamingTransform</message>
+   <message level="Debug">Transform: ResetAdaptation</message>
+   <message level="Debug" culprit="i2c_CORE"><![CDATA["<b>i2c_CORE</b>" reuses <b>altera_ufm_i2c</b> "<b>submodules/i2c_CORE_ufm_i2c_0</b>"]]></message>
+   <message level="Debug" culprit="i2c_CORE">queue size: 0 starting:altera_ufm_i2c "submodules/i2c_CORE_ufm_i2c_0"</message>
+   <message level="Info" culprit="ufm_i2c_0">Generating top-level entity i2c_CORE_ufm_i2c_0.</message>
+   <message level="Info" culprit="ufm_i2c_0"><![CDATA["<b>i2c_CORE</b>" instantiated <b>altera_ufm_i2c</b> "<b>ufm_i2c_0</b>"]]></message>
+  </messages>
+ </entity>
+ <entity
+   path="submodules/"
+   parameterizationKey="altera_ufm_i2c:18.1:ACCESS_MODE=READ_WRITE,AUTO_CLOCK_ENABLE_RECOGNITION=OFF,CBX_AUTO_BLACKBOX=ALL,DEVICE_FAMILY=MAX V,ERASE_METHOD=MEM_ADD,ERASE_TIME=500000000,FIXED_DEVICE_ADD=1010,GUI_ERASE_TIME=500000,GUI_GLOBAL_CHECK=true,GUI_MEM_ADD_ERASE0=00000000,GUI_MEM_ADD_ERASE1=01000000,GUI_MEM_INIT=Initialize blank memory,GUI_OSC_FREQUENCY=5.56,GUI_PROGRAM_TIME=1600,LPM_FILE=,MEMORY_SIZE=4K,MEM_ADD_ERASE0=00000000,MEM_ADD_ERASE1=01000000,MEM_PROTECT=FULL,OSCENA_CHECK=false,OSC_CHECK=true,OSC_FREQUENCY=180000,PAGE_WRITE_SIZE=16,PORT_GLOBAL_RESET=USED,PROGRAM_TIME=1600000,WP_CHECK=false,WRITE_MODE=SINGLE_BYTE"
+   instancePathKey="i2c_CORE:.:ufm_i2c_0"
+   kind="altera_ufm_i2c"
+   version="18.1"
+   name="i2c_CORE_ufm_i2c_0">
+  <parameter name="GUI_OSC_FREQUENCY" value="5.56" />
+  <parameter name="OSCENA_CHECK" value="false" />
+  <parameter name="DEVICE_FAMILY" value="MAX V" />
+  <parameter name="OSC_CHECK" value="true" />
+  <parameter name="ERASE_METHOD" value="MEM_ADD" />
+  <parameter name="PAGE_WRITE_SIZE" value="16" />
+  <parameter name="PROGRAM_TIME" value="1600000" />
+  <parameter name="ERASE_TIME" value="500000000" />
+  <parameter name="OSC_FREQUENCY" value="180000" />
+  <parameter name="ACCESS_MODE" value="READ_WRITE" />
+  <parameter name="PORT_GLOBAL_RESET" value="USED" />
+  <parameter name="MEMORY_SIZE" value="4K" />
+  <parameter name="CBX_AUTO_BLACKBOX" value="ALL" />
+  <parameter name="WRITE_MODE" value="SINGLE_BYTE" />
+  <parameter name="GUI_PROGRAM_TIME" value="1600" />
+  <parameter name="WP_CHECK" value="false" />
+  <parameter name="GUI_GLOBAL_CHECK" value="true" />
+  <parameter name="GUI_MEM_INIT" value="Initialize blank memory" />
+  <parameter name="AUTO_CLOCK_ENABLE_RECOGNITION" value="OFF" />
+  <parameter name="MEM_ADD_ERASE1" value="01000000" />
+  <parameter name="MEM_ADD_ERASE0" value="00000000" />
+  <parameter name="GUI_ERASE_TIME" value="500000" />
+  <parameter name="FIXED_DEVICE_ADD" value="1010" />
+  <parameter name="GUI_MEM_ADD_ERASE0" value="00000000" />
+  <parameter name="LPM_FILE" value="" />
+  <parameter name="MEM_PROTECT" value="FULL" />
+  <parameter name="GUI_MEM_ADD_ERASE1" value="01000000" />
+  <generatedFiles>
+   <file
+       path="E:/EigeneDateien/Seafile/Seafile/Elektronik/Projects/Signal-Generator/GIT-Repo/Firmware/CPLD_GlueLogic/i2c_CORE/synthesis/submodules/i2c_CORE_ufm_i2c_0.v"
+       type="VERILOG"
+       attributes="" />
+  </generatedFiles>
+  <childGeneratedFiles/>
+  <sourceFiles>
+   <file
+       path="D:/intel_fpga/quartus_lite/ip/altera/altera_ufm/altera_ufm_i2c/altera_ufm_i2c_hw.tcl" />
+  </sourceFiles>
+  <childSourceFiles/>
+  <instantiator instantiator="i2c_CORE" as="ufm_i2c_0" />
+  <messages>
+   <message level="Debug" culprit="i2c_CORE">queue size: 0 starting:altera_ufm_i2c "submodules/i2c_CORE_ufm_i2c_0"</message>
+   <message level="Info" culprit="ufm_i2c_0">Generating top-level entity i2c_CORE_ufm_i2c_0.</message>
+   <message level="Info" culprit="ufm_i2c_0"><![CDATA["<b>i2c_CORE</b>" instantiated <b>altera_ufm_i2c</b> "<b>ufm_i2c_0</b>"]]></message>
+  </messages>
+ </entity>
+</deploy>

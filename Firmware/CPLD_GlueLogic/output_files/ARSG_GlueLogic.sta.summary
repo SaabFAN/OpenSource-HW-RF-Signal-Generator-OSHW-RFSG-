@@ -1,0 +1,61 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow Model Minimum Pulse Width 'SPI_CLK'
+Slack : 10.000
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'ADF4351_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'ADF4351_MOSI'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'ADF5355_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'ADF5355_MOSI'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'TFT_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'SDA'
+Slack : 96.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'SPI_CLK'
+Slack : 10.000
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'ADF4351_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'ADF4351_MOSI'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'ADF5355_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'ADF5355_MOSI'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'TFT_CLK'
+Slack : 16.711
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'SDA'
+Slack : 96.711
+TNS   : 0.000
+
+------------------------------------------------------------

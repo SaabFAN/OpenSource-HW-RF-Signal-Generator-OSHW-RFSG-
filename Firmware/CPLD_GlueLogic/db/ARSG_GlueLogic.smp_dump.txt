@@ -1,0 +1,11 @@
+
+State Machine - |ARSG_GlueLogic|i2c_slave_fsm:inst_i2cSlave|state
+Name state.WAIT_STOP state.WAIT_ACK_2 state.WAIT_ACK_1 state.READ_CMD state.WRITE_CMD state.SEND_ACK_1 state.READ_ADDRESS state.IDLE 
+state.IDLE 0 0 0 0 0 0 0 0 
+state.READ_ADDRESS 0 0 0 0 0 0 1 1 
+state.SEND_ACK_1 0 0 0 0 0 1 0 1 
+state.WRITE_CMD 0 0 0 0 1 0 0 1 
+state.READ_CMD 0 0 0 1 0 0 0 1 
+state.WAIT_ACK_1 0 0 1 0 0 0 0 1 
+state.WAIT_ACK_2 0 1 0 0 0 0 0 1 
+state.WAIT_STOP 1 0 0 0 0 0 0 1 

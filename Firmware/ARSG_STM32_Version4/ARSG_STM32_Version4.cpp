@@ -9,6 +9,10 @@ int SYS_ERROR = 0x0000; // Error-Variable to store any Errors - Coding: Byte 0 =
 
 unsigned long main_timer = 0;
 
+
+#define ADF_INVERTER // Remove this if your ADF-Module is connected directly to the Mainboard. If CS and LE-Signals are inverted via a Inverter-Module, activate this statement.
+bool ADF_Inverter = false;
+
 /*
  * SYS_ERROR-Content:
  * Byte 0 = X | X | X | X | GPIO_Expander SignalSourcce | GPIO_Expander Attenuator | VCC Undervolt | X
@@ -21,6 +25,9 @@ unsigned long main_timer = 0;
 #define SERIAL_WAIT
 //#define SPI_SigIntegDebug
 void setup() {
+#ifdef ADF_INVERTER
+	ADF_Inverter = true; // Enable the ADF_Inverter if the define-directive specifies it.
+#endif
 // Add your initialization code here
 	SYS_ERROR = 0x0000;
 	sys_ok = false;
@@ -61,7 +68,7 @@ void setup() {
 				break;
 			}
 			Serial.print(F("SignlControl_Init - "));
-			unsigned char SigControlInit = SigCTRL.Init(true);
+			unsigned char SigControlInit = SigCTRL.Init(true, ADF_Inverter);
 			switch (SigControlInit) {
 			case 0x11:
 				Serial.println(F("LF_Source: SUCCESS | HF_Source: SUCCESS"));
@@ -80,7 +87,6 @@ void setup() {
 				sys_ok = false;
 				break;
 			}
-
 	switch (sys_ok){
 	case true:
 		SigCTRL.SetFreq_Auto(5000000);
@@ -94,6 +100,7 @@ void setup() {
 		Serial.println(F("Starting Main App - Attention: System might run unreliable and functions might not work!"));
 		break;
 	}
+SigCTRL.SetFreq_Man(210000000, true);
 	Serial.print(F("Boot-Time = "));
 	Serial.print(millis(), DEC);
 	Serial.println(F("ms"));

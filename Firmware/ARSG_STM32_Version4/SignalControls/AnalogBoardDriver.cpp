@@ -201,6 +201,8 @@ int AnalogBoardDriver::GetVCCD() {// Returns the calculated value of VCCD (3.3V 
 	return VCCD;
 }
 
+#define DAC_DEBUG
+
 // PRIVATE FUNCTIONS
 void AnalogBoardDriver::CalDAC() {
 	int dac_cal = 2048;

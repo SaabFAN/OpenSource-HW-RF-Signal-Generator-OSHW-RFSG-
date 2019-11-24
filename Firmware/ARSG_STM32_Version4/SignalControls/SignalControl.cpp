@@ -15,6 +15,8 @@ AnalogBoardDriver PATH;
 AttenuatorDriver ATTEN;
 UI_Primitives SigDraw;
 
+#define ADB_DEBUG
+//#define ADB_DEBUG2
 
 SignalControl::SignalControl() {
 	// TODO Auto-generated constructor stub
@@ -27,7 +29,7 @@ SignalControl::~SignalControl() {
 	// TODO Auto-generated destructor stub
 }
 
-unsigned char SignalControl::Init(bool AD9910_SPIMode) {
+unsigned char SignalControl::Init(bool AD9910_SPIMode, bool inverter) {
 	Serial.println(F("SignalControl-Init"));
 	unsigned char Init_Result = 0;
 	Serial.print(F("Check SigSource-GPIO-Address..."));
@@ -41,7 +43,6 @@ unsigned char SignalControl::Init(bool AD9910_SPIMode) {
 	sigSource_i2c_Address = 0x3A;
 	Wire.beginTransmission(sigSource_i2c_Address);
 	if (Wire.endTransmission() == 0) {
-		Serial.print(F("Found at 0x"));
 		Serial.println(sigSource_i2c_Address, HEX);
 		goto SigSource_GPIO_FOUND;
 	} else {
@@ -50,10 +51,25 @@ unsigned char SignalControl::Init(bool AD9910_SPIMode) {
 	}
 	SigSource_GPIO_FOUND: SigDraw.BootMessage(F("SigSource-Setup: "));
 	Serial.print(F("Setup ADF4351-SignalSource: "));
-	bool ADF_Init = HF.Init(20000000, 1000, PB14, PB13, sigSource_i2c_Address);
+	bool ADF_Init = HF.Init(20000000, 1000, PB14, PB13, sigSource_i2c_Address, inverter);
 	HF.SetMode(0x00);
 	HF.SetFrequency(50000000);
+#ifdef ADB_DEBUG
+#ifdef ADB_DEBUG2
+	while(1){
+#endif
+		delay(2000);
+	HF.SetFrequency(120000000);
+#ifdef ADB_DEBUG2
+	delay(1000);
+	HF.SetFrequency(80000000);
+	}
+#endif
+#endif
 	freq_Old = 50000000;
+#ifdef ADB_DEBUG
+	freq_Old = 120000000;
+	#endif
 	switch (ADF_Init) {
 	case true:
 		Init_Result = Init_Result + 0x01;

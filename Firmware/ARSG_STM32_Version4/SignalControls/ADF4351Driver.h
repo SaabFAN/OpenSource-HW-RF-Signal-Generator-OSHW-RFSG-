@@ -16,7 +16,7 @@ class ADF4351Driver {
 public:
 	ADF4351Driver();
 	virtual ~ADF4351Driver();
-	bool Init(unsigned long reference_frequency, int stepSize, int CS_PIN, int LE_PIN, unsigned char Addr);	// This sets up the driver and initializes the ADF4351-Chip. i2c_address is the address of the GPIO-Expander that is connected to the Lock Detect and Mux-Outputs.
+	bool Init(unsigned long reference_frequency, int stepSize, int CS_PIN, int LE_PIN, unsigned char Addr, bool inverter_installed);	// This sets up the driver and initializes the ADF4351-Chip. i2c_address is the address of the GPIO-Expander that is connected to the Lock Detect and Mux-Outputs.
 		void SetMode(char mode);
 		void Configure(int selector, int value);
 		bool SetAmplitude(int8_t amplitude);
@@ -39,6 +39,7 @@ public:
 		int ADF4351_LE;
 		bool PLL_LOCK;
 		bool MUX_OUT;
+		bool CSLE_INVERT;
 
 		// Configuration-Values of the Chip
 		unsigned long Reg[6];		// Array for the ADF4351 Registers

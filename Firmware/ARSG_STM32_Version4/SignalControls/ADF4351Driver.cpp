@@ -7,7 +7,7 @@
 
 #include "ADF4351Driver.h"
 
-//#define ADF_DEBUG
+#define ADF_DEBUG
 
 ADF4351Driver::ADF4351Driver() {
 	// TODO Auto-generated constructor stub
@@ -27,6 +27,7 @@ ADF4351Driver::ADF4351Driver() {
 	ADF4351_LE = PB13;		// Default-Value for the LE_Pin
 	MUX_OUT = true;
 	PLL_LOCK = false;
+	CSLE_INVERT = true;
 }
 
 ADF4351Driver::~ADF4351Driver() {
@@ -34,7 +35,7 @@ ADF4351Driver::~ADF4351Driver() {
 }
 
 bool ADF4351Driver::Init(unsigned long reference_frequency, int stepSize,
-		int CS_PIN, int LE_PIN, unsigned char Addr) {
+		int CS_PIN, int LE_PIN, unsigned char Addr, bool inverter_installed) {
 	GPIO_Addr = Addr;
 	Wire.begin();
 	if (reference_frequency < 10000000 || reference_frequency > 40000000) {
@@ -46,8 +47,18 @@ bool ADF4351Driver::Init(unsigned long reference_frequency, int stepSize,
 	if (LE_PIN != 0) {
 		ADF4351_LE = LE_PIN;
 	}
+	if (inverter_installed == false) {
+		CSLE_INVERT = false;
+	}
 	pinMode(ADF4351_CS, OUTPUT);
 	pinMode(ADF4351_LE, OUTPUT);
+	if (CSLE_INVERT == true) {
+		digitalWrite(ADF4351_CS, LOW);
+		digitalWrite(ADF4351_LE, LOW);
+	} else {
+		digitalWrite(ADF4351_CS, HIGH);
+		digitalWrite(ADF4351_LE, HIGH);
+	}
 	current_freq = 50000000;
 	ADF4351refin = reference_frequency;
 	Serial.println(F("ADFMode = STATE_INIT"));
@@ -100,11 +111,11 @@ void ADF4351Driver::SetMode(char mode) {
 		VcoPwrDown = 1;		// 1bit 1=VCO off
 		break;
 	case 'N':	// Normal-Mode
-		output_enable = 0;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
-		aux_enable = 0;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-		aux_select = 0;		// 1bit  aux OutSel
+		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
+		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
+		aux_select = 1;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
-		VcoPwrDown = 1;		// 1bit 1=VCO off
+		VcoPwrDown = 0;		// 1bit 1=VCO off
 		break;
 	}
 }
@@ -167,7 +178,7 @@ char ADF4351Driver::GetAmplitude() {
 }
 
 int ADF4351Driver::GetPhase() {
-return current_phase;
+	return current_phase;
 }
 
 bool ADF4351Driver::CheckLock() {
@@ -325,20 +336,34 @@ void ADF4351Driver::PrepareDataBuffer(int idx) { // make 4 byte from integer for
 ///////////////////////////// Teil-Subroutine ADF4351 ////////////////////////////
 void ADF4351Driver::TransmitData(byte a1, byte a2, byte a3, byte a4) {
 	// write over SPI to ADF4350
-	digitalWrite(ADF4351_CS, LOW);  // Pull the CS-Pin of the ADF4351 LOW
-	digitalWrite(ADF4351_LE, LOW);
+	if (CSLE_INVERT == true) {
+		digitalWrite(ADF4351_CS, HIGH);
+		digitalWrite(ADF4351_LE, HIGH);
+	} else {
+		digitalWrite(ADF4351_CS, LOW);  // Pull the CS-Pin of the ADF4351 LOW
+		digitalWrite(ADF4351_LE, LOW);
+	}
 	delayMicroseconds(1); // May not be necessary - Depending on how fast the CS-Signal is
 	SPI.begin();
-	SPI.beginTransaction(SPISettings(16000000, MSBFIRST, SPI_MODE0));
+	SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
 	SPI.write(a1);
 	SPI.write(a2);
 	SPI.write(a3);
 	SPI.write(a4);
 	SPI.endTransaction();
-	digitalWrite(ADF4351_LE, HIGH);
+	if (CSLE_INVERT == true) {
+		digitalWrite(ADF4351_LE, LOW);
+	} else {
+		digitalWrite(ADF4351_LE, HIGH);
+	}
 	delayMicroseconds(5);
-	digitalWrite(ADF4351_LE, LOW);
-	digitalWrite(ADF4351_CS, HIGH);  // Pull the CS-Pin of the ADF4351 HIGH
+	if (CSLE_INVERT == true) {
+		digitalWrite(ADF4351_LE, HIGH);
+		digitalWrite(ADF4351_CS, LOW);  // Pull the CS-Pin of the ADF4351 HIGH
+	} else {
+		digitalWrite(ADF4351_LE, LOW);
+		digitalWrite(ADF4351_CS, HIGH);  // Pull the CS-Pin of the ADF4351 HIGH
+	}
 }
 //
 //////////////////////////////// Teil-Subroutine ADF4351 //////////////////////////

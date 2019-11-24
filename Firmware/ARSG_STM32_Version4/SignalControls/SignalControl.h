@@ -24,7 +24,7 @@ class SignalControl: public ADF4351Driver, public AD9910Driver, public Attenuato
 public:
 	SignalControl();
 	virtual ~SignalControl();
-	unsigned char Init(bool AD9910_SPIMode); // Initializes the Hardware. Note: Address for the GPIO-Expander is found automatically.
+	unsigned char Init(bool AD9910_SPIMode, bool inverter); // Initializes the Hardware. Note: Address for the GPIO-Expander is found automatically.
 	bool SetFreq_Auto(unsigned long freq); // Sets the frequency and automatically configures the SignalPath-Configuration on the AnalogBoard.
 	bool SetFreq_Man(unsigned long freq, bool hf_source);	// Set the manually selected signal source to a specified frequency (true = HF-Source, false = LF-Source)
 	bool SetSigPath(char filter, bool source, bool mixpath); // Function to manually set the Signal Path-Configuration

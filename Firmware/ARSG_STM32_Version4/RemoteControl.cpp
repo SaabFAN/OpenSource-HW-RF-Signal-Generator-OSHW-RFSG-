@@ -52,6 +52,11 @@ RemoteControl::~RemoteControl() {
 //// Sys-State when the device is started:
 //const byte STATE_INIT = 0xFF;
 //
+
+void Init(){
+	SigDIRECT.Init(true, true);
+	PATH_DIRECT.Init();
+}
 void RemoteControl::CheckSerial() {
 	unsigned char SERIALMODE = 0x00;
 	if (Serial.available() > 0) {

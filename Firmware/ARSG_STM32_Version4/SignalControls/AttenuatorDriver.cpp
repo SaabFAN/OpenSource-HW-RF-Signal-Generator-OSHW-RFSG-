@@ -9,6 +9,7 @@
 
 extern int SYS_ERROR;
 
+#define AttenDEBUG
 //#define AttenDEBUG
 
 AttenuatorDriver::AttenuatorDriver() {
@@ -63,6 +64,17 @@ void AttenuatorDriver::SetAtten(char attenuation) {
 	Serial.print(F(" Attenuation = "));
 	Serial.println(attenuation, HEX);
 #endif
+	UpdateGPIO(attenuation);
+	bitSet(attenuation, 7);
+	UpdateGPIO(attenuation);
+#ifdef AttenDEBUG2
+while(1){
+	bitClear(attenuation, 7); // Make sure the LE-Pin is LOW
+	UpdateGPIO(attenuation);
+	bitSet(attenuation, 7);
+	UpdateGPIO(attenuation);
+}
+	#endif
 
 }
 

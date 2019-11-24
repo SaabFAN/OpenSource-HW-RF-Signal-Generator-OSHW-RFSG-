@@ -14,6 +14,7 @@ class RemoteControl {
 public:
 	RemoteControl();
 	virtual ~RemoteControl();
+	void Init();
 	void CheckSerial();
 	void ReportStatus();
 };

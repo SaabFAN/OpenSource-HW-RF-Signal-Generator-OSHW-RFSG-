@@ -87,7 +87,7 @@ unsigned int RegCFR2;              // Variable for Control Register 2
 unsigned int RegCFR3;              // Variable for Control Register 3
 char AuxDAC;                  // Stores the AUX-DAC Value
 unsigned int IO_UPD_Rate;        // Stores value of the I/O Update Rate Register
-unsigned int FTW; // Frequency Tuning Word - 32bit - Calculated by formula: FTW = ((2^32)*(fout/fclock))
+unsigned long FTW; // Frequency Tuning Word - 32bit - Calculated by formula: FTW = ((2^32)*(fout/fclock))
 unsigned short POW;               // Phase Offset Word - 16bit Phase Offset Word
 unsigned int ASF;                  // Amplitude Scale Factor - 32bits
 unsigned long DIGRAMP_Limit; // Limits of the Digital Ramp - char 7 - 4 = Upper Ramp Limit / char 3 - 0 = Lower Ramp Limit

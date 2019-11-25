@@ -149,7 +149,7 @@ char REFCLK_Div_RESET = 1; // Controls the InputDivider - Default: 0 (Divider is
 char PFD_RESET = 0; // Enables / Disables the Phase Comparator - Default: 1 (Phase Comparator active, PLL working)
 char PLL_ENABLE = 1; // Enables / Disables the PLL-Output - Default: true (PLL-Output to DDS-CLOCK
 char AD9910_PLL_DIVIDER = 25; // The Divider for the DDS-CLOCK PLL - Default: 25 (40 MHz  * 25 = 1000 MHz) - Formula: PLL_Clock / RefClock = PLL_DIVIDER - PLL_CLOCK = 1000MHz
-unsigned long DDSCLK = 1000000000UL;        // DDS-Clock in Hz
+float DDSCLK = 1000000000.0;        // DDS-Clock in Hz
 
 /*
  Modes for the AD9910:
@@ -188,6 +188,9 @@ bool AD9910Driver::Init(unsigned long reference_frequency, char GPIO_ADR) {
 	digitalWrite(AD9910_OSK, LOW);
 	digitalWrite(AD9910_DRH, LOW);
 	digitalWrite(AD9910_DRC, LOW);
+	AD9910_PLL_DIVIDER = (DDSCLK / reference_frequency);
+	Serial.print(F("AD9910_PLL_DIVIDER = "));
+	Serial.println(AD9910_PLL_DIVIDER, DEC);
 	Wire.beginTransmission(_GPIO_ADR);
 	Wire.write(0xFF); // Reset AD9910
 	Wire.endTransmission();
@@ -203,6 +206,7 @@ bool AD9910Driver::Init(unsigned long reference_frequency, char GPIO_ADR) {
 #ifdef AD9910_DEBUG
 	Dump();
 #endif
+	SetAmplitude(10, true);
 	SetFrequency(10000000);
 	Serial.print(F("Check GPIO-Expander again: Readback = 0x"));
 	Wire.requestFrom(_GPIO_ADR, 1);
@@ -285,9 +289,9 @@ void AD9910Driver::SetMode(char mode) {
 				+ VCOSEL * VCOSEL_LOC + DRV0 * DRV0_LOC);
 		Serial.print(" RegCFR3 = 0x");
 		Serial.println(RegCFR3, HEX);
-		FTW = round(4294967296UL / (DDSCLK / 4000000)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock)) // Frequency set to 1MHz
+		FTW = round(4294967296UL * (4000000 / DDSCLK)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock)) // Frequency set to 1MHz
 		AuxDAC = 0x7F;
-		ASF = 0x3FFF;
+		ASF = 0x2FFF;
 		POW = 0x0000;
 		WriteAD9910(CFR1_ADDR);
 		WriteAD9910(CFR2_ADDR);
@@ -338,14 +342,23 @@ void AD9910Driver::Configure(int selector, int value) {
 // Amplitude-Settings in mVpp or dB
 // -2dBm is the maximum RF-Power that may be injected into the System. As the full scale output-current is 20mA, the maximum output-voltage is 1V = 500mVpp
 bool AD9910Driver::SetAmplitude(float amplitude, bool Decibels) {
+	Serial.println(F("Setting AD9910 Amplitude"));
+	float ASF_helper;
 	switch (Decibels) {
 	case true:
-		ASF = round(pow(2, 14) * (amplitude / log(20)));
+		ASF_helper = amplitude / log(20);
+		ASF = round(pow(2, 14) * ASF_helper);
+		if(ASF >= 0x3FFF){
+			ASF = 0x3FFF;
+		}
 		WriteAD9910(ASF_ADDR);
 		break;
 	case false:
-		float AmpAD9910 = amplitude / 1000; // Divide by 500 to get the scaling-factor
-		ASF = round(pow(2, 14) * AmpAD9910); // Multiply the Scaling-factor with 2^14 /16384
+		float AmpAD9910 = amplitude / 1000; // Divide by 1000 to get the scaling-factor
+		ASF = round(pow(2, 14) * AmpAD9910); // Multiply the Scaling-factor with 2^14
+		if(ASF >= 0x3FFF){
+			ASF = 0x3FFF;
+		}
 		WriteAD9910(ASF_ADDR);
 		break;
 	}
@@ -353,13 +366,26 @@ bool AD9910Driver::SetAmplitude(float amplitude, bool Decibels) {
 }
 
 void AD9910Driver::SetFrequency(unsigned long frequency) {
-	FTW = round(4294967296UL / (DDSCLK / frequency)); // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock))
+	float FTW_StageOne = frequency / DDSCLK;
+	float FTW_StageTwo = 4294967296.0 * FTW_StageOne;
+	FTW_StageTwo = round(FTW_StageTwo);
+	FTW = (unsigned long)FTW_StageTwo; // Formula for calculating the FTW: FTW = ((2^32)*(fout/fclock))
+#ifdef SPI_DEBUG
 	Serial.print("FreqAD9910 = ");
 	Serial.print(frequency, DEC);
-	Serial.print(" FTW = ");
+	Serial.print(F(" | DDSCLK = "));
+	Serial.print(DDSCLK, DEC);
+	Serial.print(F(" | FreqAD9910 / DDSCLK = "));
+	Serial.print(FTW_StageOne, DEC);
+	Serial.print(F(" | FTW = "));
 	Serial.println(FTW, DEC);
+#endif
 	WriteAD9910(SINGLETONE_PROFILE_0);
+#ifdef SPI_DEBUG
 	Dump();
+	Serial.print(F("AD9910-PLL LOCKED = 0x"));
+	Serial.println(CheckLock(), HEX);
+#endif
 }
 
 bool AD9910Driver::CheckLock() {
@@ -461,7 +487,7 @@ void AD9910Driver::WriteAD9910(char AD9910_INST) {
 //  RegCFR2 = 0x01400820;
 //  RegCFR3 = 0x35384132;
 	AuxDAC = 0x7F;
-	ASF = 0x3FFF;
+//	ASF = 0x3FFF;
 	POW = 0x0000;
 //FTW = 0x1999999A;
 #endif
@@ -703,6 +729,15 @@ void AD9910Driver::WriteAD9910(char AD9910_INST) {
 		Serial.print(buf[1], HEX);
 		Serial.print(F(" buf[0] = 0x"));
 		Serial.println(buf[0], HEX);
+		Serial.print(F("ASF = "));
+		Serial.print(ASF, HEX);
+		Serial.print(F(" POW = "));
+		Serial.print(POW, HEX);
+		Serial.print(F(" FTW = 0x"));
+		Serial.print(FTW, HEX);
+		Serial.print(F(" = "));
+		Serial.print(FTW, DEC);
+		Serial.println(F(" DEC"));
 #endif
 		SPI.transfer(buf[1]);
 		SPI.transfer(buf[0]);
@@ -717,9 +752,9 @@ void AD9910Driver::WriteAD9910(char AD9910_INST) {
 	SPI.endTransaction();
 // now toggle the AD9910_DU-Pin
 	digitalWrite(AD9910_IOUP, LOW);
-	delayMicroseconds(5); // May not be necessary - Depending on how fast the GPIO-Expander is
+	delayMicroseconds(15); // May not be necessary - Depending on how fast the GPIO-Expander is
 	digitalWrite(AD9910_IOUP, HIGH); // Data is accepted at rising edge of AD9910_IOUP or AD9910_DU
-	delayMicroseconds(5); // May not be necessary - Depending on how fast the GPIO-Expander is
+	delayMicroseconds(15); // May not be necessary - Depending on how fast the GPIO-Expander is
 	digitalWrite(AD9910_CS, HIGH); // Pull AD9910_CS HIGH to deselect the chip
 }
 

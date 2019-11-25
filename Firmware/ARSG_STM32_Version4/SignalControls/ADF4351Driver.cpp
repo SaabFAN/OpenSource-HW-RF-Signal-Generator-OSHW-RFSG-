@@ -106,15 +106,15 @@ void ADF4351Driver::SetMode(char mode) {
 	case 'T':	// Test-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
-		aux_select = 1;		// 1bit  aux OutSel
+		aux_select = 0;		// 1bit  aux OutSel
 		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
-		VcoPwrDown = 1;		// 1bit 1=VCO off
+		VcoPwrDown = 0;		// 1bit 1=VCO off
 		break;
 	case 'N':	// Normal-Mode
 		output_enable = 1;// 1bit  OutPwr 1=on           0 = off  Outport Null freischalten
 		aux_enable = 1;	// 1bit  aux OutEna 1=on       0 = off  Outport Aux freischalten
 		aux_select = 1;		// 1bit  aux OutSel
-		MTLD = 0;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
+		MTLD = 1;// 1bit | This controls the "Mute til lock detect"-Function of the chip. It disables the output if the internal PLL has not locked.
 		VcoPwrDown = 0;		// 1bit 1=VCO off
 		break;
 	}
